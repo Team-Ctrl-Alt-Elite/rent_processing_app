@@ -44,23 +44,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(int id) {
-    userRepository.deleteById(id);
+        userRepository.deleteById(id);
     }
-    // This method below is an examples used to filter all person and return the one with gender "M"
-//    public List<TestTable> getAllTestTableRecords() {
-//        List<TestTable> allRecords = (List<TestTable>) testTableRepository.findAll();
-//
-//        List<TestTable> filteredRecords = new ArrayList<>();
-//        for (TestTable record : allRecords) {
-//            if ("M".equals(record.getGender())) {
-//                filteredRecords.add(record);
-//            }
-//        }
-//
-//        return filteredRecords;
-//
-//    }
 
-
-    // Other service methods for CRUD operations if needed
 }
