@@ -1,17 +1,16 @@
 # TENANT TRACK
 
-<p>Welcome to the Tenant Track repository! This web application is designed and developed by our team to create a secure, efficient, and user-friendly platform for handling rent transactions between tenants and landlords.</p>
+<p>Welcome to the <i>Tenant Track</i> repository! This web application is designed and developed by our team to create a secure, efficient, and user-friendly platform for handling rent transactions between tenants and landlords.</p>
 
 <p>This project aims to streamline the rent payment process, offering tenants and landlords a seamless, secure, and convenient way to manage transactions in the real estate space. With a focus on data security, ease of use, and flexibility in payment methods, our application ensures a smooth experience for all users involved.</p>
 
 ## Tech Stack
 
-| Back-End                         |  Front-End              |
-| :---:                            |     :---:               | 
-| Java                             | JavaScript              |
-| SQL                              | React                   |
-| Spring Boot                      | Axios                   |
-| Spring Security                  |                         |
+| Database        | Back-End        |  Front-End     |
+| :---:           | :---:           |     :---:      | 
+| SQL             | Java            | JavaScript     |
+|                 | Spring Boot     | React          |
+|                 | Spring Security | Axios          |
 
 ## ERD (Entity Relationship Diagram)
 <img width="525" height="400" src="/public/capstone-erd_v1.png" alt="Entity Relationship Diagram">
@@ -43,12 +42,12 @@
 ## Getting Started
 To get the project up and running locally, follow these steps:
 1. Clone the Repository:
-   - In your terminal, run "git clone https://github.com/Team-Ctrl-Alt-Elite/rent_processing_app.git"
-2. Backend Setup:
+   - In your terminal, run <i>git clone https://github.com/Team-Ctrl-Alt-Elite/rent_processing_app.git</i>
+2. Back-End Setup:
    - Navigate to the backend directory
    - Configure your SQL database settings in application properties
    - Run the Spring Boot application
-3. Frontend Setup:
+3. Front-End Setup:
    - Move to the frontend directory
    - Install dependencies "npm install"
    - Start the React development server "npm start"
