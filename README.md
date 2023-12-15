@@ -14,7 +14,7 @@
 
 ## ERD (Entity Relationship Diagram)
 
-<img width="525" height="400" src="/public/capstone-erd_v1.png" alt="Entity Relationship Diagram">
+<img width="550" height="450" src="/public/capstone-erd_v1.png" alt="Entity Relationship Diagram">
 
 ## Key Features
 
@@ -43,7 +43,7 @@
 
 ## Wireframe
 
-<img width="500" height="300" src="/public/capstone-wireframe_v1.png" alt="Wireframe">
+<img width="950" height="400" src="/public/capstone-wireframe_v1.png" alt="Wireframe">
 
 ## Getting Started
 
