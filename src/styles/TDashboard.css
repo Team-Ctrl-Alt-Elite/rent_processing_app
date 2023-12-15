@@ -1,0 +1,21 @@
+.tdash-modal {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px;
+  height: 80vh;
+  border: 1px solid blue;
+}
+
+.tdash-left {
+  margin: 5px;
+  padding: 5px;
+  width: 60%;
+  border: 1px solid red;
+}
+
+.tdash-right {
+  margin: 5px;
+  padding: 5px;
+  width: 40%;
+  border: 1px solid green;
+}
