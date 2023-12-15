@@ -62,7 +62,9 @@ To get the project up and running locally, follow these steps:
 
 ## Developers
 
-|                          Mani Bhargavi Katta                           |                 Yuliang (David) Chiu                  |                     Kavish Desai                      |                     Tiffany McNerlin                     |
-| :--------------------------------------------------------------------: | :---------------------------------------------------: | :---------------------------------------------------: | :------------------------------------------------------: |
-|                [GitHub](https://github.com/mbkatta1127)                |         [GitHub](https://github.com/y-dchiu)          |       [GitHub](https://github.com/Kavish-Desai)       |          [GitHub](https://github.com/tiff-mc1)           |
-| [LinkedIn](https://www.linkedin.com/in/mani-bhargavi-katta-7ba12224a/) | [LinkedIn](https://www.linkedin.com/in/yuliang-chiu/) | [LinkedIn](https://www.linkedin.com/in/desai-kavish/) | [LinkedIn](https://www.linkedin.com/in/tiffanymcnerlin/) |
+|                    Kavish Desai                       |                            Mani Bhargavi Katta                         |                   Yuliang (David) Chiu                |                       Tiffany McNerlin                   |
+| :---------------------------------------------------: | :--------------------------------------------------------------------: | :---------------------------------------------------: | :------------------------------------------------------: |
+| Back-End & Database                                   | Back-End                                                               | Front-End                                             | Front-End                                                |
+| Team Lead                                             | Sales Manager                                                          | Scrum Master                                          | Git Wizard                                               |
+| [GitHub](https://github.com/Kavish-Desai)             | [GitHub](https://github.com/mbkatta1127)                               | [GitHub](https://github.com/y-dchiu)                  | [GitHub](https://github.com/tiff-mc1)                    |
+| [LinkedIn](https://www.linkedin.com/in/desai-kavish/) | [LinkedIn](https://www.linkedin.com/in/mani-bhargavi-katta-7ba12224a/) | [LinkedIn](https://www.linkedin.com/in/yuliang-chiu/) | [LinkedIn](https://www.linkedin.com/in/tiffanymcnerlin/) |
