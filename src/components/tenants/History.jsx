@@ -1,9 +1,13 @@
 import React from "react";
 
+/*
+References the rent_payment_log table
+*/
+
 export default function History() {
   return (
     <section>
-      <h2>Tenant Payment History</h2>
+      <h3>Tenant Payment History</h3>
     </section>
   );
 }
