@@ -22,7 +22,7 @@
    - Credential storage and checking are secure.
 
 2. Payment Portal:
-   - A reliable payment portal to process rent payments (dummy payment data).
+   - A reliable payment portal to process rent payments.
    - Support multiple payment methods such as credit/debit cards, ACH transfers/eChecks and digital wallets.
 
 3. Dashboard for Tenants and Landlords:
