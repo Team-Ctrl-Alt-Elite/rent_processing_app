@@ -58,3 +58,30 @@ export const landlord = {
   password: "Password",
   phone_number: "1234567890",
 };
+
+export const tenantPaymentHistory = [
+  {
+    id: 0,
+    amount_paid: 500,
+    payment_date: "2023-01-01",
+    payment_medium: "Credit Card",
+  },
+  {
+    id: 1,
+    amount_paid: 500,
+    payment_date: "2023-02-01",
+    payment_medium: "Credit Card",
+  },
+  {
+    id: 2,
+    amount_paid: 500,
+    payment_date: "2023-03-01",
+    payment_medium: "Credit Card",
+  },
+  {
+    id: 3,
+    amount_paid: 500,
+    payment_date: "2023-04-01",
+    payment_medium: "Credit Card",
+  },
+];
