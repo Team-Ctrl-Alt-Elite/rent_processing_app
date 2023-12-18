@@ -20,11 +20,11 @@ public class UserController {
 
     @GetMapping("/all")
     public List<User> getAllLandlord() {
-        return userService.getAllLandlord();
+        return userService.getAllUsers();
     }
     @GetMapping("/{id}")
     public ResponseEntity<User> getLandlordById(@PathVariable Integer id) {
-        User user = userService.getLandlordById(id);
+        User user = userService.getUserById(id);
         if (user != null) {
             return ResponseEntity.ok(user);
         } else {
@@ -34,13 +34,13 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<User> createLandlord(@RequestBody User user) {
-        User createdUser = userService.createLandlord(user);
+        User createdUser = userService.createUser(user);
         return ResponseEntity.ok(createdUser);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<User> updateLandlord(@PathVariable Integer id, @RequestBody User userDetails) {
-        User updatedUser = userService.updateLandlord(id, userDetails);
+        User updatedUser = userService.updateUser(id, userDetails);
         if (updatedUser != null) {
             return ResponseEntity.ok(updatedUser);
         } else {
@@ -49,7 +49,7 @@ public class UserController {
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteLandlord(@PathVariable Integer id) {
-        userService.deleteLandlord(id);
+        userService.deleteUser(id);
         return ResponseEntity.noContent().build();
     }
     // Other endpoints for CRUD operations if needed

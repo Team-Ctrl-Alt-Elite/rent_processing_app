@@ -13,22 +13,22 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
     @Override
-    public List<User> getAllLandlord() {
+    public List<User> getAllUsers() {
         return (List<User>) userRepository.findAll();
     }
 
     @Override
-    public User getLandlordById(int id) {
+    public User getUserById(int id) {
         Optional<User> optionalLandlord = userRepository.findById(id);
         return optionalLandlord.orElse(null);    }
 
     @Override
-    public User createLandlord(User user) {
+    public User createUser(User user) {
         return userRepository.save(user);
     }
 
     @Override
-    public User updateLandlord(int id, User userDetails) {
+    public User updateUser(int id, User userDetails) {
         Optional<User> optionalLandlord = userRepository.findById(id);
         if (optionalLandlord.isPresent()) {
             User existingUser = optionalLandlord.get();
@@ -60,7 +60,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteLandlord(int id) {
+    public void deleteUser(int id) {
         userRepository.deleteById(id);
     }
 
