@@ -1,29 +1,30 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.User;
+import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.example.demo.service.UserService;
+
 
 import java.util.List;
 
 @RestController
 //CORS because react runs on a different port so in order to request access the below line is required
 @CrossOrigin(origins = "http://localhost:3000")
-@RequestMapping("/users")
+@RequestMapping("/user")
 public class UserController {
 
     @Autowired
     private UserService userService;
 
     @GetMapping("/all")
-    public List<User> getyAllUsers() {
-        return userService.getAllUsers();
+    public List<User> getAllLandlord() {
+        return userService.getAllLandlord();
     }
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable Integer id) {
-        User user = userService.getUserById(id);
+    public ResponseEntity<User> getLandlordById(@PathVariable Integer id) {
+        User user = userService.getLandlordById(id);
         if (user != null) {
             return ResponseEntity.ok(user);
         } else {
@@ -32,14 +33,14 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody User user) {
-        User createdUser = userService.createUser(user);
+    public ResponseEntity<User> createLandlord(@RequestBody User user) {
+        User createdUser = userService.createLandlord(user);
         return ResponseEntity.ok(createdUser);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable Integer id, @RequestBody User userDetails) {
-        User updatedUser = userService.updateUser(id, userDetails);
+    public ResponseEntity<User> updateLandlord(@PathVariable Integer id, @RequestBody User userDetails) {
+        User updatedUser = userService.updateLandlord(id, userDetails);
         if (updatedUser != null) {
             return ResponseEntity.ok(updatedUser);
         } else {
@@ -47,8 +48,8 @@ public class UserController {
         }
     }
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Integer id) {
-        userService.deleteUser(id);
+    public ResponseEntity<Void> deleteLandlord(@PathVariable Integer id) {
+        userService.deleteLandlord(id);
         return ResponseEntity.noContent().build();
     }
     // Other endpoints for CRUD operations if needed
