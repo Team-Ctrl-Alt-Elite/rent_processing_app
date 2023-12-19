@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import axios from "axios";
 
 const months = {
   0: "January",
@@ -34,6 +35,33 @@ export default function PayBill({ contract }) {
   }, [month]);
 
   console.log(currMonth);
+
+  // const handleSubmit = () => {
+  //   const options = {
+  //     method: "POST",
+  //     url: "https://cert.api.fiservapps.com/ch/payments/v1/charges",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       "Client-Request-Id": "CCCI",
+  //       "Api-Key": "NJ9PGJA38rMUDrxij7bvDDfTQ4c5L8wo",
+  //       Timestamp: "0",
+  //       "Accept-Language": "Accept-Language",
+  //       "Auth-Token-Type": "Auth-Token-Type",
+  //       Authorization: "Authorization",
+  //       "Message-Digest": "Message-Digest",
+  //     },
+  //     data: '{"amount":{"total":12.04,"currency":"USD"},"source":{"sourceType":"PaymentCard","encryptionData":{"encryptionType":"RSA","encryptionTarget":"MANUAL","encryptionBlock":"=s3ZmiL1SSZC8QyBpj/Wn+VwpLDgp41IwstEHQS8u4EQJ....","encryptionBlockFields":"card.cardData:16,card.nameOnCard:10,card.expirationMonth:2,card.expirationYear:4,card.securityCode:3","keyId":"88000000022"}},"transactionInteraction":{"origin":"ECOM","eciIndicator":"CHANNEL_ENCRYPTED","posConditionCode":"CARD_NOT_PRESENT_ECOM"},"merchantDetails":{"merchantId":"100008000003683","terminalId":"10000001"}}',
+  //   };
+
+  //   axios
+  //     .request(options)
+  //     .then(function (response) {
+  //       console.log(response.data);
+  //     })
+  //     .catch(function (error) {
+  //       console.error(error);
+  //     });
+  // };
 
   return (
     <section>

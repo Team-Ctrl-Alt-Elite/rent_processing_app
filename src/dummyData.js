@@ -6,9 +6,9 @@ export const propertyInfo = {
 };
 
 export const tenant = {
-  id: 2,
-  first_name: "Joey",
-  last_name: "Doey",
+  id: 1,
+  first_name: "Jane",
+  last_name: "Dane",
   username: "testing@test.com",
   password: "Password",
   phone_number: "1234567890",
@@ -62,6 +62,7 @@ export const landlord = {
 export const tenantPaymentHistory = [
   {
     id: 0,
+    contract_id: 0,
     amount_paid: 500,
     payment_date: "2023-01-01",
     payment_medium: "Credit Card",
@@ -69,17 +70,20 @@ export const tenantPaymentHistory = [
   {
     id: 1,
     amount_paid: 500,
-    payment_date: "2023-02-01",
+    contract_id: 0,
+    payment_date: "2023-02-02",
     payment_medium: "Credit Card",
   },
   {
     id: 2,
+    contract_id: 0,
     amount_paid: 500,
     payment_date: "2023-03-01",
     payment_medium: "Credit Card",
   },
   {
     id: 3,
+    contract_id: 0,
     amount_paid: 500,
     payment_date: "2023-04-01",
     payment_medium: "Credit Card",
