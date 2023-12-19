@@ -23,6 +23,7 @@ function App() {
       {/* LANDLORD ROUTES */}
       <Route path="/admin" element={<LDashboard />} />
 
+
       {/* TENANT ROUTES */}
       <Route path="/tenant" element={<TDashboard />} />
     </Routes>
