@@ -1,7 +1,6 @@
 package com.example.demo.service;
 
 import com.example.demo.model.Contract;
-import com.example.demo.model.User;
 import com.example.demo.repository.ContractRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,8 +45,8 @@ public class ContractServiceImpl implements ContractService {
                 existingContract.setUnit_id(contractDetails.getUnit_id());
             }
 
-            if (contractDetails.getRenter_id() > 0) {
-                existingContract.setRenter_id(contractDetails.getRenter_id());
+            if (contractDetails.getTenant_id() > 0) {
+                existingContract.setTenant_id(contractDetails.getTenant_id());
             }
             return contractRepository.save(existingContract);
         }

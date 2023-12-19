@@ -5,11 +5,11 @@ import jakarta.persistence.*;
 
 
 @Entity
-@Table(name="users")
-public class User {
+@Table(name="landlord")
+public class Landlord {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="user_id")
+    @Column(name="landlord_id")
     private int id;
     private String first_name;
     private String last_name;
@@ -21,11 +21,6 @@ public class User {
     @JsonIgnore
     private String routing_number;
     private String phone_number;
-    private String user_role;
-
-    public String getUser_role() {
-        return user_role;
-    }
 
     public String getPass() {
         return pass;

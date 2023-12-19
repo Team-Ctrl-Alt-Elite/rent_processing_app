@@ -20,7 +20,7 @@ public class Contract {
 
     private Date lease_ending_on;
 
-    private int renter_id;
+    private int tenant_id;
     private int landlord_id;
 
     public int getLandlord_id() {
@@ -67,11 +67,11 @@ public class Contract {
         this.lease_ending_on = lease_ending_on;
     }
 
-    public int getRenter_id() {
-        return renter_id;
+    public int getTenant_id() {
+        return tenant_id;
     }
 
-    public void setRenter_id(int renter_id) {
-        this.renter_id = renter_id;
+    public void setTenant_id(int tenant_id) {
+        this.tenant_id = tenant_id;
     }
 }
