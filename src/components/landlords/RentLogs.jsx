@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { useTable } from "react-table";
 import axios from "axios";
-import { unit, rent_payment_log } from "../../dummyData";
+import { rent_payment_log } from "../../dummyData";
 import "../../styles/LDashboard.css";
 
 /* LANDLORD PAYMENT REPORTS:
@@ -145,5 +145,4 @@ export default function RentLogs({ getChildProps }) {
       </div>
     </section>
   );
-}
 }

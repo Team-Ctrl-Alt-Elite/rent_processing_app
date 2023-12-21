@@ -72,19 +72,6 @@ export default function Contracts({ getChildProps }) {
       data,
     });
 
-  useEffect(() => {
-    // Update contract details when selectedContract changes
-    if (selectedContract !== null && selectedContract !== undefined) {
-      // Find the selected contract details from the contracts array
-      const selectedContractDetails = contracts.find(
-        (contract) => contract.id === selectedContract.id
-      );
-
-      // Update the state with the selected contract details
-      setContractDetails(selectedContractDetails);
-    }
-  }, [selectedContract]);
-
   const handleContractClick = (contract) => {
     console.log("Selected Contract:", contract);
     setSelectedContract(contract);
@@ -120,7 +107,7 @@ export default function Contracts({ getChildProps }) {
           </tbody>
         </table>
       </div>
-      {selectedContract !== null && contractDetails && (
+      {selectedContract && (
         <div>
           <h2>Contract Details</h2>
           <p>Contract ID: {selectedContract.id}</p>
@@ -134,8 +121,7 @@ export default function Contracts({ getChildProps }) {
           <p>Tenant Email: {selectedContract.Tenant_username}</p>
           <p>Tenant Phone Number: {selectedContract.phonenumber}</p>
         </div>
-      )}{" "}
-      */}
+      )}
     </section>
   );
 }

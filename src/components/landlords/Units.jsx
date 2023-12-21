@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import { useTable } from "react-table";
-import { unit, landlord, unit_details } from "../../dummyData";
+import { unit_details } from "../../dummyData";
 import "../../styles/LDashboard.css";
 import axios from "axios";
 
@@ -28,26 +28,6 @@ export default function Units({ getChildProps }) {
 
     getAllUnits();
   }, []);
-
-  useEffect(() => {
-    selectedUnit &&
-      getChildProps(
-        <div>
-          <h2>Unit Details</h2>
-          <p>Unit: {selectedUnit.id}</p>
-          <p>
-            Monthly Rent: ${selectedUnit.rent.substring(0, 1)},
-            {selectedUnit.rent.substring(1)}.00
-          </p>
-          <p>
-            Size: {selectedUnit.size.substring(0, 1)},
-            {selectedUnit.size.substring(1)} sq ft
-          </p>
-          <p>Bed: {selectedUnit.bed}</p>
-          <p>Bath: {selectedUnit.bath}</p>
-        </div>
-      );
-  }, [getChildProps, selectedUnit]);
 
   // WAIT FOR LANDLORD CONTROLLER TO BE FINALIZED. GET LANDLORD NAME FROM LANDLORDCONTRACT MAPPING REQUEST
   // useEffect(() => {
@@ -107,22 +87,24 @@ export default function Units({ getChildProps }) {
     const findUnit = unit_details.find((u) => u.id === unit.id);
     setSelectedUnit(findUnit);
 
-    // getChildProps(
-    //   <div>
-    //     <h2>Unit Details</h2>
-    //     <p>Unit: {selectedUnit.id}</p>
-    //     <p>
-    //       Monthly Rent: ${selectedUnit.rent.substring(0, 1)},
-    //       {selectedUnit.rent.substring(1)}.00
-    //     </p>
-    //     <p>
-    //       Size: {selectedUnit.size.substring(0, 1)},
-    //       {selectedUnit.size.substring(1)} sq ft
-    //     </p>
-    //     <p>Bed: {selectedUnit.bed}</p>
-    //     <p>Bath: {selectedUnit.bath}</p>
-    //   </div>
-    // );
+    // if (findUnit) {
+    //   getChildProps(
+    //     <div>
+    //       <h2>Unit Details</h2>
+    //       <p>Unit: {selectedUnit.id}</p>
+    //       <p>
+    //         Monthly Rent: ${selectedUnit.rent.substring(0, 1)},
+    //         {selectedUnit.rent.substring(1)}.00
+    //       </p>
+    //       <p>
+    //         Size: {selectedUnit.size.substring(0, 1)},
+    //         {selectedUnit.size.substring(1)} sq ft
+    //       </p>
+    //       <p>Bed: {selectedUnit.bed}</p>
+    //       <p>Bath: {selectedUnit.bath}</p>
+    //     </div>
+    //   );
+    // }
   };
 
   return (
@@ -155,7 +137,7 @@ export default function Units({ getChildProps }) {
           </tbody>
         </table>
       </div>
-      {/* {selectedUnit && (
+      {selectedUnit && (
         <div>
           <h2>Unit Details</h2>
           <p>Unit: {selectedUnit.id}</p>
@@ -170,7 +152,7 @@ export default function Units({ getChildProps }) {
           <p>Bed: {selectedUnit.bed}</p>
           <p>Bath: {selectedUnit.bath}</p>
         </div>
-      )} */}
+      )}
     </section>
   );
 }
