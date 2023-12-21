@@ -1,13 +1,14 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { useTable } from "react-table";
 import { contracts, tenants } from "../../dummyData";
+import "../../styles/LDashboard.css";
 
 /* LANDLORD DASHBOARD FOR CONTRACTS:
 1. Landlord should be able to see the contracts for every tenant on the property
 2. Landlord should be able to see more information about each contract when clicked
 */
 
-export default function Contracts() {
+export default function Contracts({getChildProps}) {
   const [selectedContract, setSelectedContract] = useState(null);
   const [contractDetails, setContractDetails] = useState(null);
 
@@ -42,25 +43,33 @@ export default function Contracts() {
   });
 
   useEffect(() => {
-    // Update contract details when selectedContract changes
     if (selectedContract !== null && selectedContract !== undefined) {
-      // Find the selected contract details from the contracts array
       const selectedContractDetails = contracts.find(contract => contract.id === selectedContract.id);
-
-      // Update the state with the selected contract details
       setContractDetails(selectedContractDetails);
     }
   }, [selectedContract]);
 
   const handleContractClick = (contract) => {
-    console.log("Selected Contract:", contract);
+    // console.log("Selected Contract:", contract);
+    getChildProps(
+      <div>
+          <h2>Contract Details</h2>
+          <p>Contract ID: {contract.id}</p>
+          <p>Unit ID: {contract.unit_id}</p>
+          <p>Monthly Rent: {contract.monthly_rent}</p>
+          <p>Lease Start: {contract.lease_starting_from}</p>
+          <p>Lease End: {contract.lease_ending_on}</p>
+          <p>Tenant ID: {contract.tenant_id}</p>
+          <p>Landlord ID: {contract.landlord_id}</p>
+        </div>
+    )
     setSelectedContract(contract);
   };
   
 
   return (
     <section className="container">
-      <h3>Contracts</h3>
+      {/* <h3>Contracts</h3> */}
       <div>
         <table {...getTableProps()}>
           <thead>
@@ -87,7 +96,7 @@ export default function Contracts() {
         </table>
       </div>
 
-      {selectedContract !== null && contractDetails && (
+      {/* {selectedContract !== null && contractDetails && (
         <div>
           <h2>Contract Details</h2>
           <p>Contract ID: {contractDetails?.id}</p>
@@ -98,7 +107,7 @@ export default function Contracts() {
           <p>Tenant ID: {contractDetails?.tenant_id}</p>
           <p>Landlord ID: {contractDetails?.landlord_id}</p>
         </div>
-      )}
+      )} */}
     </section>
   );
 }

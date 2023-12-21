@@ -145,6 +145,7 @@ export const rent_payment_log =[
   {
     id: 0,
     contract_id: 0,
+    unit_id: 0,
     amount_paid: 500,
     payment_date: "2023-01-01",
     payment_medium: "Credit Card",
@@ -154,6 +155,7 @@ export const rent_payment_log =[
   {
     id: 1,
     contract_id: 1,
+    unit_id: 1,
     amount_paid: 500,
     payment_date: "2023-02-01",
     payment_medium: "eCheck",
@@ -163,6 +165,7 @@ export const rent_payment_log =[
   {
     id: 2,
     contract_id: 2,
+    unit_id: 2,
     amount_paid: 500,
     payment_date: "2023-03-01",
     payment_medium: "ACH Transfer",

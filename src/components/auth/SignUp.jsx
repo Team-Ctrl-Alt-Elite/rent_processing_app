@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import "../../styles/LoginSignup.css";
 
 export default function SignUp() {
   const [email, setEmail] = useState("");
@@ -15,19 +16,23 @@ export default function SignUp() {
       console.log("Signup Error: ", err);
     }
   };
-
+      
   return (
-    <section>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="email">Email: </label>
-        <input
+    <>      
+    <header>
+      <h1>TenantTracker</h1>
+    </header>
+    <section className="login-section">
+      <form className="login-form" onSubmit={handleSubmit}>
+        <label className="login-label" htmlFor="email">Email: </label>
+        <input 
           required
           type="text"
           name="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-        <label htmlFor="password">Password: </label>
+        <label className="login-label" htmlFor="password">Password: </label>
         <input
           required
           type="password"
@@ -35,15 +40,16 @@ export default function SignUp() {
           onChange={(e) => setPw(e.target.value)}
         />
         {errMsg && { errMessage: errMsg }}
-        <button>Signup</button>
+        <button>Sign up</button>
       </form>
 
-      <div>
+      <div className="login-div">
         <div>Already A Member?</div>
         <div>
-          <Link to="/auth/login">LOGIN</Link>
+          <Link className="login-a" to="/auth/login">LOGIN</Link>
         </div>
       </div>
     </section>
+    </>
   );
 }
