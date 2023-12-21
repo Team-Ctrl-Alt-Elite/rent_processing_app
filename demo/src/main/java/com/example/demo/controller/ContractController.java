@@ -6,22 +6,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
 import java.util.List;
 
 @RestController
-//CORS because react runs on a different port so in order to request access the below line is required
+// CORS because react runs on a different port so in order to request access the
+// below line is required
 @CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/contract")
-public class ContractController{
+public class ContractController {
 
     @Autowired
     private ContractService contractService;
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/all")
     public List<Contract> getAllContracts() {
         return contractService.getAllContracts();
     }
+
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/{id}")
     public ResponseEntity<Contract> getContractById(@PathVariable Integer id) {
         Contract contract = contractService.getContractById(id);
@@ -32,12 +35,14 @@ public class ContractController{
         }
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/add")
     public ResponseEntity<Contract> createContract(@RequestBody Contract contract) {
         Contract createdContract = contractService.createContract(contract);
         return ResponseEntity.ok(createdContract);
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @PutMapping("/{id}")
     public ResponseEntity<Contract> updateContract(@PathVariable Integer id, @RequestBody Contract contractDetails) {
         Contract updatedContract = contractService.updateContract(id, contractDetails);
@@ -47,6 +52,8 @@ public class ContractController{
             return ResponseEntity.notFound().build();
         }
     }
+
+    @CrossOrigin(origins = "http://localhost:3000")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteContract(@PathVariable Integer id) {
         contractService.deleteContract(id);
