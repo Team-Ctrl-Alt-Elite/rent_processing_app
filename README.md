@@ -1,6 +1,6 @@
 # TENANT TRACK
 
-<p>Welcome to the <i>Tenant Track</i> repository! This web application is designed and developed by our team to create a secure, efficient, and user-friendly platform for handling rent transactions between tenants and landlords.</p>
+<p>Welcome to the <i>Tenant Track</i> repository! This web application is designed and developed by our team to create a secure, efficient, and landlord-friendly platform for handling rent transactions between tenants and landlords.</p>
 
 <p>This project aims to streamline the rent payment process, offering tenants and landlords a seamless, secure, and convenient way to manage transactions in the real estate space. With a focus on data security, ease of use, and flexibility in payment methods, our application ensures a smooth experience for all users involved.</p>
 

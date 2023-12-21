@@ -1,7 +1,9 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.Contract;
+import com.example.demo.repository.SecureUserRepository;
 import com.example.demo.service.ContractService;
+import com.example.demo.service.SecureUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +19,16 @@ public class ContractController{
 
     @Autowired
     private ContractService contractService;
+    @Autowired
+    private SecureUserRepository secureUserRepository;
+//The following endpoints basically joins users(landlords specifically) and Contracts table and returns the result in nice format
+
+        @GetMapping("/customQuery")
+    public ResponseEntity<List<Object[]>> getUsersAndContracts() {
+        // Call the repository method that executes the custom query
+        List<Object[]> result = secureUserRepository.findAllLandlordContracts();
+        return ResponseEntity.ok(result);
+    }
 
     @GetMapping("/all")
     public List<Contract> getAllContracts() {
