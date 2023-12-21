@@ -53,13 +53,13 @@ export const tenants = [
 
 export const landlord = [
   {
-  id: 1,
-  first_name: "Bubba",
-  last_name: "Gump",
-  username: "bubbabuildings@test.com",
-  password: "Password",
-  phone_number: "1234567890",
-  }
+    id: 1,
+    first_name: "Bubba",
+    last_name: "Gump",
+    username: "bubbabuildings@test.com",
+    password: "Password",
+    phone_number: "1234567890",
+  },
 ];
 
 export const tenantPaymentHistory = [
@@ -123,25 +123,24 @@ export const contracts = [
   },
 ];
 
-export const unit = [
-  {
-    id: 0,
-    is_available: false,
-    landlord_id: 1,
-  },
+export const unit_details = [
   {
     id: 1,
-    is_available: false,
-    landlord_id: 1,
+    rent: "1000",
+    bed: 2,
+    bath: 1,
+    size: "1000",
   },
   {
     id: 2,
-    is_available: false,
-    landlord_id: 1,
+    rent: "2000",
+    bed: 3,
+    bath: 2,
+    size: "2000",
   },
 ];
 
-export const rent_payment_log =[
+export const rent_payment_log = [
   {
     id: 0,
     contract_id: 0,
@@ -171,6 +170,5 @@ export const rent_payment_log =[
     payment_medium: "ACH Transfer",
     check_number: "",
     online_transaction_number: "137370531",
-  }
+  },
 ];
-
