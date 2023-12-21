@@ -12,47 +12,41 @@ import "../../styles/LDashboard.css";
 
 export default function LDashboard() {
   const [counter, setCounter] = useState(0);
-  const [childProps, setChildProps] = useState(null)
-  const [displayChild, setDisplayChild] = useState(false)
+  const [childProps, setChildProps] = useState(null);
+  const [displayChild, setDisplayChild] = useState(false);
 
   const getChildProps = (props) => {
-    setChildProps(props)
-  }
+    setChildProps(props);
+  };
 
-  console.log(childProps)
+  console.log(childProps);
 
   const handleCounter = (i) => {
-
-  setCounter(i)
-  }
+    setCounter(i);
+  };
 
   return (
     <>
-    <header className="ldash-header">
-      <h1 className="ldash-header h1">TenantTracker</h1>
-    </header>
-    <section className="ldash-section">
-      <h2>Landlord Dashboard</h2>
-      <button onClick={() => handleCounter(0)}>Units</button>
-      <button onClick={() => handleCounter(1)}>Contracts</button>
-      <button onClick={() => handleCounter(2)}>Rent Logs</button>
+      <header className="ldash-header">
+        <h1 className="ldash-header h1">TenantTracker</h1>
+      </header>
+      <section className="ldash-section">
+        <h2>Landlord Dashboard</h2>
+        <button onClick={() => handleCounter(0)}>Units</button>
+        <button onClick={() => handleCounter(1)}>Contracts</button>
+        <button onClick={() => handleCounter(2)}>Rent Logs</button>
 
-      <div className="ldash-modal">
-        
-        <div className="ldash-left">
-          {counter === 0 && <Units getChildProps={getChildProps}/>}
-          {counter === 1 && (
-            <Contracts getChildProps={getChildProps}/>
-          )}
-          {counter === 2 && <RentLogs getChildProps={getChildProps}/>}
+        <div className="ldash-modal">
+          <div className="ldash-left">
+            {counter === 0 && <Units getChildProps={getChildProps} />}
+            {counter === 1 && <Contracts getChildProps={getChildProps} />}
+            {counter === 2 && <RentLogs getChildProps={getChildProps} />}
+          </div>
+          <div className="ldash-right">
+            <div className="ldash-div > div">{childProps}</div>
+          </div>
         </div>
-        <div className="ldash-right">
-        <div className="ldash-div > div">
-              {childProps}
-        </div>
-        </div>
-      </div>
-    </section>
+      </section>
     </>
   );
 }

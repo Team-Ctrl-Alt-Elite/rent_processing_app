@@ -10,6 +10,7 @@ export default function PayBill({ contract }) {
   const [rentPayment, setRentPayment] = useState("");
   const paymentMethods = ["Credit/Debit Card", "ACH/eCheck"];
   console.log(rentPayment);
+
   const handleDropdownChange = (e) => {
     setSelectedPayment(e.target.value);
   };
@@ -32,22 +33,6 @@ export default function PayBill({ contract }) {
             defaultChecked
           />
           <label>Total Rent: ${contract.monthly_rent.toFixed(2)}</label>
-        </div>
-
-        <div>
-          <input
-            type="radio"
-            id="input-rent"
-            name="pay-bill"
-            value={rentPayment}
-          />
-          <label>
-            Or Enter Another Amount:
-            <input
-              type="text"
-              onChange={(e) => setRentPayment(e.target.value)}
-            />
-          </label>
         </div>
       </fieldset>
 
