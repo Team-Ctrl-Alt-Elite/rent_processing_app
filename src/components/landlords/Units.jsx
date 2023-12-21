@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { useTable } from "react-table";
 import { unit, landlord } from "../../dummyData";
+import "../../styles/LDashboard.css";
 
 /* UNITS:
 1. Landlord should be able to see all units within the property
@@ -9,7 +10,7 @@ import { unit, landlord } from "../../dummyData";
 4. Landlord should be able to sort the units by availability
 */
 
-export default function Units() {
+export default function Units({getChildProps}) {
   const [selectedUnit, setSelectedUnit] = useState(null);
   const [unitDetails, setUnitDetails] = useState(null);
 
@@ -39,8 +40,8 @@ export default function Units() {
     [] // Empty array as the dependency list since there are no external dependencies
   );
 
-  console.log(typeof landlord);
-  console.log(landlord);
+  // console.log(typeof landlord);
+  // console.log(landlord);
   
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable({
@@ -60,13 +61,20 @@ export default function Units() {
   }, [selectedUnit]);
 
   const handleUnitClick = (unit) => {
-    console.log("Selected Unit:", unit);
+    // console.log("Selected Unit:", unit);
+    getChildProps(
+      <div>
+        <h2>Unit Details</h2>
+        <p>Unit ID: {unit.id}</p>
+        <p>Availability: {String(unit.is_available)}</p>
+        <p>Landlord ID: {unit.landlord_id}</p></div>
+    )
     setSelectedUnit(unit);
   };
 
   return (
     <section className="container">
-      <h3>Units</h3>
+      {/* <h3>Units</h3> */}
       <div>
         <table {...getTableProps()}>
           <thead>
@@ -93,14 +101,16 @@ export default function Units() {
         </table>
       </div>
 
-      {selectedUnit !== null && unitDetails && (
+      {/* {selectedUnit !== null && unitDetails && (
         <div>
           <h2>Unit Details</h2>
           <p>Unit ID: {unitDetails?.id}</p>
           <p>Availability: {String(unitDetails?.is_available)}</p>
           <p>Landlord ID: {unitDetails?.landlord_id}</p>
         </div>
-      )}
+      )} */}
     </section>
   );
 }
+
+

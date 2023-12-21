@@ -1,0 +1,88 @@
+.ldash-modal {
+    display: flex;
+    justify-content: center;
+    /* align-items: center; */
+    padding: 5px;
+    height: 60vh;
+    /* border: 1px solid blue; */
+  }
+  
+  .ldash-left {
+    margin: 5px;
+    padding: 5px;
+    width: 60%;
+    /* border: 1px solid red; */
+    flex: 1;
+    background: #B7B7A4;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); */
+    border-radius: 8px;
+  }
+  
+  .ldash-left > table {
+    width: auto;
+    margin: auto;
+  }
+  
+  .ldash-left > h3 {
+    align-self: flex-start;
+  }
+
+
+  .ldash-right {
+    margin: 5px;
+    padding: 5px;
+    width: 40%;
+    /* border: 1px solid green; */
+    flex: 1;
+    background: #B7B7A4;
+    /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); */
+    /* border-radius: 8px; */
+  }
+  
+
+  @media (max-width: 768px) {
+    .ldash-modal {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  }
+
+
+  .ldash-header {
+    position: sticky;
+    top: 0;
+    background-color: #2C3639;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 10px 20px;
+    z-index: 1000;
+  }
+  
+  .ldash-header h1 {
+    margin: 0;
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
+    color: white;
+  }
+
+  .ldash-section {
+        background: #B7B7A4;
+        padding: 20px;
+        margin: auto;
+        margin-top: 20px;
+        width: 80%; 
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        color: #333;
+  }
+
+    .ldash-div > div {
+        text-align: center;
+        background-color: #DAD7CD;
+        padding: 20px;
+        border-radius: 10px;
+        /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
+        color: #333;
+        align-items: center;
+      }

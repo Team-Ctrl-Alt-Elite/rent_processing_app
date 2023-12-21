@@ -1,0 +1,25 @@
+.nav-section{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #B7B7A4;
+  }
+  
+  .nav-login-button {
+    padding: 10px 15px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .nav-login-button:hover {
+    background-color: #45a049;
+    text-decoration: none;
+  }
+  
