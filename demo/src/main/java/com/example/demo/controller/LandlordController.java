@@ -32,7 +32,7 @@ public class LandlordController {
     // List<Object[]> result = landlordRepository.findAllLandlordContracts();
     // return ResponseEntity.ok(result);
     // }
-    @CrossOrigin(origins = "http://localhost:3000")
+
     @GetMapping("/landlordContracts")
     public ResponseEntity<List<Map<String, Object>>> getALlLandlordContracts() {
         // Call the repository method that executes the custom query
@@ -58,13 +58,11 @@ public class LandlordController {
         return ResponseEntity.ok(transformedResult);
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/all")
     public List<Landlord> getAllLandlord() {
         return landlordService.getAllLandlords();
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/{id}")
     public ResponseEntity<Landlord> getLandlordById(@PathVariable Integer id) {
         Landlord landlord = landlordService.getLandlordById(id);
@@ -75,14 +73,12 @@ public class LandlordController {
         }
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping
     public ResponseEntity<Landlord> createLandlord(@RequestBody Landlord landlord) {
         Landlord createdLandlord = landlordService.createLandlord(landlord);
         return ResponseEntity.ok(createdLandlord);
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @PutMapping("/{id}")
     public ResponseEntity<Landlord> updateLandlord(@PathVariable Integer id, @RequestBody Landlord landlordDetails) {
         Landlord updatedLandlord = landlordService.updateLandlord(id, landlordDetails);
@@ -93,7 +89,6 @@ public class LandlordController {
         }
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteLandlord(@PathVariable Integer id) {
         landlordService.deleteLandlord(id);

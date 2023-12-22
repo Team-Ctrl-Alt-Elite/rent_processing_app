@@ -18,13 +18,11 @@ public class ContractController {
     @Autowired
     private ContractService contractService;
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/all")
     public List<Contract> getAllContracts() {
         return contractService.getAllContracts();
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/{id}")
     public ResponseEntity<Contract> getContractById(@PathVariable Integer id) {
         Contract contract = contractService.getContractById(id);
@@ -35,14 +33,12 @@ public class ContractController {
         }
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/add")
     public ResponseEntity<Contract> createContract(@RequestBody Contract contract) {
         Contract createdContract = contractService.createContract(contract);
         return ResponseEntity.ok(createdContract);
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @PutMapping("/{id}")
     public ResponseEntity<Contract> updateContract(@PathVariable Integer id, @RequestBody Contract contractDetails) {
         Contract updatedContract = contractService.updateContract(id, contractDetails);
@@ -53,7 +49,6 @@ public class ContractController {
         }
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteContract(@PathVariable Integer id) {
         contractService.deleteContract(id);

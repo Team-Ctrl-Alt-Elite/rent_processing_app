@@ -18,13 +18,11 @@ public class RentPaymentLogController {
     @Autowired
     private RentPaymentLogService rentPaymentLogService;
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/all")
     public List<RentPaymentLog> getAllRentPaymentLog() {
         return rentPaymentLogService.getAllRentPaymentLog();
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/{id}")
     public ResponseEntity<RentPaymentLog> getRentPaymentLogById(@PathVariable Integer id) {
         RentPaymentLog rentPaymentLog = rentPaymentLogService.getRentPaymentLogById(id);
@@ -35,7 +33,6 @@ public class RentPaymentLogController {
         }
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/add")
     public ResponseEntity<RentPaymentLog> createRentPaymentLog(@RequestBody RentPaymentLog rentPaymentLog) {
         RentPaymentLog createdRentPaymentLog = rentPaymentLogService.createRentPaymentLog(rentPaymentLog);
