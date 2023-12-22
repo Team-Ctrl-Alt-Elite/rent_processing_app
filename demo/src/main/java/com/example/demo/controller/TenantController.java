@@ -33,7 +33,6 @@ public class TenantController {
     // return ResponseEntity.ok(result);
     // }
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/tenantContracts")
     public ResponseEntity<List<Map<String, Object>>> getALlTenantContracts() {
         // Call the repository method that executes the custom query
@@ -59,13 +58,11 @@ public class TenantController {
         return ResponseEntity.ok(transformedResult);
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/all")
     public List<Tenant> getAllTenant() {
         return tenantService.getAllTenants();
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/{id}")
     public ResponseEntity<Tenant> getTenantById(@PathVariable Integer id) {
         Tenant tenant = tenantService.getTenantById(id);
@@ -76,14 +73,12 @@ public class TenantController {
         }
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping
     public ResponseEntity<Tenant> createTenant(@RequestBody Tenant tenant) {
         Tenant createdTenant = tenantService.createTenant(tenant);
         return ResponseEntity.ok(createdTenant);
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @PutMapping("/{id}")
     public ResponseEntity<Tenant> updateTenant(@PathVariable Integer id, @RequestBody Tenant tenantDetails) {
         Tenant updatedTenant = tenantService.updateTenant(id, tenantDetails);
@@ -94,7 +89,6 @@ public class TenantController {
         }
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTenant(@PathVariable Integer id) {
         tenantService.deleteTenant(id);
