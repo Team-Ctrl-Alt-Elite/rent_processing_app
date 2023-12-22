@@ -6,22 +6,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
 import java.util.List;
 
 @RestController
-//CORS because react runs on a different port so in order to request access the below line is required
+// CORS because react runs on a different port so in order to request access the
+// below line is required
 @CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/unit")
-public class UnitController{
+public class UnitController {
 
     @Autowired
     private UnitService unitService;
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/all")
     public List<Unit> getAllUnits() {
         return unitService.getAllUnits();
     }
+
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/{id}")
     public ResponseEntity<Unit> getUniyById(@PathVariable Integer id) {
         Unit unit = unitService.getUnitById(id);
@@ -32,12 +35,14 @@ public class UnitController{
         }
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/add")
     public ResponseEntity<Unit> createUnit(@RequestBody Unit unit) {
         Unit createdUnit = unitService.createUnit(unit);
         return ResponseEntity.ok(createdUnit);
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @PutMapping("/{id}")
     public ResponseEntity<Unit> updateUnit(@PathVariable Integer id, @RequestBody Unit unitDetails) {
         Unit updatedUnit = unitService.updateUnit(id, unitDetails);
@@ -47,6 +52,8 @@ public class UnitController{
             return ResponseEntity.notFound().build();
         }
     }
+
+    @CrossOrigin(origins = "http://localhost:3000")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUnit(@PathVariable Integer id) {
         unitService.deleteUnit(id);

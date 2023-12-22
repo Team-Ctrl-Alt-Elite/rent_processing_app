@@ -68,15 +68,15 @@ export default function History() {
     <section className="container">
       <h3>Tenant Payment History</h3>
       <div>
+        <input
+          type="text"
+          value={filterInput}
+          onChange={handleFilter}
+          placeholder="Search By Payment Date"
+          className="thead-input"
+        />
         <table {...getTableProps()}>
           <thead>
-            <input
-              type="text"
-              value={filterInput}
-              onChange={handleFilter}
-              placeholder="Search By Payment Date"
-              className="thead-input"
-            />
             {headerGroups.map((headerGroup) => (
               <tr {...headerGroup.getHeaderGroupProps()}>
                 {headerGroup.headers.map((column) => (

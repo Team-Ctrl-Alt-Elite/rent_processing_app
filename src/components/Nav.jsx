@@ -5,7 +5,7 @@ export default function Nav() {
   return (
     <section>
       <h1>TenantTrack</h1>
-      <Link to="/auth/login"></Link>
+      <Link to="/auth/login">Login</Link>
     </section>
   );
 }

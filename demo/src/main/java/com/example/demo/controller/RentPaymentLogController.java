@@ -1,28 +1,30 @@
 package com.example.demo.controller;
 
-
 import com.example.demo.model.RentPaymentLog;
 import com.example.demo.service.RentPaymentLogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
 import java.util.List;
 
 @RestController
-//CORS because react runs on a different port so in order to request access the below line is required
+// CORS because react runs on a different port so in order to request access the
+// below line is required
 @CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/rentPaymentLog")
-public class RentPaymentLogController{
+public class RentPaymentLogController {
 
     @Autowired
     private RentPaymentLogService rentPaymentLogService;
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/all")
     public List<RentPaymentLog> getAllRentPaymentLog() {
         return rentPaymentLogService.getAllRentPaymentLog();
     }
+
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/{id}")
     public ResponseEntity<RentPaymentLog> getRentPaymentLogById(@PathVariable Integer id) {
         RentPaymentLog rentPaymentLog = rentPaymentLogService.getRentPaymentLogById(id);
@@ -33,6 +35,7 @@ public class RentPaymentLogController{
         }
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/add")
     public ResponseEntity<RentPaymentLog> createRentPaymentLog(@RequestBody RentPaymentLog rentPaymentLog) {
         RentPaymentLog createdRentPaymentLog = rentPaymentLogService.createRentPaymentLog(rentPaymentLog);

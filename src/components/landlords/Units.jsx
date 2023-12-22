@@ -1,6 +1,8 @@
-import React, { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useTable } from "react-table";
-import { unit, landlord } from "../../dummyData";
+import { unit_details } from "../../dummyData";
+import "../../styles/LDashboard.css";
+import axios from "axios";
 
 /* UNITS:
 1. Landlord should be able to see all units within the property
@@ -9,11 +11,36 @@ import { unit, landlord } from "../../dummyData";
 4. Landlord should be able to sort the units by availability
 */
 
-export default function Units() {
+export default function Units({ getChildProps }) {
   const [selectedUnit, setSelectedUnit] = useState(null);
-  const [unitDetails, setUnitDetails] = useState(null);
+  const [units, setUnits] = useState([]);
+  const data = useMemo(() => units, [units]);
 
-  const data = useMemo(() => unit, []);
+  useEffect(() => {
+    const getAllUnits = async () => {
+      try {
+        const response = await axios.get("http://localhost:8080/unit/all");
+        setUnits(response?.data);
+      } catch (err) {
+        console.log("Units Get Request Error: ", err);
+      }
+    };
+
+    getAllUnits();
+  }, []);
+
+  // WAIT FOR LANDLORD CONTROLLER TO BE FINALIZED. GET LANDLORD NAME FROM LANDLORDCONTRACT MAPPING REQUEST
+  // useEffect(() => {
+  //   const getLandLordById = async () => {
+  //     try {
+  //       const response = await axios.get(`http://localhost:8080/landlord/`)
+  //     } catch (err) {
+  //       console.log("Units Get Landlord By Id Error: ", err)
+  //     }
+  //   }
+
+  //   getLandLordById()
+  // }, [])
 
   const columns = useMemo(
     () => [
@@ -22,58 +49,76 @@ export default function Units() {
         accessor: "id",
       },
       {
-        Header: "Landlord Name",
+        Header: "Landlord",
         accessor: "landlord_id",
-        Cell: ({ value }) => {
-          const Landlord = landlord.find((landlord) => landlord.id === value);
-          return Landlord ? `${Landlord.first_name} ${Landlord.last_name}` : "Unknown Landlord";
-        },
+        // Cell: ({ value }) => {
+
+        // const Landlord = landlord.find((landlord) => landlord.id === value);
+        // return Landlord
+        //   ? `${Landlord.first_name} ${Landlord.last_name}`
+        //   : "Unknown Landlord";
+        // },
+      },
+      {
+        Header: "Available",
+        accessor: "is_available",
+        Cell: ({ value }) => (value ? "Yes" : "No"),
       },
       {
         Header: "More Information",
         Cell: ({ row }) => (
-          <button onClick={() => handleUnitClick(row.original)}>View Details</button>
+          <button onClick={() => handleUnitClick(row.original)}>
+            View Details
+          </button>
         ),
       },
     ],
-    [] // Empty array as the dependency list since there are no external dependencies
+    []
   );
 
-  console.log(typeof landlord);
-  console.log(landlord);
-  
-
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable({
-    columns,
-    data,
-  });
-
-  useEffect(() => {
-    // Update unit details when selectedUnit changes
-    if (selectedUnit !== null && selectedUnit !== undefined) {
-      // Find the selected unit details from the units array
-      const selectedUnitDetails = unit.find((unit) => unit.id === selectedUnit.id);
-
-      // Update the state with the selected unit details
-      setUnitDetails(selectedUnitDetails);
-    }
-  }, [selectedUnit]);
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
+    useTable({
+      columns,
+      data,
+    });
 
   const handleUnitClick = (unit) => {
-    console.log("Selected Unit:", unit);
-    setSelectedUnit(unit);
+    // console.log("Selected Unit:", unit);
+    const findUnit = unit_details.find((u) => u.id === unit.id);
+    setSelectedUnit(findUnit);
+
+    // if (findUnit) {
+    //   getChildProps(
+    //     <div>
+    //       <h2>Unit Details</h2>
+    //       <p>Unit: {selectedUnit.id}</p>
+    //       <p>
+    //         Monthly Rent: ${selectedUnit.rent.substring(0, 1)},
+    //         {selectedUnit.rent.substring(1)}.00
+    //       </p>
+    //       <p>
+    //         Size: {selectedUnit.size.substring(0, 1)},
+    //         {selectedUnit.size.substring(1)} sq ft
+    //       </p>
+    //       <p>Bed: {selectedUnit.bed}</p>
+    //       <p>Bath: {selectedUnit.bath}</p>
+    //     </div>
+    //   );
+    // }
   };
 
   return (
     <section className="container">
-      <h3>Units</h3>
+      {/* <h3>Units</h3> */}
       <div>
         <table {...getTableProps()}>
           <thead>
             {headerGroups.map((headerGroup) => (
               <tr {...headerGroup.getHeaderGroupProps()}>
                 {headerGroup.headers.map((column) => (
-                  <th {...column.getHeaderProps()}>{column.render("Header")}</th>
+                  <th {...column.getHeaderProps()}>
+                    {column.render("Header")}
+                  </th>
                 ))}
               </tr>
             ))}
@@ -92,13 +137,20 @@ export default function Units() {
           </tbody>
         </table>
       </div>
-
-      {selectedUnit !== null && unitDetails && (
+      {selectedUnit && (
         <div>
           <h2>Unit Details</h2>
-          <p>Unit ID: {unitDetails?.id}</p>
-          <p>Availability: {String(unitDetails?.is_available)}</p>
-          <p>Landlord ID: {unitDetails?.landlord_id}</p>
+          <p>Unit: {selectedUnit.id}</p>
+          <p>
+            Monthly Rent: ${selectedUnit.rent.substring(0, 1)},
+            {selectedUnit.rent.substring(1)}.00
+          </p>
+          <p>
+            Size: {selectedUnit.size.substring(0, 1)},
+            {selectedUnit.size.substring(1)} sq ft
+          </p>
+          <p>Bed: {selectedUnit.bed}</p>
+          <p>Bath: {selectedUnit.bath}</p>
         </div>
       )}
     </section>

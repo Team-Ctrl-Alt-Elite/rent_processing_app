@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import "../../styles/LoginSignup.css";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -20,20 +21,24 @@ export default function Login() {
       console.log("Login Error: ", err);
     }
   };
-
+      
   return (
-    <section>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="email">Email: </label>
-        <input
+    <>      
+      <header>
+        <h1>TenantTracker</h1>
+      </header>
+    <section className="login-section">
+      <form className="login-form" onSubmit={handleSubmit}>
+        <label className="login-label" htmlFor="email">Email: </label>
+        <input 
           required
           type="text"
           name="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-        <label htmlFor="password">Password: </label>
-        <input
+        <label className="login-label" htmlFor="password">Password: </label>
+        <input 
           required
           type="password"
           name="password"
@@ -43,12 +48,13 @@ export default function Login() {
         <button>Login</button>
       </form>
 
-      <div>
+      <div className="login-div">
         <div>New Here?</div>
         <div>
-          <Link to="/auth/signup">SIGN UP</Link>
+          <Link className="login-a" to="/auth/signup">SIGN UP</Link>
         </div>
       </div>
     </section>
+    </>
   );
 }

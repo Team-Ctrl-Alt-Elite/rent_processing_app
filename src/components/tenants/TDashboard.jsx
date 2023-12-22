@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Contract from "./Contract";
 import History from "./History";
 import PayBill from "./PayBill";
 import AccountOverview from "./AccountOverview";
 import "../../styles/TDashboard.css";
 import { tenant, propertyInfo, landlord, contract } from "../../dummyData";
+import axios from "axios";
 
 export default function TDashboard() {
   const [counter, setCounter] = useState(0);

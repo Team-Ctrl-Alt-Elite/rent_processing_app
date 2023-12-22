@@ -3,7 +3,7 @@ import React from "react";
 export default function Contract({ contract, propertyInfo, landlord }) {
   // console.log(contract);
   // console.log(propertyInfo);
-  // console.log(landlord);
+  console.log(landlord);
   return (
     <section>
       <h3>Contract Information</h3>
@@ -19,12 +19,12 @@ export default function Contract({ contract, propertyInfo, landlord }) {
         {contract.lease_ending_on ? contract.lease_ending_on : "N/A"}
       </p>
       <p>
-        Landlord Name: {landlord.first_name} {landlord.last_name}
+        Landlord Name: {landlord[0].first_name} {landlord[0].last_name}
       </p>
       <p>
-        Landlord Contact Information: {landlord.phone_number.substring(0, 3)}-
-        {landlord.phone_number.substring(3, 6)}-
-        {landlord.phone_number.substring(6)}
+        Landlord Contact Information: {landlord[0].phone_number.substring(0, 3)}
+        -{landlord[0].phone_number.substring(3, 6)}-
+        {landlord[0].phone_number.substring(6)}
       </p>
     </section>
   );
