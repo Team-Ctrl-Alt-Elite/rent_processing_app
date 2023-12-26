@@ -14,25 +14,29 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import java.util.HashSet;
 import java.util.Set;
 
-@SpringBootApplication()//exclude = {SecurityAutoConfiguration.class})
+@SpringBootApplication() // exclude = {SecurityAutoConfiguration.class})
 public class DemoApplication {
 
-	public static void main(String[] args)  throws Exception{
+	public static void main(String[] args) throws Exception {
 		SpringApplication.run(DemoApplication.class, args);
 
 	}
 
 	@Bean
-	CommandLineRunner run(RoleRepository roleRepository, SecureUserRepository secureUserRepository, PasswordEncoder passwordEncode){
-		return args ->{
-			if(roleRepository.findByAuthority("LANDLORD").isPresent()) return;
+	CommandLineRunner run(RoleRepository roleRepository, SecureUserRepository secureUserRepository,
+			PasswordEncoder passwordEncode) {
+		return args -> {
+			if (roleRepository.findByAuthority("LANDLORD").isPresent())
+				return;
 			Role adminRole = roleRepository.save(new Role("LANDLORD"));
-			roleRepository.save(new Role("TENANT"));
+			Role tenantRole = roleRepository.save(new Role("TENANT"));
 
 			Set<Role> roles = new HashSet<>();
 			roles.add(adminRole);
+			roles.add(tenantRole);
 
-			SecureUser admin = new SecureUser(1, "landlord@tenanttrack.com", passwordEncode.encode("password"), "landlord", "lastName", "1234567894",roles);
+			SecureUser admin = new SecureUser(1, "landlord@tenanttrack.com", passwordEncode.encode("password"),
+					"landlord", "lastName", "1234567894", roles);
 
 			secureUserRepository.save(admin);
 		};

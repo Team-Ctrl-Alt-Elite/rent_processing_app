@@ -6,16 +6,53 @@ import "../../styles/LoginSignup.css";
 
 export default function Login() {
   const [errMsg, setErrMsg] = useState("");
+  const { register, handleSubmit } = useForm();
+  const navigate = useNavigate();
 
-  const handleSubmit = (evt) => {
-    evt.preventDefault();
-
+  const onSubmit = async (values) => {
+    const { username, pw } = values;
     try {
-      // axios.post(/* HTTP REQUEST */, {
-      //   email: email,
-      //   password: pw
-      // })
-      console.log("Login Click Successful");
+      await axios
+        .post(
+          "http://localhost:8080/auth/login",
+          {
+            username,
+            password: pw,
+          },
+          {
+            headers: { "Content-Type": "application/json" },
+            withCredentials: "include",
+          }
+        )
+        .then((response) => {
+          const user = response?.data.user;
+          const jwtToken = response?.data.jwt;
+          localStorage.setItem("token", jwtToken);
+
+          return user;
+        })
+        .then(async function (user) {
+          const jwtToken = localStorage.getItem("token");
+          // console.log("User: ", user.id);
+          // console.log(jwtToken);
+
+          const response = await axios.get(
+            `http://localhost:8080/landlord/${user.id}`,
+            {
+              headers: {
+                Authorization: `Bearer ${jwtToken}`,
+              },
+              withCredentials: "include",
+            }
+          );
+
+          console.log(response.data);
+          if (response.data) {
+            response.data.authorities.length > 1
+              ? navigate("/admin")
+              : navigate("/tenant");
+          }
+        });
     } catch (err) {
       console.log("Login Error: ", err);
       setErrMsg("Login Error");
