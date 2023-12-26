@@ -11,18 +11,18 @@ import javax.naming.AuthenticationException;
 
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin(origins = "http://localhost:3000")
 public class AuthenticationController {
     @Autowired
     private AuthenticationService authenticationService;
 
     @PostMapping("/register")
-    public SecureUser registerUser(@RequestBody RegistrationDTO body){
-        return authenticationService.registerUser(body.getUsername(), body.getPassword(), body.getFirst_name(), body.getLast_name());
+    public SecureUser registerUser(@RequestBody RegistrationDTO body) {
+        return authenticationService.registerUser(body.getUsername(), body.getPassword(), body.getFirst_name(),
+                body.getLast_name());
     }
 
     @PostMapping("/login")
-    public LoginResponseDTO loginUser(@RequestBody RegistrationDTO body){
+    public LoginResponseDTO loginUser(@RequestBody RegistrationDTO body) {
         return authenticationService.loginUser(body.getUsername(), body.getPassword());
     }
 

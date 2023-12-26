@@ -11,9 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-// CORS because react runs on a different port so in order to request access the
-// below line is required
-@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/contract")
 public class ContractController {
 
@@ -21,9 +18,10 @@ public class ContractController {
     private ContractService contractService;
     @Autowired
     private SecureUserRepository secureUserRepository;
-//The following endpoints basically joins users(landlords specifically) and Contracts table and returns the result in nice format
+    // The following endpoints basically joins users(landlords specifically) and
+    // Contracts table and returns the result in nice format
 
-        @GetMapping("/customQuery")
+    @GetMapping("/customQuery")
     public ResponseEntity<List<Object[]>> getUsersAndContracts() {
         // Call the repository method that executes the custom query
         List<Object[]> result = secureUserRepository.findAllLandlordContracts();

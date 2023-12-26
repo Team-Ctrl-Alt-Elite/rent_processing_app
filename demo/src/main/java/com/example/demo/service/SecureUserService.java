@@ -27,17 +27,22 @@ public class SecureUserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        System.out.println("In the user details service");
+        // System.out.println("In the user details service");
 
         System.out.println(secureUserRepository.findByUsername(username));
 
-        return secureUserRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("Invalid User"));
+        return secureUserRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Invalid User"));
 
-        /*if(!username.equals("ethan@fiserv.com")) throw new UsernameNotFoundException("not Ethan");
-        Set<Role> roles = new HashSet<>();
-        roles.add(new Role(1, "USER"));
-
-        return new SecureUser(1,"ethan@fiserv.com",encoder.encode("password"),"name",roles);*/
+        /*
+         * if(!username.equals("ethan@fiserv.com")) throw new
+         * UsernameNotFoundException("not Ethan");
+         * Set<Role> roles = new HashSet<>();
+         * roles.add(new Role(1, "USER"));
+         * 
+         * return new
+         * SecureUser(1,"ethan@fiserv.com",encoder.encode("password"),"name",roles);
+         */
     }
 
     public List<SecureUser> getAllUsers() {

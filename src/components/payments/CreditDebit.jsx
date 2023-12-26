@@ -8,18 +8,36 @@ import axios from "axios";
 // "expdate_month": "09",
 // "cvv": "123"
 
+function authenticateUser(user, password) {
+  var token = user + ":" + password;
+  var hash = btoa(token);
+  return "Basic " + hash;
+}
+
+console.log(
+  authenticateUser(
+    "k7YfStZ9M6I5DVb1o24QlPnJpK8gu0RX",
+    "V8LK4lYBXWEbakOjfGI6sZ173uFAdgSn"
+  )
+);
+
 export default function CreditDebit({ rentPayment }) {
   const { register, handleSubmit } = useForm();
   const [paymentError, setPaymentError] = useState("");
   const [paymentResponse, setPaymentResponse] = useState(null);
 
-  const onSubmit = (values) => {
+  const onSubmit = async (values) => {
     console.log("submitted:", values);
     const { fullName, cardNumber, expM, expY, securityCode } = values;
 
     let my_data = {
       customer_id: 2,
-      amount: 500,
+      amount: 1000,
+      applied_to: [
+        {
+          invoice_id: 1003,
+        },
+      ],
       paymethods: [
         {
           number: cardNumber,
@@ -30,17 +48,31 @@ export default function CreditDebit({ rentPayment }) {
       ],
     };
 
-    const headers = {
-      Authorization:
-        "Basic N3N1dFdGRU8yektWWUlHbVpNSjNOaWo1aGZMeERSYjg6OXZDSmJtZFpLU2llVmNoeXJSSXRGUXc4TUJONGxPSDM=",
-      "Content-Type": "application/json",
-    };
-
-    axios
-      .post("http://localhost:8080/api/v3/transaction", my_data, { headers })
-      .then((response) => {
-        console.log(response?.data);
-      });
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/api/v3/transaction",
+        my_data,
+        {
+          headers: {
+            Authorization:
+              "Basic azdZZlN0WjlNNkk1RFZiMW8yNFFsUG5KcEs4Z3UwUlg6VjhMSzRsWUJYV0ViYWtPamZHSTZzWjE3M3VGQWRnU24=",
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
+      console.log("response: ", response);
+      // Handle the redirect manually
+      // if (response.status === 302) {
+      //   const redirectResponse = await axios.get(response.headers.location);
+      //   console.log("Redirect Response:", redirectResponse.data);
+      // } else {
+      //   console.log("Response:", response.data);
+      // }
+    } catch (error) {
+      setPaymentError("Error occurred during payment.");
+      console.error("Payment Error:", error);
+    }
 
     // Our callback function (this gets called after data is sent to ChargeOver)
     function my_callback_function(code, message, response) {
