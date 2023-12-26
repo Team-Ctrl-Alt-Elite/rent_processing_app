@@ -6,53 +6,18 @@ import "../../styles/LoginSignup.css";
 
 export default function Login() {
   const [errMsg, setErrMsg] = useState("");
-  const { register, handleSubmit } = useForm();
-  const navigate = useNavigate();
 
-  const onSubmit = async (values) => {
-    const { username, pw } = values;
-    console.log("Login First Post Request Start");
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
+
     try {
-      await axios
-        .post(
-          "http://localhost:8080/auth/login",
-          {
-            username,
-            password: pw,
-          },
-          {
-            headers: { "Content-Type": "application/json" },
-            withCredentials: "include",
-          }
-        )
-        .then((response) => {
-          const user = response?.data.user;
-          const jwtToken = response?.data.jwt;
-          localStorage.setItem("token", jwtToken);
-
-          console.log("Login First Post Request Stop");
-          return user;
-        })
-        .then(async function (user) {
-          const jwtToken = localStorage.getItem("token");
-          console.log("Login Second Post Request Start");
-          console.log("User: ", user.id);
-          console.log(jwtToken);
-
-          const response = await axios.get(
-            `http://localhost:8080/landlord/${user.id}`,
-            {
-              headers: {
-                Authorization: `Bearer ${jwtToken}`,
-              },
-              withCredentials: "include",
-            }
-          );
-          if (response.data) navigate("/admin");
-        });
+      // axios.post(/* HTTP REQUEST */, {
+      //   email: email,
+      //   password: pw
+      // })
+      console.log("Login Click Successful");
     } catch (err) {
       console.log("Login Error: ", err);
-      setErrMsg("Login Error");
     }
   };
 
@@ -61,38 +26,34 @@ export default function Login() {
       <header>
         <h1>TenantTracker</h1>
       </header>
-      <section className="login-section">
-        <form onSubmit={handleSubmit(onSubmit)} className="form-wrapper">
-          <label>
-            <span>Username: </span>
-            <input
-              type="text"
-              {...register("username", {
-                required: "Required",
-              })}
-            />
-          </label>
-          <label>
-            <span>Password: </span>
-            <input
-              type="text"
-              {...register("pw", {
-                required: "Required",
-              })}
-            />
-          </label>
-          <button type="submit">Submit</button>
-        </form>
-        {errMsg && <div>{errMsg}</div>}
-        {/* <div className="login-div">
-          <div>New Here?</div>
-          <div>
-            <Link className="login-a" to="/auth/signup">
-              SIGN UP
-            </Link>
-          </div>
-        </div> */}
-      </section>
+    <section className="login-section">
+      <form className="login-form" onSubmit={handleSubmit}>
+        <label className="login-label" htmlFor="email">Email: </label>
+        <input 
+          required
+          type="text"
+          name="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <label className="login-label" htmlFor="password">Password: </label>
+        <input 
+          required
+          type="password"
+          name="password"
+          onChange={(e) => setPw(e.target.value)}
+        />
+        {errMsg && { errMessage: errMsg }}
+        <button>Login</button>
+      </form>
+
+      <div className="login-div">
+        <div>New Here?</div>
+        <div>
+          <Link className="login-a" to="/auth/signup">SIGN UP</Link>
+        </div>
+      </div>
+    </section>
     </>
   );
 }
