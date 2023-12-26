@@ -3,15 +3,14 @@ import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import "../../styles/LoginSignup.css";
- 
+
 export default function Login() {
   const [errMsg, setErrMsg] = useState("");
   const { register, handleSubmit } = useForm();
   const navigate = useNavigate();
- 
+
   const onSubmit = async (values) => {
     const { username, pw } = values;
-    console.log("Login First Post Request Start");
     try {
       await axios
         .post(
@@ -29,16 +28,14 @@ export default function Login() {
           const user = response?.data.user;
           const jwtToken = response?.data.jwt;
           localStorage.setItem("token", jwtToken);
- 
-          console.log("Login First Post Request Stop");
+
           return user;
         })
         .then(async function (user) {
           const jwtToken = localStorage.getItem("token");
-          console.log("Login Second Post Request Start");
-          console.log("User: ", user.id);
-          console.log(jwtToken);
- 
+          // console.log("User: ", user.id);
+          // console.log(jwtToken);
+
           const response = await axios.get(
             `http://localhost:8080/landlord/${user.id}`,
             {
@@ -48,14 +45,20 @@ export default function Login() {
               withCredentials: "include",
             }
           );
-          if (response.data) navigate("/admin");
+
+          console.log(response.data);
+          if (response.data) {
+            response.data.authorities.length > 1
+              ? navigate("/admin")
+              : navigate("/tenant");
+          }
         });
     } catch (err) {
       console.log("Login Error: ", err);
       setErrMsg("Login Error");
     }
   };
- 
+
   return (
     <>
       <header>
