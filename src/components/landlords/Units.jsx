@@ -64,8 +64,23 @@ export default function Units({ getChildProps }) {
 
   console.log("Unit Details: ", unitDetails);
 
+  // useEffect(() => {
+  //   if (unitDetails) {
+  //     getChildProps(
+  //       unitDetails
+  //       // <div>
+  //       //   <h2>Unit Details</h2>
+  //       //   <p>Unit: {unitDetails.id}</p>
+  //       //   <p>Bed: {unitDetails.bed}</p>
+  //       //   <p>Bath: {unitDetails.bath}</p>
+  //       //   <p>Size: {unitDetails.size} sq. ft.</p>
+  //       //   <p>Monthly Rent: ${unitDetails.rent}</p>
+  //       // </div>
+  //     );
+  //   }
+  // }, []);
+
   const handleUnitClick = (unit) => {
-    setSelectedUnit(unit);
     console.log("Unit: ", unit);
 
     if (unitDetails) {
@@ -80,6 +95,7 @@ export default function Units({ getChildProps }) {
         </div>
       );
     }
+    setSelectedUnit(unit);
   };
 
   const data = useMemo(() => units, [units]);

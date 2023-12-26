@@ -6,7 +6,7 @@ import "../../styles/LDashboard.css";
 
 export default function LDashboard() {
   const [activeTab, setActiveTab] = useState("units");
-  const [childProps, setChildProps] = useState(null);
+  const [childProps, setChildProps] = useState();
 
   const handleTabClick = (tabName) => {
     setActiveTab(tabName);
@@ -17,6 +17,8 @@ export default function LDashboard() {
     console.log("Props :", props);
     setChildProps(props);
   };
+
+  console.log("Child Props: ", childProps);
 
   return (
     <>
