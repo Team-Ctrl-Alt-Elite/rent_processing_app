@@ -9,10 +9,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
 @RestController
 @RequestMapping("/tenant")
-@CrossOrigin(origins = "http://localhost:3000")
 public class SecureUserController {
 
     @Autowired
@@ -20,6 +18,7 @@ public class SecureUserController {
 
     @Autowired
     private SecureUserRepository secureUserRepository;
+
     @GetMapping("/customQuery")
     public ResponseEntity<List<Object[]>> getAllLandlordContracts() {
         // Call the repository method that executes the custom query
@@ -28,7 +27,7 @@ public class SecureUserController {
     }
 
     @PostMapping("/signIn")
-    public String helloUserController(){
+    public String helloUserController() {
 
         return "User access level";
     }
@@ -48,11 +47,14 @@ public class SecureUserController {
         }
     }
 
-    /*@PostMapping
-    public ResponseEntity<SecureUser> createTenant(@RequestBody SecureUser tenant) {
-        SecureUser createdTenant = secureUserService.createTenant(tenant);
-        return ResponseEntity.ok(createdTenant);
-    }*/
+    /*
+     * @PostMapping
+     * public ResponseEntity<SecureUser> createTenant(@RequestBody SecureUser
+     * tenant) {
+     * SecureUser createdTenant = secureUserService.createTenant(tenant);
+     * return ResponseEntity.ok(createdTenant);
+     * }
+     */
 
     @PutMapping("/{id}")
     public ResponseEntity<SecureUser> updateTenant(@PathVariable Integer id, @RequestBody SecureUser tenantDetails) {

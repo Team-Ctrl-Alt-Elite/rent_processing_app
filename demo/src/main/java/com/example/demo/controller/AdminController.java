@@ -14,7 +14,6 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/landlord")
-@CrossOrigin(origins = "http://localhost:3000")
 public class AdminController {
 
     @Autowired
@@ -23,13 +22,13 @@ public class AdminController {
     @Autowired
     private SecureUserRepository secureUserRepository;
 
-    @PostMapping("/")
-    public String helloAdminController(){
+    @PostMapping("/access")
+    public String helloAdminController() {
         return "Admin level access";
     }
 
     @GetMapping("/landlordContracts")
-    public ResponseEntity<List<Map<String, Object>>> getALlLandlordContracts() {
+    public ResponseEntity<List<Map<String, Object>>> getAllLandlordContracts() {
         // Call the repository method that executes the custom query
         List<Object[]> result = secureUserRepository.findAllLandlordContracts();
 
@@ -69,14 +68,18 @@ public class AdminController {
         }
     }
 
-    /*@PostMapping
-    public ResponseEntity<Landlord> createLandlord(@RequestBody Landlord landlord) {
-        Landlord createdLandlord = landlordService.createLandlord(landlord);
-        return ResponseEntity.ok(createdLandlord);
-    }*/
+    /*
+     * @PostMapping
+     * public ResponseEntity<Landlord> createLandlord(@RequestBody Landlord
+     * landlord) {
+     * Landlord createdLandlord = landlordService.createLandlord(landlord);
+     * return ResponseEntity.ok(createdLandlord);
+     * }
+     */
 
     @PutMapping("/{id}")
-    public ResponseEntity<SecureUser> updateLandlord(@PathVariable Integer id, @RequestBody SecureUser landlordDetails) {
+    public ResponseEntity<SecureUser> updateLandlord(@PathVariable Integer id,
+            @RequestBody SecureUser landlordDetails) {
         SecureUser updatedLandlord = secureUserService.updateUser(id, landlordDetails);
         if (updatedLandlord != null) {
             return ResponseEntity.ok(updatedLandlord);
@@ -85,9 +88,11 @@ public class AdminController {
         }
     }
 
-    /*@DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteLandlord(@PathVariable Integer id) {
-        landlordService.deleteLandlord(id);
-        return ResponseEntity.noContent().build();
-    }*/
+    /*
+     * @DeleteMapping("/{id}")
+     * public ResponseEntity<Void> deleteLandlord(@PathVariable Integer id) {
+     * landlordService.deleteLandlord(id);
+     * return ResponseEntity.noContent().build();
+     * }
+     */
 }

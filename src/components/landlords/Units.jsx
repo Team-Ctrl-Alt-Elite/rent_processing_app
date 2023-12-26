@@ -1,47 +1,88 @@
 import { useState, useEffect, useMemo } from "react";
 import { useTable } from "react-table";
-import { unit_details } from "../../dummyData";
 import "../../styles/LDashboard.css";
 import axios from "axios";
 
-/* UNITS:
-1. Landlord should be able to see all units within the property
-2. Landlord should be able to see more details about each unit whenever clicked
-3. Landlord should be able to see what units are available and what units are occupied by tenants
-4. Landlord should be able to sort the units by availability
-*/
-
 export default function Units({ getChildProps }) {
-  const [selectedUnit, setSelectedUnit] = useState(null);
   const [units, setUnits] = useState([]);
-  const data = useMemo(() => units, [units]);
+  const [users, setUsers] = useState([]);
+  const [selectedUnit, setSelectedUnit] = useState(null);
+  const [unitDetails, setUnitDetails] = useState(null);
 
   useEffect(() => {
-    const getAllUnits = async () => {
+    const token = localStorage.getItem("token");
+
+    const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/unit/all");
-        setUnits(response?.data);
+        const [unitsResponse, usersResponse] = await Promise.all([
+          axios.get("http://localhost:8080/unit/all", {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+            withCredentials: "include",
+          }),
+          axios.get("http://localhost:8080/landlord/all", {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+            withCredentials: "include",
+          }),
+        ]);
+
+        console.log("Axios Units Call: ", unitsResponse?.data);
+        console.log("Axios Users Call: ", usersResponse?.data);
+
+        setUnits(unitsResponse?.data);
+        setUsers(usersResponse?.data);
       } catch (err) {
-        console.log("Units Get Request Error: ", err);
+        console.error("Units Component Error: ", err);
       }
     };
 
-    getAllUnits();
+    fetchData();
   }, []);
 
-  // WAIT FOR LANDLORD CONTROLLER TO BE FINALIZED. GET LANDLORD NAME FROM LANDLORDCONTRACT MAPPING REQUEST
-  // useEffect(() => {
-  //   const getLandLordById = async () => {
-  //     try {
-  //       const response = await axios.get(`http://localhost:8080/landlord/`)
-  //     } catch (err) {
-  //       console.log("Units Get Landlord By Id Error: ", err)
-  //     }
-  //   }
+  useEffect(() => {
+    // Update unit details when selectedUnit changes
+    if (selectedUnit !== null && selectedUnit !== undefined) {
+      // Find the selected unit details from the units array
+      const selectedUnitDetails = units.find(
+        (unit) => unit.id === selectedUnit.id
+      );
 
-  //   getLandLordById()
-  // }, [])
+      // Update the state with the selected unit details
+      setUnitDetails(selectedUnitDetails);
+    }
+  }, [units, selectedUnit]);
 
+  // const getLandlordDetails = (id) => {
+  //   const landlord = users.find((user) => user.id === id);
+  //   return landlord
+  //     ? `${landlord.first_name} ${landlord.last_name}`
+  //     : "Unknown Landlord";
+  // };
+
+  console.log("Unit Details: ", unitDetails);
+
+  const handleUnitClick = (unit) => {
+    setSelectedUnit(unit);
+    console.log("Unit: ", unit);
+
+    if (unitDetails) {
+      getChildProps(
+        <div>
+          <h2>Unit Details</h2>
+          <p>Unit: {unitDetails.id}</p>
+          <p>Bed: {unitDetails.bed}</p>
+          <p>Bath: {unitDetails.bath}</p>
+          <p>Size: {unitDetails.size} sq. ft.</p>
+          <p>Monthly Rent: ${unitDetails.rent}</p>
+        </div>
+      );
+    }
+  };
+
+  const data = useMemo(() => units, [units]);
   const columns = useMemo(
     () => [
       {
@@ -49,15 +90,31 @@ export default function Units({ getChildProps }) {
         accessor: "id",
       },
       {
+        Header: "Building",
+        accessor: "building_address",
+      },
+      {
         Header: "Landlord",
         accessor: "landlord_id",
         // Cell: ({ value }) => {
-
-        // const Landlord = landlord.find((landlord) => landlord.id === value);
-        // return Landlord
-        //   ? `${Landlord.first_name} ${Landlord.last_name}`
-        //   : "Unknown Landlord";
+        //   return getLandlordDetails(value);
         // },
+      },
+      {
+        Header: "Size",
+        accessor: "size",
+      },
+      {
+        Header: "Bed",
+        accessor: "bed",
+      },
+      {
+        Header: "Bath",
+        accessor: "bath",
+      },
+      {
+        Header: "Rent",
+        accessor: "rent",
       },
       {
         Header: "Available",
@@ -66,11 +123,13 @@ export default function Units({ getChildProps }) {
       },
       {
         Header: "More Information",
-        Cell: ({ row }) => (
-          <button onClick={() => handleUnitClick(row.original)}>
-            View Details
-          </button>
-        ),
+        Cell: ({ row }) => {
+          return (
+            <button onClick={() => handleUnitClick(row.original)}>
+              View Details
+            </button>
+          );
+        },
       },
     ],
     []
@@ -81,31 +140,6 @@ export default function Units({ getChildProps }) {
       columns,
       data,
     });
-
-  const handleUnitClick = (unit) => {
-    // console.log("Selected Unit:", unit);
-    const findUnit = unit_details.find((u) => u.id === unit.id);
-    setSelectedUnit(findUnit);
-
-    // if (findUnit) {
-    //   getChildProps(
-    //     <div>
-    //       <h2>Unit Details</h2>
-    //       <p>Unit: {selectedUnit.id}</p>
-    //       <p>
-    //         Monthly Rent: ${selectedUnit.rent.substring(0, 1)},
-    //         {selectedUnit.rent.substring(1)}.00
-    //       </p>
-    //       <p>
-    //         Size: {selectedUnit.size.substring(0, 1)},
-    //         {selectedUnit.size.substring(1)} sq ft
-    //       </p>
-    //       <p>Bed: {selectedUnit.bed}</p>
-    //       <p>Bath: {selectedUnit.bath}</p>
-    //     </div>
-    //   );
-    // }
-  };
 
   return (
     <section className="container">
@@ -137,22 +171,6 @@ export default function Units({ getChildProps }) {
           </tbody>
         </table>
       </div>
-      {selectedUnit && (
-        <div>
-          <h2>Unit Details</h2>
-          <p>Unit: {selectedUnit.id}</p>
-          <p>
-            Monthly Rent: ${selectedUnit.rent.substring(0, 1)},
-            {selectedUnit.rent.substring(1)}.00
-          </p>
-          <p>
-            Size: {selectedUnit.size.substring(0, 1)},
-            {selectedUnit.size.substring(1)} sq ft
-          </p>
-          <p>Bed: {selectedUnit.bed}</p>
-          <p>Bath: {selectedUnit.bath}</p>
-        </div>
-      )}
     </section>
   );
 }

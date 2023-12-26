@@ -9,9 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-// CORS because react runs on a different port so in order to request access the
-// below line is required
-@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/unit")
 public class UnitController {
 

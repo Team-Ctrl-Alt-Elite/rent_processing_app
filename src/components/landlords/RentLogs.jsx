@@ -1,36 +1,47 @@
 import { useState, useEffect, useMemo } from "react";
 import { useTable } from "react-table";
 import axios from "axios";
-import { rent_payment_log } from "../../dummyData";
 import "../../styles/LDashboard.css";
 
-/* LANDLORD PAYMENT REPORTS:
-1. Landlord should be able to view all payments within each pay period (monthly)
-2. Landlord should be able to see what rent payments are on-time and what payments are late
-*/
+// /* LANDLORD PAYMENT REPORTS:
+// 1. Landlord should be able to view all payments within each pay period (monthly)
+// 2. Landlord should be able to see what rent payments are on-time and what payments are late
+// */
 
 export default function RentLogs({ getChildProps }) {
   const [selectedLog, setSelectedLog] = useState(null);
   const [logDetails, setLogDetails] = useState(null);
   const [rentLogs, setRentLogs] = useState([]);
-  const data = useMemo(() => rent_payment_log, []);
+  const data = useMemo(() => rentLogs, [rentLogs]);
 
   useEffect(() => {
     const getAllRentLogs = async () => {
+      const token = localStorage.getItem("token");
       try {
         const response = await axios.get(
-          "http://localhost:8080/rentPaymentLog/all"
+          "http://localhost:8080/rentPaymentLog/all",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+            withCredentials: "include",
+          }
         );
         setRentLogs(response?.data);
       } catch (err) {
         console.log("Rent Logs GET Request Error: ", err);
       }
     };
-
     getAllRentLogs();
   }, []);
 
   console.log(rentLogs);
+
+  useEffect(() => {
+    if (selectedLog) {
+      setLogDetails(selectedLog);
+    }
+  }, [selectedLog]);
 
   const columns = useMemo(
     () => [
@@ -83,12 +94,6 @@ export default function RentLogs({ getChildProps }) {
       data,
     });
 
-  useEffect(() => {
-    if (selectedLog) {
-      setLogDetails(selectedLog);
-    }
-  }, [selectedLog]);
-
   const handleLogClick = (log) => {
     getChildProps(
       <div>
@@ -116,33 +121,37 @@ export default function RentLogs({ getChildProps }) {
   return (
     <section className="container">
       {/* <h3>Rent Payment Logs</h3> */}
-      <div>
-        <table {...getTableProps()}>
-          <thead>
-            {headerGroups.map((headerGroup) => (
-              <tr {...headerGroup.getHeaderGroupProps()}>
-                {headerGroup.headers.map((column) => (
-                  <th {...column.getHeaderProps()}>
-                    {column.render("Header")}
-                  </th>
-                ))}
-              </tr>
-            ))}
-          </thead>
-          <tbody {...getTableBodyProps()}>
-            {rows.map((row) => {
-              prepareRow(row);
-              return (
-                <tr {...row.getRowProps()}>
-                  {row.cells.map((cell) => (
-                    <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+      {rentLogs.length > 1 ? (
+        <div>
+          <table {...getTableProps()}>
+            <thead>
+              {headerGroups.map((headerGroup) => (
+                <tr {...headerGroup.getHeaderGroupProps()}>
+                  {headerGroup.headers.map((column) => (
+                    <th {...column.getHeaderProps()}>
+                      {column.render("Header")}
+                    </th>
                   ))}
                 </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
+              ))}
+            </thead>
+            <tbody {...getTableBodyProps()}>
+              {rows.map((row) => {
+                prepareRow(row);
+                return (
+                  <tr {...row.getRowProps()}>
+                    {row.cells.map((cell) => (
+                      <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+                    ))}
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      ) : (
+        <div>No Payments To Display</div>
+      )}
     </section>
   );
 }
