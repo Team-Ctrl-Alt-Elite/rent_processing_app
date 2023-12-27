@@ -1,18 +1,27 @@
 import { useState, useEffect, useMemo } from "react";
-import { useTable } from "react-table";
+import { useNavigate } from "react-router-dom";
+import { useSortBy, useTable, useFilters } from "react-table";
 import axios from "axios";
 import "../../styles/LDashboard.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSort } from "@fortawesome/free-solid-svg-icons";
 
-// /* LANDLORD PAYMENT REPORTS:
-// 1. Landlord should be able to view all payments within each pay period (monthly)
-// 2. Landlord should be able to see what rent payments are on-time and what payments are late
-// */
+const filterCategories = [
+  "Payment Date",
+  "Amount",
+  "Unit ID",
+  "Payment Status",
+];
 
 export default function RentLogs({ getChildProps }) {
   const [selectedLog, setSelectedLog] = useState(null);
   const [logDetails, setLogDetails] = useState(null);
   const [rentLogs, setRentLogs] = useState([]);
+  const [filterDropDown, setFilterDropDown] = useState("");
+  const [filterInput, setFilterInput] = useState("");
+  const [selectedFilterCategory, setSelectedFilterCategory] = useState("");
   const data = useMemo(() => rentLogs, [rentLogs]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getAllRentLogs = async () => {
@@ -29,19 +38,35 @@ export default function RentLogs({ getChildProps }) {
         );
         setRentLogs(response?.data);
       } catch (err) {
+        if (err.response.status === 401) {
+          navigate("/auth/login");
+        }
         console.log("Rent Logs GET Request Error: ", err);
       }
     };
     getAllRentLogs();
-  }, []);
+  }, [navigate]);
 
-  console.log(rentLogs);
+  console.log("Rent Logs: ", rentLogs);
 
   useEffect(() => {
-    if (selectedLog) {
-      setLogDetails(selectedLog);
+    // Update unit details when selectedUnit changes
+    if (selectedLog !== null && selectedLog !== undefined) {
+      // Find the selected unit details from the units array
+      const selectedLogDetails = rentLogs.find(
+        (log) => log.id === selectedLog.id
+      );
+
+      // Update the state with the selected unit details
+      setLogDetails(selectedLogDetails);
     }
-  }, [selectedLog]);
+  }, [rentLogs, selectedLog]);
+
+  useEffect(() => {
+    if (logDetails !== null && logDetails !== undefined) {
+      getChildProps(logDetails);
+    }
+  }, [getChildProps, logDetails]);
 
   const columns = useMemo(
     () => [
@@ -88,34 +113,34 @@ export default function RentLogs({ getChildProps }) {
   //   log.payment_date.startsWith(selectedMonthYear)
   // );
 
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable({
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    rows,
+    prepareRow,
+    setFilter,
+  } = useTable(
+    {
       columns,
       data,
-    });
+    },
+    useFilters,
+    useSortBy
+  );
+
+  const handleFilterDropDown = (e) => {
+    setSelectedFilterCategory(e.target.value);
+  };
+
+  const handleFilter = (e) => {
+    const value = e.target.value || undefined;
+    setFilter("payment_date", value);
+    setFilterInput(value);
+  };
 
   const handleLogClick = (log) => {
-    getChildProps(
-      <div>
-        <h2>Payment Log Details</h2>
-        <p>Payment ID: {log.id}</p>
-        <p>Contract ID: {log.contract_id}</p>
-        <p>Amount Paid: {log.amount_paid}</p>
-        <p>Payment Date: {log.payment_date}</p>
-        <p>Payment Medium: {log.payment_medium}</p>
-        <p>
-          {log.check_number
-            ? `Check Number: ${log.check_number}`
-            : "Check Number: N/A"}
-        </p>
-        <p>
-          {log.online_transaction_number
-            ? `Online Transaction Number: ${log.online_transaction_number}`
-            : "Online Transaction Number: N/A"}
-        </p>
-      </div>
-    );
-    setSelectedLog(log);
+    if (log !== null && log !== undefined) setSelectedLog(log);
   };
 
   return (
@@ -123,13 +148,55 @@ export default function RentLogs({ getChildProps }) {
       {/* <h3>Rent Payment Logs</h3> */}
       {rentLogs.length > 1 ? (
         <div>
+          <label>
+            Filter Category:
+            <select
+              value={selectedFilterCategory}
+              onChange={handleFilterDropDown}
+            >
+              <option value="">-- Select Filter Category --</option>
+              {filterCategories.map((cat, i) => (
+                <option key={i} value={cat}>
+                  {cat}
+                  {/* {new Date(`${monthYear}-1`).toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "long",
+                  })} */}
+                </option>
+              ))}
+            </select>
+          </label>
+
+          <input
+            type="text"
+            value={filterInput}
+            onChange={handleFilter}
+            placeholder="Search"
+            className="thead-input"
+          />
           <table {...getTableProps()}>
             <thead>
               {headerGroups.map((headerGroup) => (
                 <tr {...headerGroup.getHeaderGroupProps()}>
                   {headerGroup.headers.map((column) => (
-                    <th {...column.getHeaderProps()}>
-                      {column.render("Header")}
+                    <th
+                      {...column.getHeaderProps(column.getSortByToggleProps())}
+                      className={
+                        column.isSorted
+                          ? column.isSortedDesc
+                            ? "sort-desc"
+                            : "sort-asc"
+                          : ""
+                      }
+                    >
+                      <div className="th-wrapper">
+                        {column.render("Header")}
+                        <FontAwesomeIcon
+                          icon={faSort}
+                          size="xs"
+                          className="fa-icon"
+                        />
+                      </div>
                     </th>
                   ))}
                 </tr>
@@ -150,7 +217,9 @@ export default function RentLogs({ getChildProps }) {
           </table>
         </div>
       ) : (
-        <div>No Payments To Display</div>
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          No Rent Payment Logs To Display
+        </div>
       )}
     </section>
   );
