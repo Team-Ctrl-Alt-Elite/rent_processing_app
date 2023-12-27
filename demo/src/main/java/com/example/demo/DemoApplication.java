@@ -31,14 +31,22 @@ public class DemoApplication {
 			Role adminRole = roleRepository.save(new Role("LANDLORD"));
 			Role tenantRole = roleRepository.save(new Role("TENANT"));
 
+			// Creating a new Landlord
 			Set<Role> roles = new HashSet<>();
 			roles.add(adminRole);
-			roles.add(tenantRole);
-
 			SecureUser admin = new SecureUser(1, "landlord@tenanttrack.com", passwordEncode.encode("password"),
 					"landlord", "lastName", "1234567894", roles);
 
 			secureUserRepository.save(admin);
+
+			Set<Role> tRoles = new HashSet<>();
+			tRoles.add(tenantRole);
+
+
+			SecureUser tenant = new SecureUser(2, "tenant@tenanttrack.com", passwordEncode.encode("password"),
+					"tenant", "lastName", "9876543210", tRoles);
+
+			secureUserRepository.save(tenant);
 		};
 	};
 }

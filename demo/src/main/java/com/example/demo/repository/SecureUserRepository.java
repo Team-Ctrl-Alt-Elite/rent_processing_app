@@ -18,4 +18,8 @@ public interface SecureUserRepository extends JpaRepository<SecureUser, Integer>
 
     @Query(value = "select usr.user_id, r.authority from user_role_junction usr join roles_table r on usr.role_id = r.role_id where usr.user_id = :id", nativeQuery = true)
     List<Object[]> getAuthority(int id);
+
+    @Query(value = "SELECT * from users u join contract c on u.user_id = c.tenant_id where c.tenant_id = :id", nativeQuery = true)
+    List<Object[]> findAllTenantContracts(int id);
+
 }

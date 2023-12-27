@@ -29,6 +29,9 @@ export default function Login() {
           const user = response?.data.user;
           const jwtToken = response?.data.jwt;
           localStorage.setItem("token", jwtToken);
+          localStorage.setItem("id", user.id);
+          localStorage.setItem("username", user.username)
+          localStorage.setItem("role", user.authorities[0].authority)
 
           return user;
         })
@@ -38,7 +41,7 @@ export default function Login() {
           // console.log(jwtToken);
 
           const response = await axios.get(
-            `http://localhost:8080/landlord/${user.id}`,
+            `http://localhost:8080/tenant/${user.id}`,
             {
               headers: {
                 Authorization: `Bearer ${jwtToken}`,
@@ -48,10 +51,21 @@ export default function Login() {
           );
 
           console.log(response.data);
-          if (response.data) {
-            response.data.authorities.length > 1
-              ? navigate("/admin")
-              : navigate("/tenant");
+//           if (response.data) {
+//             response.data.authorities.length > 1
+//               ? navigate("/admin")
+//               : navigate("/tenant");
+//           }
+          if (response.data){
+          const role = response.data.authorities[0].authority;
+
+          if (role == "LANDLORD"){
+            navigate("/admin")
+          } else if(role == "TENANT"){
+          navigate("/tenant")
+          } else {
+          navigate("/auth/login")
+          }
           }
         });
     } catch (err) {

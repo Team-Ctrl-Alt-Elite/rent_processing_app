@@ -8,6 +8,8 @@ import { Link } from "react-router-dom";
 export default function LDashboard() {
   const [activeTab, setActiveTab] = useState("units");
   const [childProps, setChildProps] = useState(null);
+  const role = localStorage.getItem("role");
+
 
   const handleTabClick = (tabName) => {
     setActiveTab(tabName);
