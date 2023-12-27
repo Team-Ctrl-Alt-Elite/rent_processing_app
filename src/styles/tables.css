@@ -7,14 +7,14 @@ table {
   width: 95%;
   border-collapse: collapse;
   overflow: hidden;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
   border-radius: 10px;
 }
 
 th,
 td {
   padding: 15px;
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(255, 255, 255, 0.8);
 }
 
 th {
@@ -56,5 +56,5 @@ tbody td:hover:before {
 }
 
 /* .thead-input {
-  
+
 } */

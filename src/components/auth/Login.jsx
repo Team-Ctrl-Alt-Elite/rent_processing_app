@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import "../../styles/LoginSignup.css";
 
@@ -61,12 +62,18 @@ export default function Login() {
 
   return (
     <>
-      <header>
-        <h1>TenantTracker</h1>
-      </header>
+      <nav>
+              <Link to="/" className="home-link">
+                <h1>TenantTracker</h1>
+              </Link>
+              <div className="nav-links">
+                <Link to="/auth/login">Login</Link>
+              </div>
+            </nav>
+            <body className="login-background">
       <section className="login-section">
         <form onSubmit={handleSubmit(onSubmit)} className="form-wrapper">
-          <label>
+          <label htmlFor="email">
             <span>Username: </span>
             <input
               type="text"
@@ -75,8 +82,8 @@ export default function Login() {
               })}
             />
           </label>
-          <label>
-            <span>Password: </span>
+          <label htmlFor="password">
+            <span> Password: </span>
             <input
               type="text"
               {...register("pw", {
@@ -96,6 +103,7 @@ export default function Login() {
           </div>
         </div> */}
       </section>
+      </body>
     </>
   );
 }

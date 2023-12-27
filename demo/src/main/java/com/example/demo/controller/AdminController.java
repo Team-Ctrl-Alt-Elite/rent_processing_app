@@ -21,7 +21,6 @@ public class AdminController {
 
     @Autowired
     private SecureUserRepository secureUserRepository;
-
     @PostMapping("/access")
     public String helloAdminController() {
         return "Admin level access";

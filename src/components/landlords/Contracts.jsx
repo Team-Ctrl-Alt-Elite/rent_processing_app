@@ -88,11 +88,20 @@ export default function Contracts({ getChildProps }) {
       {
         Header: "Lease Start Date",
         accessor: "lease_starting_date",
+            Cell: ({ value }) => {
+            // Convert Unix timestamp to milliseconds and create a new Date object
+            const date = new Date(value); // Assuming value is the Unix timestamp
+
+            // Format the date as needed (e.g., YYYY-MM-DD)
+            const formattedDate = date.toLocaleDateString(); // Customize this format as required
+
+            return formattedDate;
+          },
       },
       {
         Header: "More Information",
         Cell: ({ row }) => (
-          <button onClick={() => handleContractClick(row.original)}>
+          <button onClick={() => handleContractClick(row.original)} className="ldash-button">
             View Details
           </button>
         ),

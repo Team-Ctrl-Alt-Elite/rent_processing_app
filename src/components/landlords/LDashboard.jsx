@@ -3,6 +3,7 @@ import Contracts from "./Contracts";
 import RentLogs from "./RentLogs";
 import Units from "./Units";
 import "../../styles/LDashboard.css";
+import { Link } from "react-router-dom";
 
 export default function LDashboard() {
   const [activeTab, setActiveTab] = useState("units");
@@ -22,14 +23,20 @@ export default function LDashboard() {
 
   return (
     <>
-      <header className="ldash-header">
-        <h1 className="ldash-header h1">TenantTracker</h1>
-      </header>
+      <nav>
+              <Link to="/" className="home-link">
+                <h1>TenantTracker</h1>
+              </Link>
+              <div className="nav-links">
+                <Link to="/auth/login">Login</Link>
+              </div>
+            </nav>
+            <body className="ldash-background">
       <section className="ldash-section">
         <h2>Landlord Dashboard</h2>
-        <button onClick={() => handleTabClick("units")}>Units</button>
-        <button onClick={() => handleTabClick("contracts")}>Contracts</button>
-        <button onClick={() => handleTabClick("rentLogs")}>Rent Logs</button>
+        <button onClick={() => handleTabClick("units")} className="ldash-button">Units</button>
+        <button onClick={() => handleTabClick("contracts")} className="ldash-button">Contracts</button>
+        <button onClick={() => handleTabClick("rentLogs")} className="ldash-button">Rent Logs</button>
 
         <div className="ldash-modal">
           <div className="ldash-left">
@@ -92,6 +99,7 @@ export default function LDashboard() {
           </div>
         </div>
       </section>
+    </body>
     </>
   );
 }

@@ -89,7 +89,7 @@ export default function RentLogs({ getChildProps }) {
       {
         Header: "More Information",
         Cell: ({ row }) => (
-          <button onClick={() => handleLogClick(row.original)}>
+          <button onClick={() => handleLogClick(row.original)} className="ldash-button">
             View Details
           </button>
         ),

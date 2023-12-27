@@ -142,7 +142,7 @@ export default function Units({ getChildProps }) {
         Header: "More Information",
         Cell: ({ row }) => {
           return (
-            <button onClick={() => handleUnitClick(row.original)}>
+            <button onClick={() => handleUnitClick(row.original)} className="ldash-button">
               View Details
             </button>
           );

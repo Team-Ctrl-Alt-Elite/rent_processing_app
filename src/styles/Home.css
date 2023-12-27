@@ -1,0 +1,38 @@
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    position: sticky;
+    top: 0;
+    background-color: #2C3639;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+  }
+
+  nav h1 {
+    margin: 0;
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
+    color: white;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 20px;
+  }
+
+  .nav-links a {
+    color: white;
+    text-decoration: none;
+  }
+
+  .nav-links a:hover {
+    text-decoration: underline;
+  }
+
+  nav .home-link, nav .home-link h1 {
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
+    color: white;
+    text-decoration: none;
+    margin: 0;
+  }
