@@ -34,9 +34,13 @@ public class UnitServiceImpl implements UnitService {
         if (optionalUnit.isPresent()) {
             Unit existingUnit  = optionalUnit.get();
 
-            if (unitDetails.isIs_available()) {
-                existingUnit.setIs_available(unitDetails.isIs_available());
-            }
+            existingUnit.setBed(unitDetails.getBed());
+            existingUnit.setBath(unitDetails.getBath());
+            existingUnit.setRent(unitDetails.getRent());
+            existingUnit.setSize(unitDetails.getSize());
+//            if (unitDetails.isIs_available()) {
+//                existingUnit.setIs_available(unitDetails.isIs_available());
+//            }
             return unitRepository.save(existingUnit);
         }
         return null;    }
