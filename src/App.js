@@ -7,6 +7,8 @@ import Home from "./components/Home";
 
 // LANDLORD COMPONENTS
 import LDashboard from "./components/landlords/LDashboard";
+import CreateNewUser from "./components/landlords/register/CreateNewUser";
+import CreateNewContract from "./components/landlords/register/CreateNewContract";
 
 // TENANT COMPONENTS
 import TDashboard from "./components/tenants/TDashboard";
@@ -22,7 +24,8 @@ function App() {
 
       {/* LANDLORD ROUTES */}
       <Route path="/admin" element={<LDashboard />} />
-
+      <Route path="/register/new-user" element={<CreateNewUser />} />
+      <Route path="/register/new-contract" element={<CreateNewContract />} />
 
       {/* TENANT ROUTES */}
       <Route path="/tenant" element={<TDashboard />} />

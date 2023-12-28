@@ -30,8 +30,8 @@ export default function Login() {
           const jwtToken = response?.data.jwt;
           localStorage.setItem("token", jwtToken);
           localStorage.setItem("id", user.id);
-          localStorage.setItem("username", user.username)
-          localStorage.setItem("role", user.authorities[0].authority)
+          localStorage.setItem("username", user.username);
+          localStorage.setItem("role", user.authorities[0].authority);
 
           return user;
         })
@@ -51,21 +51,21 @@ export default function Login() {
           );
 
           console.log(response.data);
-//           if (response.data) {
-//             response.data.authorities.length > 1
-//               ? navigate("/admin")
-//               : navigate("/tenant");
-//           }
-          if (response.data){
-          const role = response.data.authorities[0].authority;
+          //           if (response.data) {
+          //             response.data.authorities.length > 1
+          //               ? navigate("/admin")
+          //               : navigate("/tenant");
+          //           }
+          if (response.data) {
+            const role = response.data.authorities[0].authority;
 
-          if (role == "LANDLORD"){
-            navigate("/admin")
-          } else if(role == "TENANT"){
-          navigate("/tenant")
-          } else {
-          navigate("/auth/login")
-          }
+            if (role === "LANDLORD") {
+              navigate("/admin");
+            } else if (role === "TENANT") {
+              navigate("/tenant");
+            } else {
+              navigate("/auth/login");
+            }
           }
         });
     } catch (err) {
@@ -77,38 +77,38 @@ export default function Login() {
   return (
     <>
       <nav>
-              <Link to="/" className="home-link">
-                <h1>TenantTracker</h1>
-              </Link>
-              <div className="nav-links">
-                <Link to="/auth/login">Login</Link>
-              </div>
-            </nav>
-            <body className="login-background">
-      <section className="login-section">
-        <form onSubmit={handleSubmit(onSubmit)} className="form-wrapper">
-          <label htmlFor="email">
-            <span>Username: </span>
-            <input
-              type="text"
-              {...register("username", {
-                required: "Required",
-              })}
-            />
-          </label>
-          <label htmlFor="password">
-            <span> Password: </span>
-            <input
-              type="text"
-              {...register("pw", {
-                required: "Required",
-              })}
-            />
-          </label>
-          <button type="submit">Submit</button>
-        </form>
-        {errMsg && <div>{errMsg}</div>}
-        {/* <div className="login-div">
+        <Link to="/" className="home-link">
+          <h1>TenantTracker</h1>
+        </Link>
+        <div className="nav-links">
+          <Link to="/auth/login">Login</Link>
+        </div>
+      </nav>
+      <body className="login-background">
+        <section className="login-section">
+          <form onSubmit={handleSubmit(onSubmit)} className="form-wrapper">
+            <label htmlFor="email">
+              <span>Username: </span>
+              <input
+                type="text"
+                {...register("username", {
+                  required: "Required",
+                })}
+              />
+            </label>
+            <label htmlFor="password">
+              <span> Password: </span>
+              <input
+                type="text"
+                {...register("pw", {
+                  required: "Required",
+                })}
+              />
+            </label>
+            <button type="submit">Submit</button>
+          </form>
+          {errMsg && <div>{errMsg}</div>}
+          {/* <div className="login-div">
           <div>New Here?</div>
           <div>
             <Link className="login-a" to="/auth/signup">
@@ -116,7 +116,7 @@ export default function Login() {
             </Link>
           </div>
         </div> */}
-      </section>
+        </section>
       </body>
     </>
   );
