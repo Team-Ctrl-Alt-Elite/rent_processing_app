@@ -64,6 +64,7 @@ import org.apache.http.auth.AuthenticationException;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.conn.ssl.SSLContextBuilder;
@@ -75,9 +76,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -91,12 +90,12 @@ import java.security.cert.X509Certificate;
 @Controller
 @RequestMapping("/pay")
 public class ProxyController {
+    String username = "k7YfStZ9M6I5DVb1o24QlPnJpK8gu0RX";
+    String password = "V8LK4lYBXWEbakOjfGI6sZ173uFAdgSn";
 
     @PostMapping("/api/v3/transaction")
     public ResponseEntity<String> processPaymentWithApacheHttpClient(@RequestBody String requestBody) {
         String apiUrl = "https://tenant-tracker.chargeover.com/api/v3/transaction?action=pay";
-        String username = "k7YfStZ9M6I5DVb1o24QlPnJpK8gu0RX";
-        String password = "V8LK4lYBXWEbakOjfGI6sZ173uFAdgSn";
 
         try {
             SSLContextBuilder builder = new SSLContextBuilder();
@@ -136,6 +135,58 @@ public class ProxyController {
         } catch (KeyStoreException e) {
             throw new RuntimeException(e);
         } catch (AuthenticationException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    @GetMapping("/api/v3/transaction/{customerId}")
+    public ResponseEntity<String> getTransactionData(@PathVariable String customerId) {
+        String apiUrl = "https://tenant-tracker.chargeover.com/api/v3/transaction?where=customer_id:EQUALS:" + customerId;
+
+
+        try {
+            SSLContextBuilder builder = new SSLContextBuilder();
+            builder.loadTrustMaterial(null, new TrustStrategy() {
+                @Override
+                public boolean isTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+                    return true; // Trust all certificates (not recommended in production)
+                }
+            }); // Trust all certificates (not recommended in production)
+
+            HttpClient httpClient = HttpClients.custom()
+                    .setSSLContext(builder.build())
+                    .setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE)
+                    .build();
+
+            HttpGet request = new HttpGet(apiUrl);
+
+            // Set Basic Authentication header
+            String auth = username + ":" + password;
+            byte[] encodedAuth = java.util.Base64.getEncoder().encode(auth.getBytes());
+            String authHeader = "Basic " + new String(encodedAuth);
+            request.setHeader("Authorization", authHeader);
+            request.setHeader("Accept", "application/json");
+
+            HttpResponse response = httpClient.execute(request);
+
+            // Read the response content
+            BufferedReader reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+            StringBuilder responseBody = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                responseBody.append(line);
+            }
+            System.out.println(reader);
+            return ResponseEntity.ok(responseBody.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error fetching transaction data");
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        } catch (KeyStoreException e) {
+            throw new RuntimeException(e);
+        } catch (KeyManagementException e) {
             throw new RuntimeException(e);
         }
     }
