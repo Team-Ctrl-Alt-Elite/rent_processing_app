@@ -15,12 +15,13 @@ export default function Contracts({ getChildProps }) {
   const [contracts, setContracts] = useState([]);
   const [selectedContract, setSelectedContract] = useState(null);
   const [contractDetails, setContractDetails] = useState(null);
+  const [tenantDetails, setTenantDetails] = useState([]);
   const [filterInput, setFilterInput] = useState("");
   const data = useMemo(() => contracts, [contracts]);
+  const token = localStorage.getItem("token");
   const navigate = useNavigate();
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
     const getAllTenantContracts = async () => {
       try {
         const tenantContracts = await axios.get(
@@ -31,7 +32,7 @@ export default function Contracts({ getChildProps }) {
             },
           }
         );
-        console.log("Tenant Contracts: ", tenantContracts?.data);
+        // console.log("Tenant Contracts: ", tenantContracts?.data);
         setContracts(tenantContracts?.data);
       } catch (err) {
         if (err.response.status === 401) {
@@ -42,9 +43,9 @@ export default function Contracts({ getChildProps }) {
     };
 
     getAllTenantContracts();
-  }, [navigate]);
+  }, [navigate, token]);
 
-  console.log(contracts);
+  // console.log("Contracts: ", contracts);
 
   useEffect(() => {
     // Update unit details when selectedUnit changes
@@ -60,10 +61,32 @@ export default function Contracts({ getChildProps }) {
   }, [contracts, selectedContract]);
 
   useEffect(() => {
-    if (contractDetails !== null && contractDetails !== undefined) {
-      getChildProps(contractDetails);
+    if (selectedContract !== null && selectedContract !== undefined) {
+      console.log(selectedContract.tenant_id);
+      const getTenantData = async () => {
+        try {
+          const response = await axios.get(
+            `http://localhost:8080/tenant/tenantContracts/${selectedContract.tenant_id}`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+              withCredentials: "include",
+            }
+          );
+          console.log("Tenant Details: ", response?.data);
+          setTenantDetails(response?.data);
+        } catch (err) {
+          console.log("Contracts getTenantData Error: ", err);
+        }
+      };
+      getTenantData();
     }
-  }, [getChildProps, contractDetails]);
+  }, [selectedContract, token]);
+
+  // useEffect(() => {
+  //   getChildProps(tenantDetails);
+  // }, [getChildProps, tenantDetails]);
 
   const columns = useMemo(
     () => [
@@ -88,20 +111,23 @@ export default function Contracts({ getChildProps }) {
       {
         Header: "Lease Start Date",
         accessor: "lease_starting_date",
-            Cell: ({ value }) => {
-            // Convert Unix timestamp to milliseconds and create a new Date object
-            const date = new Date(value); // Assuming value is the Unix timestamp
+        Cell: ({ value }) => {
+          // Convert Unix timestamp to milliseconds and create a new Date object
+          const date = new Date(value); // Assuming value is the Unix timestamp
 
-            // Format the date as needed (e.g., YYYY-MM-DD)
-            const formattedDate = date.toLocaleDateString(); // Customize this format as required
+          // Format the date as needed (e.g., YYYY-MM-DD)
+          const formattedDate = date.toLocaleDateString(); // Customize this format as required
 
-            return formattedDate;
-          },
+          return formattedDate;
+        },
       },
       {
         Header: "More Information",
         Cell: ({ row }) => (
-          <button onClick={() => handleContractClick(row.original)} className="ldash-button">
+          <button
+            onClick={() => handleContractClick(row.original)}
+            className="ldash-button"
+          >
             View Details
           </button>
         ),

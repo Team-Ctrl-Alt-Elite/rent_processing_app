@@ -12,6 +12,7 @@ import java.util.Optional;
 public class UnitServiceImpl implements UnitService {
     @Autowired
     private UnitRepository unitRepository;
+
     @Override
     public List<Unit> getAllUnits() {
         return (List<Unit>) unitRepository.findAll();
@@ -32,18 +33,20 @@ public class UnitServiceImpl implements UnitService {
     public Unit updateUnit(int id, Unit unitDetails) {
         Optional<Unit> optionalUnit = unitRepository.findById(id);
         if (optionalUnit.isPresent()) {
-            Unit existingUnit  = optionalUnit.get();
+            Unit existingUnit = optionalUnit.get();
 
+            // if (unitDetails.isIs_available()) {
+            // existingUnit.setIs_available(unitDetails.isIs_available());
+            // }
             existingUnit.setBed(unitDetails.getBed());
             existingUnit.setBath(unitDetails.getBath());
             existingUnit.setRent(unitDetails.getRent());
             existingUnit.setSize(unitDetails.getSize());
-//            if (unitDetails.isIs_available()) {
-//                existingUnit.setIs_available(unitDetails.isIs_available());
-//            }
+            existingUnit.setIs_available(unitDetails.isIs_available());
             return unitRepository.save(existingUnit);
         }
-        return null;    }
+        return null;
+    }
 
     @Override
     public void deleteUnit(int id) {
