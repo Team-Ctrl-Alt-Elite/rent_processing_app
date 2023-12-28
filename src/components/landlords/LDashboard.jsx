@@ -40,7 +40,7 @@ export default function LDashboard() {
           <Link to="/auth/login">Login</Link>
         </div>
       </nav>
-      <body className="ldash-background">
+      <div className="ldash-background">
         <section className="ldash-section">
           <h2>Landlord Dashboard</h2>
           <button
@@ -136,7 +136,7 @@ export default function LDashboard() {
             </div>
           </div>
         </section>
-      </body>
+      </div>
     </>
   );
 }
