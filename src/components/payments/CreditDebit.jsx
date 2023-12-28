@@ -32,7 +32,7 @@ export default function CreditDebit({ rentPayment }) {
 
     let my_data = {
       customer_id: 2,
-      amount: 1000,
+      amount: 4,
       applied_to: [
         {
           invoice_id: 1003,
@@ -50,7 +50,7 @@ export default function CreditDebit({ rentPayment }) {
 
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/v3/transaction",
+        "http://localhost:8080/pay/api/v3/transaction",
         my_data,
         {
           headers: {

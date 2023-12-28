@@ -38,7 +38,7 @@ export default function ACH({ rentPayment }) {
     };
 
     axios
-      .post("http://localhost:8080/api/v3/transaction", my_data, { headers })
+      .post("http://localhost:8080/pay/api/v3/transaction", my_data, { headers })
       .then((response) => {
         console.log(response?.data);
       });

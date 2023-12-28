@@ -64,6 +64,7 @@ public class SecurityConfiguration {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource))
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers("/auth/**").permitAll();
+                    auth.requestMatchers("/pay/**").permitAll();
                     auth.requestMatchers("/landlord/**").hasRole("LANDLORD");
                     auth.requestMatchers("/tenant/**").hasAnyRole("LANDLORD", "TENANT");
                     auth.anyRequest().authenticated();
