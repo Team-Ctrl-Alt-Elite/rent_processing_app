@@ -32,7 +32,10 @@ export default function Login() {
           localStorage.setItem("id", user.id);
           localStorage.setItem("username", user.username);
           localStorage.setItem("role", user.authorities[0].authority);
+<<<<<<< Updated upstream
           localStorage.setItem("name", user.first_name + " " + user.last_name);
+=======
+>>>>>>> Stashed changes
 
           return user;
         })
@@ -62,10 +65,15 @@ export default function Login() {
 
             if (role === "LANDLORD") {
               navigate("/admin");
+<<<<<<< Updated upstream
               window.location.reload();
             } else if (role === "TENANT") {
               navigate("/tenant");
               window.location.reload();
+=======
+            } else if (role === "TENANT") {
+              navigate("/tenant");
+>>>>>>> Stashed changes
             } else {
               navigate("/auth/login");
             }
@@ -79,7 +87,19 @@ export default function Login() {
 
   return (
     <>
+<<<<<<< Updated upstream
       <div className="login-background">
+=======
+      <nav>
+        <Link to="/" className="home-link">
+          <h1>TenantTracker</h1>
+        </Link>
+        <div className="nav-links">
+          <Link to="/auth/login">Login</Link>
+        </div>
+      </nav>
+      <body className="login-background">
+>>>>>>> Stashed changes
         <section className="login-section">
           <form onSubmit={handleSubmit(onSubmit)} className="form-wrapper">
             <label htmlFor="email">
@@ -94,7 +114,11 @@ export default function Login() {
             <label htmlFor="password">
               <span> Password: </span>
               <input
+<<<<<<< Updated upstream
                 type="password"
+=======
+                type="text"
+>>>>>>> Stashed changes
                 {...register("pw", {
                   required: "Required",
                 })}
@@ -102,7 +126,11 @@ export default function Login() {
             </label>
             <button type="submit">Submit</button>
           </form>
+<<<<<<< Updated upstream
           {errMsg && <div className="error">{errMsg}</div>}
+=======
+          {errMsg && <div>{errMsg}</div>}
+>>>>>>> Stashed changes
           {/* <div className="login-div">
           <div>New Here?</div>
           <div>
@@ -112,7 +140,11 @@ export default function Login() {
           </div>
         </div> */}
         </section>
+<<<<<<< Updated upstream
       </div>
+=======
+      </body>
+>>>>>>> Stashed changes
     </>
   );
 }

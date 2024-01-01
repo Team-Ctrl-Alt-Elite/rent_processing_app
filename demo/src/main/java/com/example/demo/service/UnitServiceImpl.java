@@ -54,6 +54,7 @@ public class UnitServiceImpl implements UnitService {
         if (optionalUnit.isPresent()) {
             Unit existingUnit = optionalUnit.get();
 
+<<<<<<< Updated upstream
             // Update only the properties that are present in unitDetails
             if (unitDetails.getBed() != 0) {
                 existingUnit.setBed(unitDetails.getBed());
@@ -73,6 +74,16 @@ public class UnitServiceImpl implements UnitService {
 
             existingUnit.setIs_available(unitDetails.isIs_available());
 
+=======
+            // if (unitDetails.isIs_available()) {
+            // existingUnit.setIs_available(unitDetails.isIs_available());
+            // }
+            existingUnit.setBed(unitDetails.getBed());
+            existingUnit.setBath(unitDetails.getBath());
+            existingUnit.setRent(unitDetails.getRent());
+            existingUnit.setSize(unitDetails.getSize());
+            existingUnit.setIs_available(unitDetails.isIs_available());
+>>>>>>> Stashed changes
             return unitRepository.save(existingUnit);
         }
         return null;

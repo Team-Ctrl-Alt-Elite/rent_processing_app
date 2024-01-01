@@ -9,6 +9,7 @@ import "../../styles/LDashboard.css";
 export default function Contracts({ getChildProps }) {
   const [contracts, setContracts] = useState([]);
   const [selectedContract, setSelectedContract] = useState(null);
+<<<<<<< Updated upstream
   const [tenantDetails, setTenantDetails] = useState(null);
   const data = useMemo(() => contracts, [contracts]);
   const defaultColumn = useMemo(() => {
@@ -17,6 +18,12 @@ export default function Contracts({ getChildProps }) {
     };
   }, []);
 
+=======
+  const [contractDetails, setContractDetails] = useState(null);
+  const [tenantDetails, setTenantDetails] = useState([]);
+  const [filterInput, setFilterInput] = useState("");
+  const data = useMemo(() => contracts, [contracts]);
+>>>>>>> Stashed changes
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
 
@@ -31,6 +38,10 @@ export default function Contracts({ getChildProps }) {
             },
           }
         );
+<<<<<<< Updated upstream
+=======
+        // console.log("Tenant Contracts: ", tenantContracts?.data);
+>>>>>>> Stashed changes
         setContracts(tenantContracts?.data);
       } catch (err) {
         if (err.response.status === 401) {
@@ -43,7 +54,11 @@ export default function Contracts({ getChildProps }) {
     getAllTenantContracts();
   }, [navigate, token]);
 
+<<<<<<< Updated upstream
   console.log("Contracts: ", contracts);
+=======
+  // console.log("Contracts: ", contracts);
+>>>>>>> Stashed changes
 
   useEffect(() => {
     const getTenantData = async () => {
@@ -74,9 +89,38 @@ export default function Contracts({ getChildProps }) {
   }, [selectedContract, token, navigate]);
 
   useEffect(() => {
+<<<<<<< Updated upstream
     if (tenantDetails !== null && tenantDetails !== undefined)
       getChildProps(tenantDetails);
   }, [getChildProps, tenantDetails]);
+=======
+    if (selectedContract !== null && selectedContract !== undefined) {
+      console.log(selectedContract.tenant_id);
+      const getTenantData = async () => {
+        try {
+          const response = await axios.get(
+            `http://localhost:8080/tenant/tenantContracts/${selectedContract.tenant_id}`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+              withCredentials: "include",
+            }
+          );
+          console.log("Tenant Details: ", response?.data);
+          setTenantDetails(response?.data);
+        } catch (err) {
+          console.log("Contracts getTenantData Error: ", err);
+        }
+      };
+      getTenantData();
+    }
+  }, [selectedContract, token]);
+
+  // useEffect(() => {
+  //   getChildProps(tenantDetails);
+  // }, [getChildProps, tenantDetails]);
+>>>>>>> Stashed changes
 
   const columns = useMemo(
     () => [
@@ -102,8 +146,17 @@ export default function Contracts({ getChildProps }) {
         Header: "Lease Start Date",
         accessor: "lease_starting_date",
         Cell: ({ value }) => {
+<<<<<<< Updated upstream
           const date = new Date(value); // Unix timestamp
           const formattedDate = date.toLocaleDateString();
+=======
+          // Convert Unix timestamp to milliseconds and create a new Date object
+          const date = new Date(value); // Assuming value is the Unix timestamp
+
+          // Format the date as needed (e.g., YYYY-MM-DD)
+          const formattedDate = date.toLocaleDateString(); // Customize this format as required
+
+>>>>>>> Stashed changes
           return formattedDate;
         },
       },
@@ -115,7 +168,11 @@ export default function Contracts({ getChildProps }) {
             onClick={() => handleContractClick(row.original)}
             className="ldash-button"
           >
+<<<<<<< Updated upstream
             Download
+=======
+            View Details
+>>>>>>> Stashed changes
           </button>
         ),
       },
