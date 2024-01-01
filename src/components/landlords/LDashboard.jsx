@@ -5,14 +5,39 @@ import Units from "./Units";
 import EditUnit from "./editData/EditUnit";
 import "../../styles/LDashboard.css";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import Footer from "../Footer";
 
 export default function LDashboard() {
+  const [units, setUnits] = useState([]);
   const [isEditMode, setIsEditMode] = useState(false);
   const [activeTab, setActiveTab] = useState("units");
   const [childProps, setChildProps] = useState(null);
-  const role = localStorage.getItem("role");
+  const token = localStorage.getItem("token");
+  const userName = localStorage.getItem("name");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const getAllUnits = async () => {
+      try {
+        const response = await axios.get("http://localhost:8080/unit/all", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          withCredentials: "include",
+        });
+
+        setUnits(response?.data);
+      } catch (err) {
+        if (err.response.status === 401) {
+          navigate("/auth/login");
+        }
+        console.error("Units Component Error: ", err);
+      }
+    };
+
+    getAllUnits();
+  }, [navigate, token]);
 
   const handleTabClick = (tabName) => {
     setActiveTab(tabName);
@@ -24,25 +49,11 @@ export default function LDashboard() {
     setChildProps(props);
   };
 
-  // console.log("Child Props: ", childProps);
-
-  const handleEdit = () => {
-    setIsEditMode(true);
-  };
-
   return (
     <>
-      <nav>
-        <Link to="/" className="home-link">
-          <h1>TenantTracker</h1>
-        </Link>
-        <div className="nav-links">
-          <Link to="/auth/login">Login</Link>
-        </div>
-      </nav>
       <div className="ldash-background">
         <section className="ldash-section">
-          <h2>Landlord Dashboard</h2>
+          <h2>Welcome Back, {userName}</h2>
           <button
             onClick={() => handleTabClick("units")}
             className="ldash-button"
@@ -70,7 +81,13 @@ export default function LDashboard() {
 
           <div className="ldash-modal">
             <div className="ldash-left">
-              {activeTab === "units" && <Units getChildProps={getChildProps} />}
+              {activeTab === "units" && (
+                <Units
+                  getChildProps={getChildProps}
+                  units={units}
+                  setIsEditMode={setIsEditMode}
+                />
+              )}
               {activeTab === "contracts" && (
                 <Contracts getChildProps={getChildProps} />
               )}
@@ -82,19 +99,12 @@ export default function LDashboard() {
               <div className="ldash-div > div">
                 {childProps && activeTab === "units" && (
                   <div>
-                    <button onClick={handleEdit}>Edit</button>
                     {isEditMode && (
                       <EditUnit
                         unitID={childProps.id}
                         isActiveUnit={childProps.is_available}
                       />
                     )}
-                    <h2>Unit Details</h2>
-                    <p>Unit: {childProps.id}</p>
-                    <p>Bed: {childProps.bed}</p>
-                    <p>Bath: {childProps.bath}</p>
-                    <p>Size: {childProps.size} sq. ft.</p>
-                    <p>Monthly Rent: ${childProps.rent}.00</p>
                   </div>
                 )}
                 {childProps && activeTab === "contracts" && (
@@ -136,6 +146,7 @@ export default function LDashboard() {
             </div>
           </div>
         </section>
+        <Footer />
       </div>
     </>
   );

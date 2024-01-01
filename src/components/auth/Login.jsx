@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
 import axios from "axios";
 import "../../styles/LoginSignup.css";
 
@@ -26,12 +25,14 @@ export default function Login() {
           }
         )
         .then((response) => {
+          console.log(response?.data);
           const user = response?.data.user;
           const jwtToken = response?.data.jwt;
           localStorage.setItem("token", jwtToken);
           localStorage.setItem("id", user.id);
           localStorage.setItem("username", user.username);
           localStorage.setItem("role", user.authorities[0].authority);
+          localStorage.setItem("name", user.first_name + " " + user.last_name);
 
           return user;
         })
@@ -61,8 +62,10 @@ export default function Login() {
 
             if (role === "LANDLORD") {
               navigate("/admin");
+              window.location.reload();
             } else if (role === "TENANT") {
               navigate("/tenant");
+              window.location.reload();
             } else {
               navigate("/auth/login");
             }
@@ -76,15 +79,7 @@ export default function Login() {
 
   return (
     <>
-      <nav>
-        <Link to="/" className="home-link">
-          <h1>TenantTracker</h1>
-        </Link>
-        <div className="nav-links">
-          <Link to="/auth/login">Login</Link>
-        </div>
-      </nav>
-      <body className="login-background">
+      <div className="login-background">
         <section className="login-section">
           <form onSubmit={handleSubmit(onSubmit)} className="form-wrapper">
             <label htmlFor="email">
@@ -99,7 +94,7 @@ export default function Login() {
             <label htmlFor="password">
               <span> Password: </span>
               <input
-                type="text"
+                type="password"
                 {...register("pw", {
                   required: "Required",
                 })}
@@ -107,7 +102,7 @@ export default function Login() {
             </label>
             <button type="submit">Submit</button>
           </form>
-          {errMsg && <div>{errMsg}</div>}
+          {errMsg && <div className="error">{errMsg}</div>}
           {/* <div className="login-div">
           <div>New Here?</div>
           <div>
@@ -117,7 +112,7 @@ export default function Login() {
           </div>
         </div> */}
         </section>
-      </body>
+      </div>
     </>
   );
 }

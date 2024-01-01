@@ -12,6 +12,7 @@ import java.util.Optional;
 public class ContractServiceImpl implements ContractService {
     @Autowired
     private ContractRepository contractRepository;
+
     @Override
     public List<Contract> getAllContracts() {
         return (List<Contract>) contractRepository.findAll();

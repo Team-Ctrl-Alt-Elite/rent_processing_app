@@ -35,16 +35,15 @@ public class DemoApplication {
 			Set<Role> roles = new HashSet<>();
 			roles.add(adminRole);
 			SecureUser admin = new SecureUser(1, "landlord@tenanttrack.com", passwordEncode.encode("password"),
-					"landlord", "lastName", "1234567894", roles);
+					"Kavish", "Desai", "1234567894", roles);
 
 			secureUserRepository.save(admin);
 
 			Set<Role> tRoles = new HashSet<>();
 			tRoles.add(tenantRole);
 
-
 			SecureUser tenant = new SecureUser(2, "tenant@tenanttrack.com", passwordEncode.encode("password"),
-					"tenant", "lastName", "9876543210", tRoles);
+					"Bhargavi", "Katta", "9876543210", tRoles);
 
 			secureUserRepository.save(tenant);
 		};

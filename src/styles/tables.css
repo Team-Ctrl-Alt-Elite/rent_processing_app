@@ -1,32 +1,22 @@
-/* .container {
-  padding: 10px;
-} */
-
 table {
-  margin: auto;
-  width: 95%;
   border-collapse: collapse;
-  overflow: hidden;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-  border-radius: 10px;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
 th,
 td {
-  padding: 15px;
+  padding: 2px;
   background-color: rgba(255, 255, 255, 0.8);
 }
 
-th {
-  text-align: center;
-}
-
 thead th {
-  background-color: lightgray;
+  background-color: #cccccca9;
 }
 
 tbody tr:hover {
-  background-color: #e5e5e590;
+  background-color: rgba(241, 239, 239, 0.671);
 }
 
 tbody td {
@@ -34,27 +24,37 @@ tbody td {
   text-align: center;
 }
 
-tbody td:hover:before {
+/* tbody td:hover:before {
   content: "";
   position: absolute;
   left: 0;
   right: 0;
   top: -9999px;
   bottom: -9999px;
-  background-color: #e5e5e587;
+  background-color: #797777a9;
   z-index: -1;
-}
+} */
 
 .th-wrapper {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  width: 100%;
+}
+
+.th-header {
+  display: flex;
   justify-content: center;
+  width: 100%;
+  /* border: 1px solid pink; */
 }
 
 .fa-icon {
   padding: 7px;
 }
 
-/* .thead-input {
-
-} */
+.th-input {
+  border-radius: 5px;
+  margin: 5px 0;
+  padding: 3px;
+  width: 90%;
+}

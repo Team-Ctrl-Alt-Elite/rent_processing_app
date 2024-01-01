@@ -29,20 +29,50 @@ public class UnitServiceImpl implements UnitService {
         return unitRepository.save(unit);
     }
 
+    // @Override
+    // public Unit updateUnit(int id, Unit unitDetails) {
+    // Optional<Unit> optionalUnit = unitRepository.findById(id);
+    // if (optionalUnit.isPresent()) {
+    // Unit existingUnit = optionalUnit.get();
+
+    // // if (unitDetails.isIs_available()) {
+    // // existingUnit.setIs_available(unitDetails.isIs_available());
+    // // }
+    // existingUnit.setBed(unitDetails.getBed());
+    // existingUnit.setBath(unitDetails.getBath());
+    // existingUnit.setRent(unitDetails.getRent());
+    // existingUnit.setSize(unitDetails.getSize());
+    // existingUnit.setIs_available(unitDetails.isIs_available());
+    // return unitRepository.save(existingUnit);
+    // }
+    // return null;
+    // }
+
     @Override
     public Unit updateUnit(int id, Unit unitDetails) {
         Optional<Unit> optionalUnit = unitRepository.findById(id);
         if (optionalUnit.isPresent()) {
             Unit existingUnit = optionalUnit.get();
 
-            // if (unitDetails.isIs_available()) {
-            // existingUnit.setIs_available(unitDetails.isIs_available());
-            // }
-            existingUnit.setBed(unitDetails.getBed());
-            existingUnit.setBath(unitDetails.getBath());
-            existingUnit.setRent(unitDetails.getRent());
-            existingUnit.setSize(unitDetails.getSize());
+            // Update only the properties that are present in unitDetails
+            if (unitDetails.getBed() != 0) {
+                existingUnit.setBed(unitDetails.getBed());
+            }
+
+            if (unitDetails.getBath() != 0) {
+                existingUnit.setBath(unitDetails.getBath());
+            }
+
+            if (unitDetails.getRent() != 0) {
+                existingUnit.setRent(unitDetails.getRent());
+            }
+
+            if (unitDetails.getSize() != 0) {
+                existingUnit.setSize(unitDetails.getSize());
+            }
+
             existingUnit.setIs_available(unitDetails.isIs_available());
+
             return unitRepository.save(existingUnit);
         }
         return null;

@@ -46,6 +46,10 @@ public class ContractController {
     @PostMapping("/add")
     public ResponseEntity<Contract> createContract(@RequestBody Contract contract) {
         Contract createdContract = contractService.createContract(contract);
+
+        // Log the tenant_id to check its value
+        System.out.println("Received tenant_id: " + contract.getTenant_id());
+
         return ResponseEntity.ok(createdContract);
     }
 

@@ -1,81 +1,84 @@
 .login-section {
-    background-color: rgba(190, 190, 190, 0.8);
-    padding: 20px;
-    margin: auto;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-    border-radius: 10px;
-    color: #333;
-    width: 50%;
-    max-width: 750px;
-    transform: translateY(-80px);
-  }
+  background-color: rgba(190, 190, 190, 0.8);
+  padding: 20px;
+  margin: auto;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+  color: #333;
+  width: 50%;
+  max-width: 750px;
+  transform: translateY(-80px);
+}
 
 .login-form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-  }
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
 
 .login-label {
-    margin-bottom: 5px;
-    color: #000000;
-  }
+  margin-bottom: 5px;
+  color: #000000;
+}
 
-  input[type='text'],
-  input[type='password'] {
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #ddd;
-  }
-
-  /* Error Message Styling */
-  .errMessage {
-    color: #ff0000;
-    margin-bottom: 10px;
-  }
+input[type="text"],
+input[type="password"] {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
 
 .login-a {
-    color: #2C3639;
-    text-decoration: none;
-  }
+  color: #2c3639;
+  text-decoration: none;
+}
 
 .login-a:hover {
-    text-decoration: underline;
-  }
+  text-decoration: underline;
+}
 
-  .login-div > div {
-    text-align: center;
-    margin-top: 20px;
-  }
+.login-div > div {
+  text-align: center;
+  margin-top: 20px;
+}
 
-  .login-button {
-    background-color: #3F4E4F;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    margin-right: 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
+.login-button {
+  background-color: #3f4e4f;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin-right: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
 
-  .login-button:hover {
-    background-color: #2C3639;
-  }
+.login-button:hover {
+  background-color: #2c3639;
+}
 
-  .login-button:focus {
-    outline: none;
-    box-shadow: 0 0 3px #2C3639;
-  }
+.login-button:focus {
+  outline: none;
+  box-shadow: 0 0 3px #2c3639;
+}
 
-  .login-background {
-    background-image: url('https://free4kwallpapers.com/uploads/originals/2016/02/15/abu-dhabi-trip-picture-from-friends-apartment-complex-wallpaper.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    height: 100vh;
-    margin: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+.login-background {
+  background-image: url("https://free4kwallpapers.com/uploads/originals/2016/02/15/abu-dhabi-trip-picture-from-friends-apartment-complex-wallpaper.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.error {
+  display: flex;
+  justify-content: center;
+  margin-top: 8px;
+  color: rgb(153, 18, 18);
+  font-weight: 800;
+  font-size: 18px;
+}
