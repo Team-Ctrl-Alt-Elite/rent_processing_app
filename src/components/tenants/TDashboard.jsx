@@ -12,30 +12,37 @@ export default function TDashboard() {
   const userName = localStorage.getItem("name");
 
   return (
-    <section>
-      <h2>Welcome, {userName}!</h2>
-      <button onClick={() => setCounter(0)}>Account Overview</button>
-      <button onClick={() => setCounter(1)}>Payment History</button>
-      {/* <button onClick={() => setCounter(2)}>Payment History</button> */}
+    <>
+      <div className="tdash-background">
+        <section className="tdash-section">
+          <h2>Welcome, {userName}!</h2>
+          <button onClick={() => setCounter(0)} className="tdash-button">
+            Account Overview
+          </button>
+          <button onClick={() => setCounter(1)} className="tdash-button">
+            Payment History
+          </button>
 
-      <div className="tdash-modal">
-        <div className="tdash-left">
-          {counter === 0 && (
-            <div>
-              <AccountOverview tenant={tenant} />
-              <Contract
-                contract={contract}
-                propertyInfo={propertyInfo}
-                landlord={landlord}
-              />
+          <div className="tdash-modal">
+            <div className="tdash-left">
+              {counter === 0 && (
+                <div>
+                  <AccountOverview tenant={tenant} />
+                  <Contract
+                    contract={contract}
+                    propertyInfo={propertyInfo}
+                    landlord={landlord}
+                  />
+                </div>
+              )}
+              {counter === 1 && <History />}
             </div>
-          )}
-          {counter === 1 && <History />}
-        </div>
-        <div className="tdash-right">
-          <PayBill contract={contract} />
-        </div>
+            <div className="tdash-right">
+              <PayBill contract={contract} />
+            </div>
+          </div>
+        </section>
       </div>
-    </section>
+    </>
   );
 }

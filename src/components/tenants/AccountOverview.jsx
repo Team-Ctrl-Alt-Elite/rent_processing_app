@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import AccountEdit from "./AccountEdit";
 import "../../styles/tenants/AccountOverview.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 
 export default function AccountOverview() {
   const [tenant, setTenant] = useState(null);
@@ -35,10 +37,14 @@ export default function AccountOverview() {
 
   return (
     <section className="ao-wrapper">
-      <h3>Account Overview</h3>
+      <div className="ao-header">
+        <h3>Account Overview</h3>
+        <button onClick={handleEdit} className="ao-button">
+          <FontAwesomeIcon icon={faPenToSquare} className="ao-icon" />
+        </button>
+      </div>
       {!isEdit ? (
         <div>
-          <button onClick={handleEdit}>Edit</button>
           {tenant ? (
             <div>
               <p>

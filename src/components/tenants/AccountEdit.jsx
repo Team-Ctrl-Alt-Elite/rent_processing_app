@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import "../../styles/tenants/AccountOverview.css";
+import "../../styles/tenants/AccountEdit.css";
 
 export default function AccountEdit({ setIsEdit, tenant }) {
   const [errMsg, setErrMsg] = useState("");
@@ -50,35 +50,57 @@ export default function AccountEdit({ setIsEdit, tenant }) {
 
   return (
     <section>
-      <div className="register-user">
-        <form onSubmit={handleSubmit(onSubmit)} className="form-wrapper">
-          <label htmlFor="username">
-            <span>Username: </span>
-            <input type="text" {...register("username")} />
+      <form onSubmit={handleSubmit(onSubmit)} className="ae-wrapper">
+        <div className="ae-full-name">
+          <label htmlFor="firstName">
+            <span>First Name: </span>
+            <input
+              type="text"
+              placeholder="ex: John"
+              className="ae-input"
+              {...register("firstName")}
+            />
           </label>
-          <div className="tedit-full-name">
-            <label htmlFor="firstName">
-              <span>First Name: </span>
-              <input type="text" {...register("firstName")} />
-            </label>
-            <label htmlFor="lastName">
-              <span>Last Name: </span>
-              <input type="text" {...register("lastName")} />
-            </label>
-          </div>
+          <label htmlFor="lastName">
+            <span>Last Name: </span>
+            <input
+              type="text"
+              placeholder="ex: Doe"
+              className="ae-input"
+              {...register("lastName")}
+            />
+          </label>
+        </div>
+        <div className="ae-email-phone">
+          <label htmlFor="username">
+            <span>Username/Email: </span>
+            <input
+              type="text"
+              placeholder="ex: johndoe@email.com"
+              className="ae-input"
+              {...register("username")}
+            />
+          </label>
           <label htmlFor="phone">
             <span>Phone Number: </span>
             <input
               type="text"
               placeholder="ex: 0120120123"
+              className="ae-input"
               {...register("phone")}
             />
           </label>
-          <button onClick={handleCancelEdit}>Cancel</button>
-          <button type="submit">Submit</button>
-        </form>
-        {errMsg && <div>{errMsg}</div>}
-      </div>
+        </div>
+        <div className="ae-buttons">
+          <button onClick={handleCancelEdit} className="ae-button">
+            Cancel
+          </button>
+          <button type="submit" className="ae-button">
+            Submit
+          </button>
+        </div>
+      </form>
+      {errMsg && <div>{errMsg}</div>}
     </section>
   );
 }

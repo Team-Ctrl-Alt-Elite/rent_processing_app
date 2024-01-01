@@ -1,3 +1,11 @@
+.ldash-background {
+  background-image: url("https://free4kwallpapers.com/uploads/originals/2016/02/15/abu-dhabi-trip-picture-from-friends-apartment-complex-wallpaper.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 90vh;
+}
+
 .ldash-modal {
   display: flex;
   /* justify-content: space-around; */
@@ -95,13 +103,4 @@
 .ldash-button:focus {
   outline: none;
   box-shadow: 0 0 3px #2c3639;
-}
-
-.ldash-background {
-  background-image: url("https://free4kwallpapers.com/uploads/originals/2016/02/15/abu-dhabi-trip-picture-from-friends-apartment-complex-wallpaper.jpg");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  height: -65px;
-  margin: 0;
 }

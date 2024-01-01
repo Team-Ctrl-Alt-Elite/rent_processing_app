@@ -37,34 +37,24 @@ export default function Contract({ contract }) {
       <h3>Contract Information</h3>
       {contractList.length > 0 ? (
         contractList.map((contractInfo) => (
-          <div key={contractInfo.contract_id}>
-            <p>Contract ID: {contractInfo.contract_id}</p>
-            <p>Tenant ID: {contractInfo.tenant_Id}</p>
-            <p>Unit: {contractInfo.unit}</p>
-            <p>Monthly Rent: ${contractInfo.monthly_rent}.00</p>
-            <p>
-              Lease Start Date: {formatDate(contractInfo.lease_starting_date)}
-            </p>
-            <p>
-              Lease End Date:{" "}
-              {contractInfo.lease_ending_on
-                ? formatDate(contractInfo.lease_ending_on)
-                : "N/A"}
-            </p>
-            {/* <p>
-                       Tenant Name: {contractInfo.Tenant_first_name}{" "}
-                       {contractInfo.Tenant_last_name}
-                     </p> */}
-            {/* <p>
-              Phone Number:{" "}
-              {`${contractInfo.Tenant_phonenumber.substring(
-                0,
-                3
-              )}-${contractInfo.Tenant_phonenumber.substring(
-                3,
-                6
-              )}-${contractInfo.Tenant_phonenumber.substring(6)}`}
-            </p> */}
+          <div key={contractInfo.contract_id} className="contract-info-wrapper">
+            <div className="contract-child-1">
+              <p>Contract ID: {contractInfo.contract_id}</p>
+              <p>Tenant ID: {contractInfo.tenant_Id}</p>
+              <p>Unit: #{contractInfo.unit}</p>
+            </div>
+            <div className="contract-child-2">
+              <p>Monthly Rent: ${contractInfo.monthly_rent}.00</p>
+              <p>
+                Lease Start Date: {formatDate(contractInfo.lease_starting_date)}
+              </p>
+              <p>
+                Lease End Date:{" "}
+                {contractInfo.lease_ending_on
+                  ? formatDate(contractInfo.lease_ending_on)
+                  : "N/A"}
+              </p>
+            </div>
           </div>
         ))
       ) : (
