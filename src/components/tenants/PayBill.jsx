@@ -4,6 +4,7 @@ import "../../styles/forms.css";
 import CreditDebit from "../payments/CreditDebit";
 import ACH from "../payments/ACH";
 import { getPayMonth, getPayYear } from "../../utils/payPeriod";
+import "../../styles/tenants/pay/PayBill.css";
 
 export default function PayBill({ contract }) {
   const [selectedPayment, setSelectedPayment] = useState("");
@@ -16,8 +17,8 @@ export default function PayBill({ contract }) {
   };
 
   return (
-    <section>
-      <h3 className="form-header">Pay Your Bill</h3>
+    <section className="bill-wrapper">
+      <h3 className="bill-header">Pay Your Bill</h3>
 
       <fieldset>
         <legend>
@@ -36,17 +37,19 @@ export default function PayBill({ contract }) {
         </div>
       </fieldset>
 
-      <label>
-        Select Payment Method:
-        <select value={selectedPayment} onChange={handleDropdownChange}>
-          <option value="">-- Payment Options --</option>
-          {paymentMethods.map((payment, i) => (
-            <option key={i} value={payment}>
-              {payment}
-            </option>
-          ))}
-        </select>
-      </label>
+      <div className="contract-pay-method">
+        <label>
+          Select Payment Method:
+          <select value={selectedPayment} onChange={handleDropdownChange}>
+            <option value="">-- Payment Options --</option>
+            {paymentMethods.map((payment, i) => (
+              <option key={i} value={payment}>
+                {payment}
+              </option>
+            ))}
+          </select>
+        </label>
+      </div>
       <div>
         {selectedPayment === "ACH/eCheck" ? (
           <ACH rentPayment={rentPayment} />
@@ -55,7 +58,7 @@ export default function PayBill({ contract }) {
         )}
       </div>
       <p>
-        <i className="form-footer">Rent is due on the 1st of every month!</i>
+        <i className="bill-footer">Rent is due on the 1st of every month!</i>
       </p>
     </section>
   );

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import AccountEdit from "./AccountEdit";
+import Footer from "../Footer";
 import "../../styles/tenants/AccountOverview.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
@@ -36,41 +37,44 @@ export default function AccountOverview() {
   };
 
   return (
-    <section className="ao-wrapper">
-      <div className="ao-header">
-        <h3>Account Overview</h3>
-        <button onClick={handleEdit} className="ao-button">
-          <FontAwesomeIcon icon={faPenToSquare} className="ao-icon" />
-        </button>
-      </div>
-      {!isEdit ? (
-        <div>
-          {tenant ? (
-            <div>
-              <p>
-                Name: {tenant.first_name} {tenant.last_name}
-              </p>
-              <p>Username: {tenant.username}</p>
-              <p>
-                Phone Number:{" "}
-                {tenant.phone_number
-                  ? `${tenant.phone_number.substring(
-                      0,
-                      3
-                    )}-${tenant.phone_number.substring(
-                      3,
-                      6
-                    )}-${tenant.phone_number.substring(6)}`
-                  : "Please Update Phone Number"}
-              </p>
-            </div>
-          ) : (
-            <p>Loading Account Information...</p>
-          )}
+    <>
+      <section className="ao-wrapper">
+        <div className="ao-header">
+          <h3>Account Overview</h3>
+          <button onClick={handleEdit} className="ao-button">
+            <FontAwesomeIcon icon={faPenToSquare} className="ao-icon" />
+          </button>
         </div>
-      ) : (
-        <AccountEdit setIsEdit={setIsEdit} tenant={tenant} />
-      )}
-    </section>
+        {!isEdit ? (
+          <div>
+            {tenant ? (
+              <div>
+                <p>
+                  Name: {tenant.first_name} {tenant.last_name}
+                </p>
+                <p>Username: {tenant.username}</p>
+                <p>
+                  Phone Number:{" "}
+                  {tenant.phone_number
+                    ? `${tenant.phone_number.substring(
+                        0,
+                        3
+                      )}-${tenant.phone_number.substring(
+                        3,
+                        6
+                      )}-${tenant.phone_number.substring(6)}`
+                    : "Please Update Phone Number"}
+                </p>
+              </div>
+            ) : (
+              <p>Loading Account Information...</p>
+            )}
+          </div>
+        ) : (
+          <AccountEdit setIsEdit={setIsEdit} tenant={tenant} />
+        )}
+      </section>
+      <Footer />
+    </>
   );
 }
