@@ -1,11 +1,29 @@
 .ao-wrapper {
   /* text-align: center; */
   background-color: rgba(255, 255, 255, 0.8);
-  padding: 20px;
-  margin: 5px 10px 15px 10px;
+  padding: 10px 20px;
+  margin: 12px 10px 10px 0px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
   border-radius: 10px;
   color: #333;
   align-items: center;
   color: black;
+}
+
+.ao-header {
+  display: flex;
+}
+
+.ao-button {
+  all: unset;
+  margin-left: 15px;
+  cursor: pointer;
+}
+
+.ao-icon {
+  font-size: 20px;
+}
+
+.ao-icon:hover {
+  color: #444444;
 }

@@ -101,7 +101,7 @@ export default function LDashboard() {
                   <div>
                     {isEditMode && (
                       <EditUnit
-                        unitID={childProps.id}
+                        unit={childProps}
                         isActiveUnit={childProps.is_available}
                       />
                     )}

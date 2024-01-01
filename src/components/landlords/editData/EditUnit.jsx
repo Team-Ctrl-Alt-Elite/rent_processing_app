@@ -2,10 +2,9 @@ import { useForm, Controller } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import "../../../styles/LDashboard.css";
 import "../../../styles/EditUnit.css";
-// import "../../../styles/forms.css";
 import axios from "axios";
 
-export default function EditUnit({ unitID, isActiveUnit }) {
+export default function EditUnit({ unit, isActiveUnit }) {
   const token = localStorage.getItem("token");
   const { register, handleSubmit, control } = useForm({
     defaultValues: { available: isActiveUnit },
@@ -16,12 +15,12 @@ export default function EditUnit({ unitID, isActiveUnit }) {
     const { bed, bath, size, rent, available } = values;
     try {
       const response = await axios.put(
-        `http://localhost:8080/unit/${unitID}`,
+        `http://localhost:8080/unit/${unit.id}`,
         {
-          bed,
-          bath,
-          size,
-          rent,
+          bed: bed || unit.bed,
+          bath: bath || unit.bath,
+          size: size || unit.size,
+          rent: rent || unit.rent,
           is_available: available,
         },
         {
@@ -46,7 +45,7 @@ export default function EditUnit({ unitID, isActiveUnit }) {
 
   return (
     <section className="eu-wrapper">
-      <h3>Edit Unit #{unitID}</h3>
+      <h3>Edit Unit #{unit.id}</h3>
       <form onSubmit={handleSubmit(onSubmit)} className="eu-form-wrapper">
         <label htmlFor="bed">
           <span>Bed: </span>
