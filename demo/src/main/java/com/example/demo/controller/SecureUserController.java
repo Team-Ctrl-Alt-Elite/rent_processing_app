@@ -28,6 +28,7 @@ public class SecureUserController {
         List<Object[]> result = secureUserRepository.findAllLandlordContracts();
         return ResponseEntity.ok(result);
     }
+
     @GetMapping("/tenantContracts/{id}")
     public ResponseEntity<List<Map<String, Object>>> getTenantContracts(@PathVariable Integer id) {
         // Call the repository method that executes the custom query
@@ -53,6 +54,7 @@ public class SecureUserController {
         }
         return ResponseEntity.ok(transformedResult);
     }
+
     @PostMapping("/signIn")
     public String helloUserController() {
 

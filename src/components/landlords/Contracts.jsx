@@ -1,23 +1,22 @@
 import { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSortBy, useTable, useFilters } from "react-table";
+import Table from "../tables/Table";
+import ColumnFilter from "../tables/ColumnFilter";
 import axios from "axios";
 import "../../styles/LDashboard.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSort } from "@fortawesome/free-solid-svg-icons";
-
-/* LANDLORD DASHBOARD FOR CONTRACTS:
-1. Landlord should be able to see the contracts for every tenant on the property
-2. Landlord should be able to see more information about each contract when clicked
-*/
 
 export default function Contracts({ getChildProps }) {
   const [contracts, setContracts] = useState([]);
   const [selectedContract, setSelectedContract] = useState(null);
-  const [contractDetails, setContractDetails] = useState(null);
-  const [tenantDetails, setTenantDetails] = useState([]);
-  const [filterInput, setFilterInput] = useState("");
+  const [tenantDetails, setTenantDetails] = useState(null);
   const data = useMemo(() => contracts, [contracts]);
+  const defaultColumn = useMemo(() => {
+    return {
+      Filter: ColumnFilter,
+    };
+  }, []);
+
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
 
@@ -32,7 +31,6 @@ export default function Contracts({ getChildProps }) {
             },
           }
         );
-        // console.log("Tenant Contracts: ", tenantContracts?.data);
         setContracts(tenantContracts?.data);
       } catch (err) {
         if (err.response.status === 401) {
@@ -45,26 +43,14 @@ export default function Contracts({ getChildProps }) {
     getAllTenantContracts();
   }, [navigate, token]);
 
-  // console.log("Contracts: ", contracts);
+  console.log("Contracts: ", contracts);
 
   useEffect(() => {
-    // Update unit details when selectedUnit changes
-    if (selectedContract !== null && selectedContract !== undefined) {
-      // Find the selected unit details from the units array
-      const selectedContractDetails = contracts.find(
-        (contract) => contract.id === selectedContract.id
-      );
+    const getTenantData = async () => {
+      console.log("selected contract: ", selectedContract);
 
-      // Update the state with the selected unit details
-      setContractDetails(selectedContractDetails);
-    }
-  }, [contracts, selectedContract]);
-
-  useEffect(() => {
-    if (selectedContract !== null && selectedContract !== undefined) {
-      console.log(selectedContract.tenant_id);
-      const getTenantData = async () => {
-        try {
+      try {
+        if (selectedContract !== null && selectedContract !== undefined) {
           const response = await axios.get(
             `http://localhost:8080/tenant/tenantContracts/${selectedContract.tenant_id}`,
             {
@@ -76,17 +62,21 @@ export default function Contracts({ getChildProps }) {
           );
           console.log("Tenant Details: ", response?.data);
           setTenantDetails(response?.data);
-        } catch (err) {
-          console.log("Contracts getTenantData Error: ", err);
         }
-      };
-      getTenantData();
-    }
-  }, [selectedContract, token]);
+      } catch (err) {
+        if (err.response.status === 401) {
+          navigate("/auth/login");
+        }
+        console.log("Contracts getTenantData Error: ", err);
+      }
+    };
+    getTenantData();
+  }, [selectedContract, token, navigate]);
 
-  // useEffect(() => {
-  //   getChildProps(tenantDetails);
-  // }, [getChildProps, tenantDetails]);
+  useEffect(() => {
+    if (tenantDetails !== null && tenantDetails !== undefined)
+      getChildProps(tenantDetails);
+  }, [getChildProps, tenantDetails]);
 
   const columns = useMemo(
     () => [
@@ -112,23 +102,20 @@ export default function Contracts({ getChildProps }) {
         Header: "Lease Start Date",
         accessor: "lease_starting_date",
         Cell: ({ value }) => {
-          // Convert Unix timestamp to milliseconds and create a new Date object
-          const date = new Date(value); // Assuming value is the Unix timestamp
-
-          // Format the date as needed (e.g., YYYY-MM-DD)
-          const formattedDate = date.toLocaleDateString(); // Customize this format as required
-
+          const date = new Date(value); // Unix timestamp
+          const formattedDate = date.toLocaleDateString();
           return formattedDate;
         },
       },
       {
         Header: "More Information",
+        disableFilters: true,
         Cell: ({ row }) => (
           <button
             onClick={() => handleContractClick(row.original)}
             className="ldash-button"
           >
-            View Details
+            Download
           </button>
         ),
       },
@@ -136,87 +123,29 @@ export default function Contracts({ getChildProps }) {
     []
   );
 
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    prepareRow,
-    setFilter,
-  } = useTable(
-    {
-      columns,
-      data,
-    },
-    useFilters,
-    useSortBy
-  );
-
-  const handleFilter = (e) => {
-    const value = e.target.value || undefined;
-    setFilter("payment_date", value);
-    setFilterInput(value);
-  };
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
+    useTable(
+      {
+        columns,
+        data,
+        defaultColumn,
+      },
+      useFilters,
+      useSortBy
+    );
 
   const handleContractClick = (contract) => {
-    console.log("Selected Contract:", contract);
     if (contract !== null && contract !== undefined)
       setSelectedContract(contract);
   };
 
   return (
-    <section className="container">
-      {/* <h3>Contracts</h3> */}
-      <div>
-        <input
-          type="text"
-          value={filterInput}
-          onChange={handleFilter}
-          placeholder="Search"
-          className="thead-input"
-        />
-        <table {...getTableProps()}>
-          <thead>
-            {headerGroups.map((headerGroup) => (
-              <tr {...headerGroup.getHeaderGroupProps()}>
-                {headerGroup.headers.map((column) => (
-                  <th
-                    {...column.getHeaderProps(column.getSortByToggleProps())}
-                    className={
-                      column.isSorted
-                        ? column.isSortedDesc
-                          ? "sort-desc"
-                          : "sort-asc"
-                        : ""
-                    }
-                  >
-                    <div className="th-wrapper">
-                      {column.render("Header")}
-                      <FontAwesomeIcon
-                        icon={faSort}
-                        size="xs"
-                        className="fa-icon"
-                      />
-                    </div>
-                  </th>
-                ))}
-              </tr>
-            ))}
-          </thead>
-          <tbody {...getTableBodyProps()}>
-            {rows.map((row) => {
-              prepareRow(row);
-              return (
-                <tr {...row.getRowProps()}>
-                  {row.cells.map((cell) => (
-                    <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
-                  ))}
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
-    </section>
+    <Table
+      getTableProps={getTableProps}
+      getTableBodyProps={getTableBodyProps}
+      headerGroups={headerGroups}
+      rows={rows}
+      prepareRow={prepareRow}
+    />
   );
 }

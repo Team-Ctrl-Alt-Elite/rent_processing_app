@@ -29,6 +29,25 @@ public class UnitServiceImpl implements UnitService {
         return unitRepository.save(unit);
     }
 
+    // @Override
+    // public Unit updateUnit(int id, Unit unitDetails) {
+    // Optional<Unit> optionalUnit = unitRepository.findById(id);
+    // if (optionalUnit.isPresent()) {
+    // Unit existingUnit = optionalUnit.get();
+
+    // // if (unitDetails.isIs_available()) {
+    // // existingUnit.setIs_available(unitDetails.isIs_available());
+    // // }
+    // existingUnit.setBed(unitDetails.getBed());
+    // existingUnit.setBath(unitDetails.getBath());
+    // existingUnit.setRent(unitDetails.getRent());
+    // existingUnit.setSize(unitDetails.getSize());
+    // existingUnit.setIs_available(unitDetails.isIs_available());
+    // return unitRepository.save(existingUnit);
+    // }
+    // return null;
+    // }
+
     @Override
     public Unit updateUnit(int id, Unit unitDetails) {
         Optional<Unit> optionalUnit = unitRepository.findById(id);

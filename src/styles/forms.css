@@ -7,20 +7,29 @@
 .form-wrapper {
   display: flex;
   flex-direction: column;
+  width: 50%;
+  margin: auto;
   gap: 15px;
   align-items: center;
+  border: 1px solid red;
 }
 
-input[type='text'],
-  input[type='password'] {
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #ddd;
-  }
+input[type="text"],
+input[type="password"] {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+
+.form-wrapper h2 {
+  color: whitesmoke;
+}
 
 .form-wrapper > label {
   display: flex;
-  /* border: 1px solid pink; */
+  border: 1px solid pink;
+  font-size: 19px;
+  width: 95%;
   align-items: center;
   justify-content: space-between;
 }
@@ -29,23 +38,28 @@ input[type='text'],
   /* border: 1px solid blue; */
   width: 30%;
   margin-right: 10px;
-  overflow: visible;
+  /* overflow: visible; */
 }
 
 .form-wrapper > label > input {
-  padding: 4px;
+  padding: 5px;
   margin: 5px;
-  width: 70%;
+  width: 55%;
+  font-size: 17px;
 }
 
-.form-wrapper > button {
-  background-color: #3F4E4F;
+.form-wrapper button {
+  margin: 5px auto;
+  background-color: #3f4e4f;
   color: white;
   border: none;
-  padding: 10px 20px;
-  margin-right: 10px;
-  border-radius: 5px;
+  padding: 9px 5px;
+  border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  width: 30%;
 }
 
+.form-wrapper button:hover {
+  background-color: #2b3536;
+  transition: 0.5s;
+}
