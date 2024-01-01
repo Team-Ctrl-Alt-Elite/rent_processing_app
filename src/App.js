@@ -31,21 +31,10 @@ function App() {
         <Route path="/register/new-user" element={<CreateNewUser />} />
         <Route path="/register/new-contract" element={<CreateNewContract />} />
 
-<<<<<<< Updated upstream
         {/* TENANT ROUTES */}
         <Route path="/tenant" element={<TDashboard />} />
       </Routes>
     </>
-=======
-      {/* LANDLORD ROUTES */}
-      <Route path="/admin" element={<LDashboard />} />
-      <Route path="/register/new-user" element={<CreateNewUser />} />
-      <Route path="/register/new-contract" element={<CreateNewContract />} />
-
-      {/* TENANT ROUTES */}
-      <Route path="/tenant" element={<TDashboard />} />
-    </Routes>
->>>>>>> Stashed changes
   );
 }
 
