@@ -23,9 +23,8 @@
 }
 
 .tdash-right {
-  padding: 5px;
   width: 40%;
-  border: 1px solid green;
+  /* border: 1px solid green; */
 }
 
 .tdash-button {

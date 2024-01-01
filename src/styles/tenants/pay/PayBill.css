@@ -1,0 +1,25 @@
+.bill-wrapper {
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 8px 20px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+  color: #333;
+  align-items: center;
+  color: black;
+  height: 50vh;
+}
+
+.bill-header,
+.bill-footer {
+  display: flex;
+  justify-content: center;
+}
+
+.contract-pay-method {
+  padding: 5px;
+}
+
+.contract-pay-method select {
+  margin: 5px 10px;
+  font-size: 15px;
+}

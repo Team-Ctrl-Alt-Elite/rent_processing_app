@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
+import "../../styles/tenants/pay/CreditDebit.css";
 
 // Valid CC number:
 // "number": "4111 1111 1111 1111",
@@ -28,7 +29,7 @@ export default function CreditDebit({ rentPayment }) {
 
   const onSubmit = async (values) => {
     console.log("submitted:", values);
-    const { fullName, cardNumber, expM, expY, securityCode } = values;
+    const { cardNumber, expM, expY, securityCode } = values;
 
     let my_data = {
       customer_id: 2,
@@ -89,47 +90,55 @@ export default function CreditDebit({ rentPayment }) {
   };
   return (
     <section>
-      <form onSubmit={handleSubmit(onSubmit)} className="form-wrapper">
-        <label>
-          <span>Full Name: </span>
-          <input
-            // required
-            type="text"
-            {...register("fullName", {
-              required: "Required",
-            })}
-          />
-        </label>
+      <form onSubmit={handleSubmit(onSubmit)} className="card-wrapper">
         <label>
           <span>Card Number: </span>
-          <input
-            required
-            type="text"
-            {...register("cardNumber", {
-              required: "Required",
-            })}
-          />
+          <div className="card-num">
+            <input
+              required
+              type="text"
+              placeholder="4111 1111 1111 1111"
+              className="card-num-input"
+              {...register("cardNumber", {
+                required: "Required",
+              })}
+            />
+          </div>
         </label>
         <label>
-          <span>Exp: </span>
-          <input
-            required
-            type="text"
-            placeholder="Month"
-            {...register("expM")}
-          />
-          <input
-            required
-            type="text"
-            placeholder="Year"
-            {...register("expY")}
-          />
+          <span>Exp Date: </span>
+          <div className="card-num">
+            <input
+              required
+              type="text"
+              className="card-exp-input"
+              placeholder="Month"
+              {...register("expM")}
+            />
+            <input
+              required
+              type="text"
+              className="card-exp-input"
+              placeholder="Year"
+              {...register("expY")}
+            />
+          </div>
         </label>
         <label>
           <span>Security Code: </span>
-          <input required type="text" {...register("securityCode")} />
+          <div className="card-num">
+            <input
+              required
+              type="text"
+              placeholder="123"
+              className="card-exp-input"
+              {...register("securityCode")}
+            />
+          </div>
         </label>
-        <button type="submit">Submit</button>
+        <button type="submit" className="bill-button">
+          Submit
+        </button>
       </form>
       {paymentError && <div>{paymentError}</div>}
     </section>
