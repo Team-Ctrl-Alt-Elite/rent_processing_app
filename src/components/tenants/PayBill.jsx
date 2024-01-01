@@ -33,7 +33,7 @@ export default function PayBill({ contract }) {
             value={contract.monthly_rent}
             defaultChecked
           />
-          <label>Total Rent: ${contract.monthly_rent.toFixed(2)}</label>
+          <label>Total Due: ${contract.monthly_rent.toFixed(2)}</label>
         </div>
       </fieldset>
 

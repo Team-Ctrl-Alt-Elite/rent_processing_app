@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
+import "../../styles/tenants/pay/ACH.css";
 
 /* Valid ACH Info:
   "type": "chec",
   "number": "856667",
-  "routing": "072403004",
+  "routing": "072403004"
   "name": "Jane Doe"
 */
 
@@ -38,7 +39,9 @@ export default function ACH({ rentPayment }) {
     };
 
     axios
-      .post("http://localhost:8080/pay/api/v3/transaction", my_data, { headers })
+      .post("http://localhost:8080/pay/api/v3/transaction", my_data, {
+        headers,
+      })
       .then((response) => {
         console.log(response?.data);
       });
@@ -58,12 +61,13 @@ export default function ACH({ rentPayment }) {
   };
   return (
     <section>
-      <form onSubmit={handleSubmit(onSubmit)} className="form-wrapper">
+      <form onSubmit={handleSubmit(onSubmit)} className="ach-wrapper">
         <label>
           <span>Full Name: </span>
           <input
             // required
             type="text"
+            placeholder="ex: Jane Doe"
             {...register("fullName", {
               required: "Required",
             })}
@@ -74,6 +78,7 @@ export default function ACH({ rentPayment }) {
           <input
             required
             type="text"
+            placeholder="ex: 856667"
             {...register("accountNum", {
               required: "Required",
             })}
@@ -81,9 +86,16 @@ export default function ACH({ rentPayment }) {
         </label>
         <label>
           <span>Routing Number: </span>
-          <input required type="text" {...register("routingNum")} />
+          <input
+            required
+            type="text"
+            placeholder="ex: 072403004"
+            {...register("routingNum")}
+          />
         </label>
-        <button type="submit">Submit</button>
+        <button type="submit" className="bill-button">
+          Submit
+        </button>
       </form>
       {paymentError && <div>{paymentError}</div>}
     </section>

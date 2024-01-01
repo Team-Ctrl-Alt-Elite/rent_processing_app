@@ -3,6 +3,7 @@ import { useSortBy, useTable, useFilters } from "react-table";
 import { tenantPaymentHistory } from "../../dummyData";
 import Table from "../tables/Table";
 import ColumnFilter from "../tables/ColumnFilter";
+import Footer from "../Footer";
 import "../../styles/tables.css";
 
 export default function History() {
@@ -54,12 +55,15 @@ export default function History() {
     useTable({ columns, data, defaultColumn }, useFilters, useSortBy);
 
   return (
-    <Table
-      getTableProps={getTableProps}
-      getTableBodyProps={getTableBodyProps}
-      headerGroups={headerGroups}
-      rows={rows}
-      prepareRow={prepareRow}
-    />
+    <>
+      <Table
+        getTableProps={getTableProps}
+        getTableBodyProps={getTableBodyProps}
+        headerGroups={headerGroups}
+        rows={rows}
+        prepareRow={prepareRow}
+      />
+      <Footer />
+    </>
   );
 }
