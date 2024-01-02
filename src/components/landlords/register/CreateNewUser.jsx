@@ -4,7 +4,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
-import "../../../styles/CreateUser.css";
+import "../../../styles/landlord/register/Create.css";
 
 export default function CreateNewUser() {
   const [errMsg, setErrMsg] = useState("");
