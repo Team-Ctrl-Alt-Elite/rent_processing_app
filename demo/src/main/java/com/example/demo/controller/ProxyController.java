@@ -138,6 +138,55 @@ public class ProxyController {
             throw new RuntimeException(e);
         }
     }
+    @GetMapping("/api/v3/transaction/all")
+    public ResponseEntity<String> getAllTransactions() {
+        String apiUrl = "https://tenant-tracker.chargeover.com/api/v3/transaction";
+
+        try {
+            SSLContextBuilder builder = new SSLContextBuilder();
+            builder.loadTrustMaterial(null, new TrustStrategy() {
+                @Override
+                public boolean isTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+                    return true; // Trust all certificates (not recommended in production)
+                }
+            }); // Trust all certificates (not recommended in production)
+
+            HttpClient httpClient = HttpClients.custom()
+                    .setSSLContext(builder.build())
+                    .setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE)
+                    .build();
+
+            HttpGet request = new HttpGet(apiUrl);
+
+            // Set Basic Authentication header
+            String auth = username + ":" + password;
+            byte[] encodedAuth = java.util.Base64.getEncoder().encode(auth.getBytes());
+            String authHeader = "Basic " + new String(encodedAuth);
+            request.setHeader("Authorization", authHeader);
+            request.setHeader("Accept", "application/json");
+
+            HttpResponse response = httpClient.execute(request);
+
+            // Read the response content
+            BufferedReader reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+            StringBuilder responseBody = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                responseBody.append(line);
+            }
+            System.out.println(reader);
+            return ResponseEntity.ok(responseBody.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error fetching transaction data");
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        } catch (KeyStoreException e) {
+            throw new RuntimeException(e);
+        } catch (KeyManagementException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 
     @GetMapping("/api/v3/transaction/{customerId}")
@@ -190,4 +239,6 @@ public class ProxyController {
             throw new RuntimeException(e);
         }
     }
+
+
 }
