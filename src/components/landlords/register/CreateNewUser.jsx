@@ -48,56 +48,60 @@ export default function CreateNewUser() {
 
   return (
     <section>
+      <div className="create-background">
       <Link to="/admin" className="return-link">
+        <span className="return-content">
         <FontAwesomeIcon icon={faChevronLeft} className="return-icon" />
         <span>Return</span>
+        </span>
       </Link>
-      <div className="register-user">
-        <form onSubmit={handleSubmit(onSubmit)} className="form-wrapper">
-          <h2>Register New User:</h2>
-          <label htmlFor="email">
-            <span>Username: </span>
-            <input
-              type="text"
-              required
-              {...register("username", {
-                required: "Required",
-              })}
-            />
-          </label>
-          <label htmlFor="password">
-            <span> Password: </span>
-            <input
-              type="text"
-              required
-              {...register("pw", {
-                required: "Required",
-              })}
-            />
-          </label>
-          <label htmlFor="firstName">
-            <span>First Name: </span>
-            <input
-              type="text"
-              required
-              {...register("firstName", {
-                required: "Required",
-              })}
-            />
-          </label>
-          <label htmlFor="lastName">
-            <span>Last Name: </span>
-            <input
-              required
-              type="text"
-              {...register("lastName", {
-                required: "Required",
-              })}
-            />
-          </label>
-          <button type="submit">Next</button>
-        </form>
-        {errMsg && <div>{errMsg}</div>}
+        <div className="register-user">
+          <form onSubmit={handleSubmit(onSubmit)} className="create-form">
+            <h2>Register New User:</h2>
+            <label htmlFor="email">
+              <span>Username: </span>
+              <input
+                type="text"
+                required
+                {...register("username", {
+                  required: "Required",
+                })}
+              />
+            </label>
+            <label htmlFor="password">
+              <span> Password: </span>
+              <input
+                type="text"
+                required
+                {...register("pw", {
+                  required: "Required",
+                })}
+              />
+            </label>
+            <label htmlFor="firstName">
+              <span>First Name: </span>
+              <input
+                type="text"
+                required
+                {...register("firstName", {
+                  required: "Required",
+                })}
+              />
+            </label>
+            <label htmlFor="lastName">
+              <span>Last Name: </span>
+              <input
+                required
+                type="text"
+                {...register("lastName", {
+                  required: "Required",
+                })}
+              />
+            </label>
+            <button type="submit">Next</button>
+          </form>
+          {errMsg && <div>{errMsg}</div>}
+        </div>
       </div>
     </section>
   );

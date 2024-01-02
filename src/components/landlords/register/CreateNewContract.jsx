@@ -136,11 +136,14 @@ export default function CreateNewContract() {
 
   return (
     <section>
+    <div className="create-background">
       <Link to="/admin" className="return-link">
+        <span className="return-content">
         <FontAwesomeIcon icon={faChevronLeft} className="return-icon" />
         <span>Return</span>
+        </span>
       </Link>
-      <form onSubmit={handleSubmit(onSubmit)} className="form-wrapper">
+      <form onSubmit={handleSubmit(onSubmit)} className="create-form">
         <h2>Register New Contract:</h2>
         <div className="register-contract-tenant-names">
           <span>Tenant First Name: {newUser?.first_name}</span>
@@ -207,6 +210,7 @@ export default function CreateNewContract() {
         <button type="submit">Submit</button>
       </form>
       {errMsg && <div>{errMsg}</div>}
+      </div>
     </section>
   );
 }

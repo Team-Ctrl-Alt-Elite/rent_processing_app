@@ -7,6 +7,7 @@ import "../styles/Nav.css";
 export default function Nav() {
   const [token, setToken] = useState(null);
   const navigate = useNavigate();
+  const role = localStorage.getItem('role');
 
   useEffect(() => {
     const jwt = localStorage.getItem("token");
@@ -27,14 +28,53 @@ export default function Nav() {
     <nav>
       <div className="nav-left">
         <div className="nav-link-wrapper">
-          <Link to="/">
-            <h1>TenantTracker</h1>
+          {role === "LANDLORD" ? (
+            <Link to="/admin">
+            <img
+              src="/img/logo.png"
+              style={{
+                height: "100px",
+                transform: "translate(-50px, 5px)"
+              }}
+            />
           </Link>
+          ) : (role === "TENANT" ? (
+<Link to="/tenant">
+            <img
+              src="/img/logo.png"
+              style={{
+                height: "100px",
+                transform: "translate(-50px, 5px)"
+              }}
+            />
+          </Link>
+          ) : (
+            <Link to="/">
+            <img
+              src="/img/logo.png"
+              style={{
+                height: "100px",
+                transform: "translate(-50px, 5px)"
+              }}
+            />
+          </Link>
+          )
+            
+          )}
+          
         </div>
       </div>
       <div className="nav-right">
         {token ? (
           <div className="nav-link-wrapper">
+            <button
+              onClick={() => {
+                navigate("/about");
+                window.location.reload();
+              }}
+              className="nav-links">
+              About
+            </button>
             <button onClick={handleLogout} className="nav-links">
               Logout
             </button>
@@ -44,11 +84,18 @@ export default function Nav() {
           <div className="nav-link-wrapper">
             <button
               onClick={() => {
+                navigate("/about");
+                window.location.reload();
+              }}
+              className="nav-links">
+              About
+            </button>
+            <button
+              onClick={() => {
                 navigate("/auth/login");
                 window.location.reload();
               }}
-              className="nav-links"
-            >
+              className="nav-link-login">
               Login
             </button>
           </div>

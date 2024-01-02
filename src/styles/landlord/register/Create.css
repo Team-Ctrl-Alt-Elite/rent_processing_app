@@ -1,9 +1,31 @@
+.create-background {
+  background-image: url("https://free4kwallpapers.com/uploads/originals/2016/02/15/abu-dhabi-trip-picture-from-friends-apartment-complex-wallpaper.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 90vh;
+}
+
 .return-link {
   display: flex;
   align-items: center;
-  color: white;
   text-decoration: none;
-  margin: 30px 0px 0px 45px;
+  width: 80px;
+  transform: translate(40px, 30px);
+  cursor: default;
+  /* border: red solid; */
+}
+
+.return-content {
+  color: white;
+  display: flex;
+  align-items: center;
+  transition: transform 0.3s ease;
+}
+
+.return-content:hover {
+  transform: translateX(-10px);
+  cursor: pointer;
 }
 
 .return-icon {
@@ -14,9 +36,9 @@
   font-size: 20px;
 }
 
-.return-link:hover {
+/* .return-link:hover {
   transform: scale(0.99);
-}
+} */
 
 .register-contract-tenant-names {
   display: flex;
@@ -32,4 +54,68 @@
   padding: 5px;
   font-size: 15px;
   border-radius: 5px;
+}
+
+.create-form {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  margin: auto;
+  gap: 15px;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.5);
+  padding: 20px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+  /* border: 1px solid red; */
+}
+
+input[type="text"],
+input[type="password"] {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+
+.create-form h2 {
+  color: black;
+}
+
+.create-form > label {
+  display: flex;
+  /* border: 1px solid pink; */
+  font-size: 19px;
+  width: 95%;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.create-form > label > span {
+  /* border: 1px solid blue; */
+  width: 30%;
+  margin-right: 10px;
+  /* overflow: visible; */
+}
+
+.create-form > label > input {
+  padding: 5px;
+  margin: 5px;
+  width: 55%;
+  font-size: 17px;
+}
+
+.create-form button {
+  margin: 5px auto;
+  background-color: #3f4e4f;
+  color: white;
+  border: none;
+  padding: 9px 5px;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 30%;
+}
+
+.create-form button:hover {
+  background-color: #2b3536;
+  transition: 0.5s;
 }

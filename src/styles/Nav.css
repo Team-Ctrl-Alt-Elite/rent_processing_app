@@ -48,25 +48,29 @@ nav > .nav-right > div {
   all: unset;
   height: 22px;
   border-bottom: 1px solid transparent;
-  transition: border-bottom 0.8s;
+  transition: border-bottom 0.3s;
+  margin-left: 50px;
 }
 
 .nav-link-wrapper a,
 .nav-link-wrapper button {
   color: white;
   text-decoration: none;
-  transition: color 0.8s;
+  transition: color 0.3s;
 }
 
 .nav-link-wrapper a:hover,
 .nav-link-wrapper button:hover {
-  border-bottom: 1px solid #a3a3a3;
+  /* border-bottom: 1px solid #a3a3a3; */
+  cursor: pointer;
 }
 
 .nav-link-wrapper a:hover,
 .nav-link-wrapper button:hover {
   color: #a3a3a3;
+  cursor: pointer;
 }
+
 
 /* .nav-section {
   display: flex;

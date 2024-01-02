@@ -7,6 +7,7 @@ import Nav from "./components/Nav";
 import Login from "./components/auth/Login";
 import SignUp from "./components/auth/SignUp";
 import Home from "./components/Home";
+import About from "./components/About";
 
 // LANDLORD COMPONENTS
 import LDashboard from "./components/landlords/LDashboard";
@@ -23,6 +24,7 @@ function App() {
       <Routes>
         {/* HOME/AUTH ROUTES */}
         <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
         <Route path="/auth/login" element={<Login />} />
         <Route path="/auth/signup" element={<SignUp />} />
 

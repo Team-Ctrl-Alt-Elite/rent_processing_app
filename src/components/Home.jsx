@@ -30,7 +30,7 @@ export default function Home() {
             onMouseEnter={() => setHover(true)}
             onMouseLeave={() => setHover(false)}
           >
-            {hover ? "Click Here to Login" : "Welcome to TenantTracker"}
+            {hover ? "Click Here to Login" : "Welcome to Tenant Tracker"}
           </Link>
         </div>
       </div>

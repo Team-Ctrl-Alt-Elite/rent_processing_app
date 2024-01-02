@@ -1,0 +1,30 @@
+.about-team {
+    text-align: center;
+  }
+  
+  .team-members {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+  }
+  
+  .team-member {
+    max-width: 250px;
+  }
+  
+  .member-photo {
+    width: 250px;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+  
+  .member-info {
+    padding: 10px;
+  }
+  
+  .member-info .role {
+    font-style: italic;
+  }
+  
