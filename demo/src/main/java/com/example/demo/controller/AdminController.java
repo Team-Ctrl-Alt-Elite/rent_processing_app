@@ -46,7 +46,7 @@ public class AdminController {
             map.put("monthly_rent", row[8]);
             map.put("lease_starting_date", row[9]);
             map.put("lease_ending_on", row[10]);
-            map.put("tenant_id", row[11]);
+            map.put("tenant_id", row[12]);
             transformedResult.add(map);
         }
         return ResponseEntity.ok(transformedResult);
