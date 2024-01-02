@@ -2,9 +2,11 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
-import "../../../styles/CreateUser.css";
+import "../../../styles/landlord/register/Create.css";
 
 /*
 private int unit_id;
@@ -52,9 +54,23 @@ export default function CreateNewContract() {
   console.log("Units: ", units);
   console.log(newUser);
 
+  const convertDateToUnix = (inputDate) => {
+    const date = new Date(inputDate);
+    const unixTimestamp = Math.floor(date.getTime() / 1000);
+    return unixTimestamp;
+  };
+
   const onSubmit = async (values) => {
     const { unitId, rent, leaseStart, leaseEnd } = values;
-    console.log(unitId);
+    // console.log(unitId);
+
+    const unixLeaseStart = convertDateToUnix(leaseStart);
+    const unixLeaseEnd = convertDateToUnix(leaseEnd);
+
+    // console.log(leaseStart);
+    // console.log(leaseEnd);
+    // console.log(unixLeaseStart);
+    // console.log(unixLeaseEnd);
 
     try {
       if (newUser) {
@@ -66,6 +82,8 @@ export default function CreateNewContract() {
               monthly_rent: rent,
               tenant_id: newUser.id,
               landlord_id: landlordId,
+              lease_starting_from: unixLeaseStart,
+              lease_ending_on: unixLeaseEnd,
             },
             {
               headers: {
@@ -88,7 +106,11 @@ export default function CreateNewContract() {
                 await axios.put(
                   `http://localhost:8080/unit/${getSelectedUnit.id}`,
                   {
-                    is_available: false,
+                    bed: getSelectedUnit.bed,
+                    bath: getSelectedUnit.bath,
+                    size: getSelectedUnit.size,
+                    rent: response.data.monthly_rent,
+                    is_available: getSelectedUnit.is_available,
                   },
                   {
                     headers: {
@@ -104,17 +126,13 @@ export default function CreateNewContract() {
           });
       }
     } catch (err) {
-      if (err.response.status === 401) {
-        navigate("/auth/login");
-      }
+      // if (err.response.status === 401) {
+      //   navigate("/auth/login");
+      // }
       console.log("CreateNewContract Error: ", err);
       setErrMsg("Error Creating New Contract");
     }
   };
-
-  // const handleFilterDropDown = (e) => {
-  //   setSelectedFilter(e.target.value);
-  // };
 
   return (
     <section>
@@ -154,25 +172,39 @@ export default function CreateNewContract() {
             })}
           />
         </label>
-        {/* <label htmlFor="leaseStart">
+        <label htmlFor="leaseStart">
           <span>Lease Start Date: </span>
-          <input
-            type="text"
-            {...register("leaseStart", {
-              required: "Required",
-            })}
+          <Controller
+            name="leaseStart"
+            control={control}
+            render={({ field }) => (
+              <DatePicker
+                {...field}
+                placeholderText="Select Lease Start Date"
+                selected={field.value}
+                onChange={(date) => field.onChange(date)}
+                dateFormat="MM/dd/yyyy"
+              />
+            )}
           />
         </label>
         <label htmlFor="leaseEnd">
           <span>Lease End Date: </span>
-          <input
-            type="text"
-            {...register("leaseEnd", {
-              required: "Required",
-            })}
+          <Controller
+            name="leaseEnd"
+            control={control}
+            render={({ field }) => (
+              <DatePicker
+                {...field}
+                placeholderText="Select Lease End Date"
+                selected={field.value}
+                onChange={(date) => field.onChange(date)}
+                dateFormat="MM/dd/yyyy"
+              />
+            )}
           />
-        </label> */}
-        <button type="submit">Next</button>
+        </label>
+        <button type="submit">Submit</button>
       </form>
       {errMsg && <div>{errMsg}</div>}
     </section>
