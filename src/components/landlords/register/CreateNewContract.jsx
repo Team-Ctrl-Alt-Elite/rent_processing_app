@@ -57,10 +57,10 @@ export default function CreateNewContract() {
   const convertDate = (inputDate) => {
     const date = new Date(inputDate);
     const year = date.getFullYear();
-    const month = date.getMonth() + 1;
-    const day = date.getDate();
+    const month = ('0' + (date.getMonth() + 1)).slice(-2);
+    const day = ('0' + date.getDate()).slice(-2);
 
-    return `${year}${month}${day}`;
+    return `${year}-${month}-${day}`;
   };
 
   const onSubmit = async (values) => {
@@ -85,7 +85,7 @@ export default function CreateNewContract() {
               monthly_rent: rent,
               tenant_id: newUser.id,
               landlord_id: landlordId,
-              lease_starting_date: leaseStartDate,
+              lease_starting_from: leaseStartDate,
               lease_ending_on: leaseEndDate,
             },
             {
