@@ -1,47 +1,46 @@
 import { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSortBy, useTable, useFilters } from "react-table";
+import ReactLoading from "react-loading";
+import Table from "../tables/Table";
+import ColumnFilter from "../tables/ColumnFilter";
+import Footer from "../Footer";
 import axios from "axios";
 import "../../styles/LDashboard.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSort } from "@fortawesome/free-solid-svg-icons";
+import "../../styles/Loading.css";
 
-const filterCategories = [
-  "Payment Date",
-  "Amount",
-  "Unit ID",
-  "Payment Status",
-];
-
-export default function RentLogs({ getChildProps }) {
-  const [selectedLog, setSelectedLog] = useState(null);
-  const [logDetails, setLogDetails] = useState(null);
+export default function RentLogs({ getChildProps, type, color }) {
   const [rentLogs, setRentLogs] = useState([]);
-  const [filterDropDown, setFilterDropDown] = useState("");
-  const [filterInput, setFilterInput] = useState("");
-  const [selectedFilterCategory, setSelectedFilterCategory] = useState("");
-  const data = useMemo(() => rentLogs, [rentLogs]);
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const data = useMemo(() => rentLogs, [rentLogs]);
+  const defaultColumn = useMemo(() => {
+    return {
+      Filter: ColumnFilter,
+    };
+  }, []);
 
   useEffect(() => {
+    setIsLoading(true);
     const getAllRentLogs = async () => {
-      const token = localStorage.getItem("token");
       try {
         const response = await axios.get(
-          "http://localhost:8080/rentPaymentLog/all",
+          "http://localhost:8080/pay/api/v3/transaction/all",
           {
             headers: {
-              Authorization: `Bearer ${token}`,
+              Authorization:
+                "Basic azdZZlN0WjlNNkk1RFZiMW8yNFFsUG5KcEs4Z3UwUlg6VjhMSzRsWUJYV0ViYWtPamZHSTZzWjE3M3VGQWRnU24=",
+              "Content-Type": "application/json",
             },
             withCredentials: "include",
           }
         );
-        setRentLogs(response?.data);
+        setRentLogs(response?.data.response);
+        setIsLoading(false);
       } catch (err) {
         if (err.response.status === 401) {
           navigate("/auth/login");
-        }
-        console.log("Rent Logs GET Request Error: ", err);
+        } else console.log("Rent Logs GET Request Error: ", err);
       }
     };
     getAllRentLogs();
@@ -49,178 +48,67 @@ export default function RentLogs({ getChildProps }) {
 
   console.log("Rent Logs: ", rentLogs);
 
-  useEffect(() => {
-    // Update unit details when selectedUnit changes
-    if (selectedLog !== null && selectedLog !== undefined) {
-      // Find the selected unit details from the units array
-      const selectedLogDetails = rentLogs.find(
-        (log) => log.id === selectedLog.id
-      );
-
-      // Update the state with the selected unit details
-      setLogDetails(selectedLogDetails);
-    }
-  }, [rentLogs, selectedLog]);
-
-  useEffect(() => {
-    if (logDetails !== null && logDetails !== undefined) {
-      getChildProps(logDetails);
-    }
-  }, [getChildProps, logDetails]);
-
   const columns = useMemo(
     () => [
       {
+        Header: "Transaction ID",
+        accessor: "transaction_id",
+      },
+      {
+        Header: "Tenant ID",
+        accessor: "customer_id",
+      },
+      {
         Header: "Payment Date",
-        accessor: "payment_date",
+        accessor: "transaction_date",
+        Cell: ({ value }) => {
+          let date = value.split("-");
+          return `${date[1]}/${date[2]}/${date[0]}`;
+        },
       },
       {
-        Header: "Amount",
-        accessor: "amount_paid",
+        Header: "Amount Paid",
+        accessor: "amount",
+        Cell: ({ value }) => {
+          return <>{`$${value.toFixed(2)}`}</>;
+        },
       },
       {
-        Header: "Unit ID",
-        accessor: "unit_id",
+        Header: "Method",
+        accessor: "transaction_method",
       },
       {
-        Header: "Payment Status",
-        accessor: "paymentStatus",
+        Header: "Type",
+        accessor: "transaction_detail",
       },
       {
-        Header: "More Information",
-        Cell: ({ row }) => (
-          <button onClick={() => handleLogClick(row.original)} className="ldash-button">
-            View Details
-          </button>
-        ),
+        Header: "Status",
+        accessor: "transaction_status_name",
       },
     ],
     []
   );
 
-  // const paymentLogs = rent_payment_log;
-
-  // // Extract unique months and years from payment logs
-  // const uniqueMonths = Array.from(new Set(paymentLogs.map((log) => log.payment_date.slice(0, 7))));
-
-  // const [selectedMonthYear, setSelectedMonthYear] = useState("");
-
-  // const handleDropdownChange = (e) => {
-  //   setSelectedMonthYear(e.target.value);
-  // };
-
-  // const filteredLogs = paymentLogs.filter((log) =>
-  //   log.payment_date.startsWith(selectedMonthYear)
-  // );
-
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    prepareRow,
-    setFilter,
-  } = useTable(
-    {
-      columns,
-      data,
-    },
-    useFilters,
-    useSortBy
-  );
-
-  const handleFilterDropDown = (e) => {
-    setSelectedFilterCategory(e.target.value);
-  };
-
-  const handleFilter = (e) => {
-    const value = e.target.value || undefined;
-    setFilter("payment_date", value);
-    setFilterInput(value);
-  };
-
-  const handleLogClick = (log) => {
-    if (log !== null && log !== undefined) setSelectedLog(log);
-  };
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
+    useTable({ columns, data, defaultColumn }, useFilters, useSortBy);
 
   return (
-    <section className="container">
-      {/* <h3>Rent Payment Logs</h3> */}
-      {rentLogs.length > 1 ? (
-        <div>
-          <label>
-            Filter Category:
-            <select
-              value={selectedFilterCategory}
-              onChange={handleFilterDropDown}
-            >
-              <option value="">-- Select Filter Category --</option>
-              {filterCategories.map((cat, i) => (
-                <option key={i} value={cat}>
-                  {cat}
-                  {/* {new Date(`${monthYear}-1`).toLocaleDateString("en-US", {
-                    year: "numeric",
-                    month: "long",
-                  })} */}
-                </option>
-              ))}
-            </select>
-          </label>
-
-          <input
-            type="text"
-            value={filterInput}
-            onChange={handleFilter}
-            placeholder="Search"
-            className="thead-input"
-          />
-          <table {...getTableProps()}>
-            <thead>
-              {headerGroups.map((headerGroup) => (
-                <tr {...headerGroup.getHeaderGroupProps()}>
-                  {headerGroup.headers.map((column) => (
-                    <th
-                      {...column.getHeaderProps(column.getSortByToggleProps())}
-                      className={
-                        column.isSorted
-                          ? column.isSortedDesc
-                            ? "sort-desc"
-                            : "sort-asc"
-                          : ""
-                      }
-                    >
-                      <div className="th-wrapper">
-                        {column.render("Header")}
-                        <FontAwesomeIcon
-                          icon={faSort}
-                          size="xs"
-                          className="fa-icon"
-                        />
-                      </div>
-                    </th>
-                  ))}
-                </tr>
-              ))}
-            </thead>
-            <tbody {...getTableBodyProps()}>
-              {rows.map((row) => {
-                prepareRow(row);
-                return (
-                  <tr {...row.getRowProps()}>
-                    {row.cells.map((cell) => (
-                      <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
-                    ))}
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
+    <>
+      {!isLoading ? (
+        <Table
+          getTableProps={getTableProps}
+          getTableBodyProps={getTableBodyProps}
+          headerGroups={headerGroups}
+          rows={rows}
+          prepareRow={prepareRow}
+        />
       ) : (
-        <div style={{ display: "flex", justifyContent: "center" }}>
-          No Rent Payment Logs To Display
+        <div className="loading">
+          <div className="loading-title">Loading Rent Logs</div>
+          <ReactLoading type={"balls"} color={"gray"} height={60} width={60} />
         </div>
       )}
-    </section>
+      <Footer />
+    </>
   );
 }

@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import "../../styles/tenants/pay/ACH.css";
+import "../../../styles/tenants/pay/ACH.css";
+import ReactLoading from "react-loading";
 
 /* Valid ACH Info:
   "type": "chec",
@@ -10,18 +11,26 @@ import "../../styles/tenants/pay/ACH.css";
   "name": "Jane Doe"
 */
 
-export default function ACH({ rentPayment }) {
+export default function ACH({
+  rentPayment,
+  setPaymentSuccessful,
+  type,
+  color,
+}) {
   const { register, handleSubmit } = useForm();
   const [paymentError, setPaymentError] = useState("");
   const [paymentResponse, setPaymentResponse] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const userID = localStorage.getItem("id");
 
   const onSubmit = (values) => {
-    console.log("submitted:", values);
+    // console.log("submitted:", values);
+    setIsLoading(true);
     const { fullName, accountNum, routingNum } = values;
 
     let my_data = {
-      customer_id: 2,
-      amount: 500,
+      customer_id: userID,
+      amount: rentPayment,
       paymethods: [
         {
           type: "chec",
@@ -44,6 +53,8 @@ export default function ACH({ rentPayment }) {
       })
       .then((response) => {
         console.log(response?.data);
+        setIsLoading(false);
+        setPaymentSuccessful(true);
       });
 
     // Our callback function (this gets called after data is sent to ChargeOver)
@@ -56,16 +67,15 @@ export default function ACH({ rentPayment }) {
         console.log("Payment Error: ", message);
       }
     }
-    // Call the signup method
-    // window.ChargeOver.Signup.signup(my_data, my_callback_function);
   };
+
   return (
     <section>
       <form onSubmit={handleSubmit(onSubmit)} className="ach-wrapper">
         <label>
           <span>Full Name: </span>
           <input
-            // required
+            required
             type="text"
             placeholder="ex: Jane Doe"
             {...register("fullName", {
@@ -93,9 +103,19 @@ export default function ACH({ rentPayment }) {
             {...register("routingNum")}
           />
         </label>
-        <button type="submit" className="bill-button">
-          Submit
-        </button>
+        {!isLoading ? (
+          <button type="submit" className="bill-button">
+            Submit
+          </button>
+        ) : (
+          <ReactLoading
+            type={"bars"}
+            color={"gray"}
+            height={55}
+            width={55}
+            className="bill-loading-icon"
+          />
+        )}
       </form>
       {paymentError && <div>{paymentError}</div>}
     </section>

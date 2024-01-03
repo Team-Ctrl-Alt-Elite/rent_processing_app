@@ -21,6 +21,11 @@
   margin-right: 90px;
 }
 
+.bill-loading-icon {
+  width: 100%;
+  margin: 8px auto;
+}
+
 .bill-button {
   background-color: #3f4e4f;
   color: white;

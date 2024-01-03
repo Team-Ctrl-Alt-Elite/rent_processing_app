@@ -9,7 +9,7 @@ import "../../styles/LDashboard.css";
 export default function Contracts({ getChildProps }) {
   const [contracts, setContracts] = useState([]);
   const [selectedContract, setSelectedContract] = useState(null);
-  const [tenantDetails, setTenantDetails] = useState(null);
+  // const [tenantDetails, setTenantDetails] = useState(null);
   const data = useMemo(() => contracts, [contracts]);
   const defaultColumn = useMemo(() => {
     return {
@@ -45,38 +45,57 @@ export default function Contracts({ getChildProps }) {
 
   console.log("Contracts: ", contracts);
 
-  useEffect(() => {
-    const getTenantData = async () => {
-      console.log("selected contract: ", selectedContract);
+  // useEffect(() => {
+  //   const getTenantData = async () => {
+  //     console.log("selected contract: ", selectedContract);
 
-      try {
-        if (selectedContract !== null && selectedContract !== undefined) {
-          const response = await axios.get(
-            `http://localhost:8080/tenant/tenantContracts/${selectedContract.tenant_id}`,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-              withCredentials: "include",
-            }
-          );
-          console.log("Tenant Details: ", response?.data);
-          setTenantDetails(response?.data);
-        }
-      } catch (err) {
-        if (err.response.status === 401) {
-          navigate("/auth/login");
-        }
-        console.log("Contracts getTenantData Error: ", err);
-      }
-    };
-    getTenantData();
-  }, [selectedContract, token, navigate]);
+  //     try {
+  //       if (selectedContract !== null && selectedContract !== undefined) {
+  //         const response = await axios.get(
+  //           `http://localhost:8080/tenant/tenantContracts/${selectedContract.tenant_id}`,
+  //           {
+  //             headers: {
+  //               Authorization: `Bearer ${token}`,
+  //             },
+  //             withCredentials: "include",
+  //           }
+  //         );
+  //         console.log("Tenant Details: ", response?.data);
+  //         setTenantDetails(response?.data);
+  //       }
+  //     } catch (err) {
+  //       if (err.response.status === 401) {
+  //         navigate("/auth/login");
+  //       }
+  //       console.log("Contracts getTenantData Error: ", err);
+  //     }
+  //   };
+  //   getTenantData();
+  // }, [selectedContract, token, navigate]);
+
+  // useEffect(() => {
+  //   if (tenantDetails !== null && tenantDetails !== undefined)
+  //     getChildProps(tenantDetails);
+  // }, [getChildProps, tenantDetails]);
 
   useEffect(() => {
-    if (tenantDetails !== null && tenantDetails !== undefined)
-      getChildProps(tenantDetails);
-  }, [getChildProps, tenantDetails]);
+    if (selectedContract !== null && selectedContract !== undefined)
+      getChildProps(selectedContract);
+  }, [getChildProps, selectedContract]);
+
+  const handleContractClick = (contract) => {
+    if (contract !== null && contract !== undefined)
+      setSelectedContract(contract);
+  };
+
+  // const findTenantName = (tenantId) => {
+  //   if (tenantId !== null && tenantId !== undefined) {
+  //     const tenant = contracts.find((tenant) => tenant.id === tenantId);
+  //     return tenant
+  //       ? `${tenant.first_name} ${tenant.last_name}`
+  //       : "Unknown Tenant";
+  //   }
+  // };
 
   const columns = useMemo(
     () => [
@@ -87,20 +106,28 @@ export default function Contracts({ getChildProps }) {
       {
         Header: "Tenant ID",
         accessor: "tenant_id",
-        // Cell: ({ value }) => {
-        //   const tenant = contracts.find((tenant) => tenant.id === value);
-        //   return tenant
-        //     ? `${tenant.first_name} ${tenant.last_name}`
-        //     : "Unknown Tenant";
-        // },
       },
+      // {
+      //   Header: "Tenant Name",
+      //   accessor: "tenant_id",
+      //   Cell: ({ value }) => findTenantName(value),
+      // },
       {
         Header: "Unit",
         accessor: "unit",
       },
       {
-        Header: "Lease Start Date",
+        Header: "Lease Start",
         accessor: "lease_starting_date",
+        Cell: ({ value }) => {
+          const date = new Date(value); // Unix timestamp
+          const formattedDate = date.toLocaleDateString();
+          return formattedDate;
+        },
+      },
+      {
+        Header: "Lease End",
+        accessor: "lease_ending_on",
         Cell: ({ value }) => {
           const date = new Date(value); // Unix timestamp
           const formattedDate = date.toLocaleDateString();
@@ -133,11 +160,6 @@ export default function Contracts({ getChildProps }) {
       useFilters,
       useSortBy
     );
-
-  const handleContractClick = (contract) => {
-    if (contract !== null && contract !== undefined)
-      setSelectedContract(contract);
-  };
 
   return (
     <Table

@@ -50,3 +50,17 @@
   outline: none;
   box-shadow: 0 0 3px #2c3639;
 }
+
+.bill-loading-icon {
+  width: 100%;
+  margin: 8px auto;
+}
+
+.payment-error {
+  display: flex;
+  justify-content: center;
+  margin-top: 8px;
+  color: rgb(153, 18, 18);
+  font-weight: 800;
+  font-size: 15px;
+}

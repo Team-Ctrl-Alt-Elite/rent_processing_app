@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import "../../styles/tenants/pay/CreditDebit.css";
+import "../../../styles/tenants/pay/CreditDebit.css";
+import ReactLoading from "react-loading";
 
 // Valid CC number:
 // "number": "4111 1111 1111 1111",
@@ -22,23 +23,32 @@ console.log(
   )
 );
 
-export default function CreditDebit({ rentPayment }) {
+export default function CreditDebit({
+  rentPayment,
+  setPaymentSuccessful,
+  type,
+  color,
+}) {
   const { register, handleSubmit } = useForm();
   const [paymentError, setPaymentError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const [paymentResponse, setPaymentResponse] = useState(null);
+  const userID = localStorage.getItem("id");
+  console.log("rent payment: ", rentPayment);
 
   const onSubmit = async (values) => {
-    console.log("submitted:", values);
+    // console.log("submitted:", values);
+    setIsLoading(true);
     const { cardNumber, expM, expY, securityCode } = values;
 
     let my_data = {
-      customer_id: 2,
-      amount: 4,
-      applied_to: [
-        {
-          invoice_id: 1003,
-        },
-      ],
+      customer_id: userID,
+      amount: rentPayment,
+      // applied_to: [
+      //   {
+      //     invoice_id: 1003,
+      //   },
+      // ],
       paymethods: [
         {
           number: cardNumber,
@@ -63,6 +73,8 @@ export default function CreditDebit({ rentPayment }) {
         }
       );
       console.log("response: ", response);
+      setIsLoading(false);
+      setPaymentSuccessful(true);
       // Handle the redirect manually
       // if (response.status === 302) {
       //   const redirectResponse = await axios.get(response.headers.location);
@@ -85,9 +97,8 @@ export default function CreditDebit({ rentPayment }) {
         console.log("Payment Error: ", message);
       }
     }
-    // Call the signup method
-    // window.ChargeOver.Signup.signup(my_data, my_callback_function);
   };
+
   return (
     <section>
       <form onSubmit={handleSubmit(onSubmit)} className="card-wrapper">
@@ -136,11 +147,21 @@ export default function CreditDebit({ rentPayment }) {
             />
           </div>
         </label>
-        <button type="submit" className="bill-button">
-          Submit
-        </button>
+        {!isLoading ? (
+          <button type="submit" className="bill-button">
+            Submit
+          </button>
+        ) : (
+          <ReactLoading
+            type={"bars"}
+            color={"gray"}
+            height={55}
+            width={55}
+            className="bill-loading-icon"
+          />
+        )}
       </form>
-      {paymentError && <div>{paymentError}</div>}
+      {paymentError && <div className="payment-error">{paymentError}</div>}
     </section>
   );
 }
