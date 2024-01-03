@@ -7,7 +7,7 @@ import "../styles/Nav.css";
 export default function Nav() {
   const [token, setToken] = useState(null);
   const navigate = useNavigate();
-  const role = localStorage.getItem('role');
+  const role = localStorage.getItem("role");
 
   useEffect(() => {
     const jwt = localStorage.getItem("token");
@@ -30,38 +30,35 @@ export default function Nav() {
         <div className="nav-link-wrapper">
           {role === "LANDLORD" ? (
             <Link to="/admin">
-            <img
-              src="/img/logo.png"
-              style={{
-                height: "100px",
-                transform: "translate(-50px, 5px)"
-              }}
-            />
-          </Link>
-          ) : (role === "TENANT" ? (
-<Link to="/tenant">
-            <img
-              src="/img/logo.png"
-              style={{
-                height: "100px",
-                transform: "translate(-50px, 5px)"
-              }}
-            />
-          </Link>
+              <img
+                src="/img/logo.png"
+                style={{
+                  height: "100px",
+                  transform: "translate(-50px, 5px)",
+                }}
+              />
+            </Link>
+          ) : role === "TENANT" ? (
+            <Link to="/tenant">
+              <img
+                src="/img/logo.png"
+                style={{
+                  height: "100px",
+                  transform: "translate(-50px, 5px)",
+                }}
+              />
+            </Link>
           ) : (
             <Link to="/">
-            <img
-              src="/img/logo.png"
-              style={{
-                height: "100px",
-                transform: "translate(-50px, 5px)"
-              }}
-            />
-          </Link>
-          )
-            
+              <img
+                src="/img/logo.png"
+                style={{
+                  height: "100px",
+                  transform: "translate(-50px, 5px)",
+                }}
+              />
+            </Link>
           )}
-          
         </div>
       </div>
       <div className="nav-right">

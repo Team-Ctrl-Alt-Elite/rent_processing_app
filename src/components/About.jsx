@@ -32,12 +32,14 @@ export default function About() {
 
   return (
     <>
-      <div className="about-team">
-        <h1>Our Team</h1>
-        <div className="team-members">
-          {teamMembersData.map((member, index) => (
-            <TeamMember key={index} {...member} />
-          ))}
+      <div className="about-background">
+        <div className="about-team">
+          <h1>Our Team</h1>
+          <div className="team-members">
+            {teamMembersData.map((member, index) => (
+              <TeamMember key={index} {...member} />
+            ))}
+          </div>
         </div>
       </div>
     </>
