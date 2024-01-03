@@ -3,6 +3,7 @@ import Contracts from "./Contracts";
 import RentLogs from "./RentLogs";
 import Units from "./Units";
 import EditUnit from "./editData/EditUnit";
+import User from "./User";
 import "../../styles/LDashboard.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -56,26 +57,25 @@ export default function LDashboard() {
           <h2>Welcome Back, {userName}</h2>
           <button
             onClick={() => handleTabClick("units")}
-            className="ldash-button"
-          >
+            className="ldash-button">
             Units
           </button>
           <button
             onClick={() => handleTabClick("contracts")}
-            className="ldash-button"
-          >
+            className="ldash-button">
             Contracts
           </button>
           <button
             onClick={() => handleTabClick("rentLogs")}
-            className="ldash-button"
-          >
+            className="ldash-button">
             Rent Logs
+          </button>
+          <button onClick={() => handleTabClick("user")} className="ldash-button">
+            User
           </button>
           <button
             onClick={() => navigate("/register/new-user")}
-            className="ldash-button"
-          >
+            className="ldash-button">
             Create Contract
           </button>
 
@@ -93,6 +93,9 @@ export default function LDashboard() {
               )}
               {activeTab === "rentLogs" && (
                 <RentLogs getChildProps={getChildProps} />
+              )}
+              {activeTab === "user" && (
+                <User getChildProps={getChildProps} />
               )}
             </div>
             <div className="ldash-right">
