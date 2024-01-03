@@ -1,15 +1,45 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import Contract from "./Contract";
 import History from "./History";
-import PayBill from "./PayBill";
+import PayBill from "./payments/PayBill";
 import AccountOverview from "./AccountOverview";
 import "../../styles/tenants/TDashboard.css";
-import { tenant, propertyInfo, landlord, contract } from "../../dummyData";
-import axios from "axios";
 
 export default function TDashboard() {
   const [counter, setCounter] = useState(0);
+  const [contract, setContract] = useState([]);
   const userName = localStorage.getItem("name");
+  const id = localStorage.getItem("id");
+  const token = localStorage.getItem("token");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchContractInfo = async () => {
+      try {
+        const contractResponse = await axios.get(
+          `http://localhost:8080/tenant/tenantContracts/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+            withCredentials: "include",
+          }
+        );
+        setContract(contractResponse?.data);
+      } catch (err) {
+        if (err.response.status === 401) {
+          navigate("/auth/login");
+        } else
+          console.error(
+            "TDashboard. Error Fetching Contract Information:",
+            err
+          );
+      }
+    };
+    fetchContractInfo();
+  }, [id, token, navigate]);
 
   return (
     <>
@@ -27,18 +57,14 @@ export default function TDashboard() {
             <div className="tdash-left">
               {counter === 0 && (
                 <div>
-                  <AccountOverview tenant={tenant} />
-                  <Contract
-                    contract={contract}
-                    propertyInfo={propertyInfo}
-                    landlord={landlord}
-                  />
+                  <AccountOverview />
+                  <Contract {...contract[0]} />
                 </div>
               )}
               {counter === 1 && <History />}
             </div>
             <div className="tdash-right">
-              <PayBill contract={contract} />
+              <PayBill {...contract[0]} />
             </div>
           </div>
         </section>

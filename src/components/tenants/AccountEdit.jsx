@@ -2,15 +2,18 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import ReactLoading from "react-loading";
 import "../../styles/tenants/AccountEdit.css";
 
-export default function AccountEdit({ setIsEdit, tenant }) {
+export default function AccountEdit({ setIsEdit, tenant, type, color }) {
   const [errMsg, setErrMsg] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const { register, handleSubmit } = useForm();
+  const token = localStorage.getItem("token");
   const navigate = useNavigate();
 
   const onSubmit = async (values) => {
-    const token = localStorage.getItem("token");
+    setIsLoading(true);
     const { username, firstName, lastName, phone } = values;
 
     try {
@@ -33,6 +36,7 @@ export default function AccountEdit({ setIsEdit, tenant }) {
 
       if (response.data) {
         console.log("Updated User: ", response.data);
+        setIsLoading(false);
         window.location.reload();
       }
     } catch (err) {
@@ -91,14 +95,24 @@ export default function AccountEdit({ setIsEdit, tenant }) {
             />
           </label>
         </div>
-        <div className="ae-buttons">
-          <button onClick={handleCancelEdit} className="ae-button">
-            Cancel
-          </button>
-          <button type="submit" className="ae-button">
-            Submit
-          </button>
-        </div>
+        {!isLoading ? (
+          <div className="ae-buttons">
+            <button onClick={handleCancelEdit} className="ae-button">
+              Cancel
+            </button>
+            <button type="submit" className="ae-button">
+              Submit
+            </button>
+          </div>
+        ) : (
+          <ReactLoading
+            type={"bars"}
+            color={"gray"}
+            height={55}
+            width={55}
+            className="bill-loading-icon"
+          />
+        )}
       </form>
       {errMsg && <div>{errMsg}</div>}
     </section>

@@ -107,7 +107,7 @@ export default function LDashboard() {
                     )}
                   </div>
                 )}
-                {childProps && activeTab === "contracts" && (
+                {/* {childProps && activeTab === "contracts" && (
                   <div>
                     <h2>Contract Details</h2>
                     <p>Contract ID: {childProps.contract_id}</p>
@@ -121,8 +121,8 @@ export default function LDashboard() {
                     <p>Tenant Email: {childProps.Tenant_username}</p>
                     <p>Tenant Phone Number: {childProps.phonenumber}</p>
                   </div>
-                )}
-                {childProps && activeTab === "rentLogs" && (
+                )} */}
+                {/* {childProps && activeTab === "rentLogs" && (
                   <div>
                     <h2>Rent Payment Log</h2>
                     <p>Payment ID: {childProps.id}</p>
@@ -141,7 +141,7 @@ export default function LDashboard() {
                         : "Online Transaction Number: N/A"}
                     </p>
                   </div>
-                )}
+                )} */}
               </div>
             </div>
           </div>

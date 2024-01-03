@@ -54,23 +54,26 @@ export default function CreateNewContract() {
   console.log("Units: ", units);
   console.log(newUser);
 
-  const convertDateToUnix = (inputDate) => {
+  const convertDate = (inputDate) => {
     const date = new Date(inputDate);
-    const unixTimestamp = Math.floor(date.getTime() / 1000);
-    return unixTimestamp;
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+
+    return `${year}${month}${day}`;
   };
 
   const onSubmit = async (values) => {
     const { unitId, rent, leaseStart, leaseEnd } = values;
     // console.log(unitId);
 
-    const unixLeaseStart = convertDateToUnix(leaseStart);
-    const unixLeaseEnd = convertDateToUnix(leaseEnd);
+    const leaseStartDate = convertDate(leaseStart);
+    const leaseEndDate = convertDate(leaseEnd);
 
-    // console.log(leaseStart);
-    // console.log(leaseEnd);
-    // console.log(unixLeaseStart);
-    // console.log(unixLeaseEnd);
+    console.log(leaseStart);
+    console.log(leaseEnd);
+    console.log(leaseStartDate);
+    console.log(leaseEndDate);
 
     try {
       if (newUser) {
@@ -82,8 +85,8 @@ export default function CreateNewContract() {
               monthly_rent: rent,
               tenant_id: newUser.id,
               landlord_id: landlordId,
-              lease_starting_from: unixLeaseStart,
-              lease_ending_on: unixLeaseEnd,
+              lease_starting_date: leaseStartDate,
+              lease_ending_on: leaseEndDate,
             },
             {
               headers: {
@@ -136,80 +139,80 @@ export default function CreateNewContract() {
 
   return (
     <section>
-    <div className="create-background">
-      <Link to="/admin" className="return-link">
-        <span className="return-content">
-        <FontAwesomeIcon icon={faChevronLeft} className="return-icon" />
-        <span>Return</span>
-        </span>
-      </Link>
-      <form onSubmit={handleSubmit(onSubmit)} className="create-form">
-        <h2>Register New Contract:</h2>
-        <div className="register-contract-tenant-names">
-          <span>Tenant First Name: {newUser?.first_name}</span>
-          <span>Tenant Last Name: {newUser?.last_name}</span>
-        </div>
-        <label htmlFor="unitId">
-          <span>Unit: </span>
-          <Controller
-            name="unitId"
-            control={control}
-            render={({ field }) => (
-              <select {...field} className="register-contract-unit">
-                <option value="">-- Available Units --</option>
-                {units.map((unit, i) => (
-                  <option key={i} value={unit.id}>
-                    {unit.id}
-                  </option>
-                ))}
-              </select>
-            )}
-          />
-        </label>
-        <label htmlFor="rent">
-          <span>Monthly Rent: </span>
-          <input
-            type="text"
-            {...register("rent", {
-              required: "Required",
-            })}
-          />
-        </label>
-        <label htmlFor="leaseStart">
-          <span>Lease Start Date: </span>
-          <Controller
-            name="leaseStart"
-            control={control}
-            render={({ field }) => (
-              <DatePicker
-                {...field}
-                placeholderText="Select Lease Start Date"
-                selected={field.value}
-                onChange={(date) => field.onChange(date)}
-                dateFormat="MM/dd/yyyy"
-              />
-            )}
-          />
-        </label>
-        <label htmlFor="leaseEnd">
-          <span>Lease End Date: </span>
-          <Controller
-            name="leaseEnd"
-            control={control}
-            render={({ field }) => (
-              <DatePicker
-                {...field}
-                placeholderText="Select Lease End Date"
-                selected={field.value}
-                onChange={(date) => field.onChange(date)}
-                dateFormat="MM/dd/yyyy"
-              />
-            )}
-          />
-        </label>
-        <button type="submit">Submit</button>
-      </form>
-      {errMsg && <div>{errMsg}</div>}
+      <div className="create-background">
+        <Link to="/admin" className="return-link">
+          <span className="return-content">
+            <FontAwesomeIcon icon={faChevronLeft} className="return-icon" />
+            <span>Return</span>
+          </span>
+        </Link>
+        <form onSubmit={handleSubmit(onSubmit)} className="create-form">
+          <h2>Register New Contract:</h2>
+          <div className="register-contract-tenant-names">
+            <span>Tenant First Name: {newUser?.first_name}</span>
+            <span>Tenant Last Name: {newUser?.last_name}</span>
+          </div>
+          <label htmlFor="unitId">
+            <span>Unit: </span>
+            <Controller
+              name="unitId"
+              control={control}
+              render={({ field }) => (
+                <select {...field} className="register-contract-unit">
+                  <option value="">-- Available Units --</option>
+                  {units.map((unit, i) => (
+                    <option key={i} value={unit.id}>
+                      {unit.id}
+                    </option>
+                  ))}
+                </select>
+              )}
+            />
+          </label>
+          <label htmlFor="rent">
+            <span>Monthly Rent: </span>
+            <input
+              type="text"
+              {...register("rent", {
+                required: "Required",
+              })}
+            />
+          </label>
+          <label htmlFor="leaseStart">
+            <span>Lease Start Date: </span>
+            <Controller
+              name="leaseStart"
+              control={control}
+              render={({ field }) => (
+                <DatePicker
+                  {...field}
+                  placeholderText="Select Lease Start Date"
+                  selected={field.value}
+                  onChange={(date) => field.onChange(date)}
+                  dateFormat="yyyy/MM/dd"
+                />
+              )}
+            />
+          </label>
+          <label htmlFor="leaseEnd">
+            <span>Lease End Date: </span>
+            <Controller
+              name="leaseEnd"
+              control={control}
+              render={({ field }) => (
+                <DatePicker
+                  {...field}
+                  placeholderText="Select Lease End Date"
+                  selected={field.value}
+                  onChange={(date) => field.onChange(date)}
+                  dateFormat="yyyy/MM/dd"
+                />
+              )}
+            />
+          </label>
+          <button type="submit">Submit</button>
+        </form>
+        {errMsg && <div>{errMsg}</div>}
       </div>
     </section>
   );

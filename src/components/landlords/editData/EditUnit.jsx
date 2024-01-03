@@ -1,10 +1,13 @@
+import { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import "../../../styles/LDashboard.css";
 import "../../../styles/EditUnit.css";
 import axios from "axios";
+import ReactLoading from "react-loading";
 
-export default function EditUnit({ unit, isActiveUnit }) {
+export default function EditUnit({ unit, isActiveUnit, type, color }) {
+  const [isLoading, setIsLoading] = useState(false);
   const token = localStorage.getItem("token");
   const { register, handleSubmit, control } = useForm({
     defaultValues: { available: isActiveUnit },
@@ -12,6 +15,7 @@ export default function EditUnit({ unit, isActiveUnit }) {
   const navigate = useNavigate();
 
   const onSubmit = async (values) => {
+    setIsLoading(true);
     const { bed, bath, size, rent, available } = values;
     try {
       const response = await axios.put(
@@ -33,6 +37,7 @@ export default function EditUnit({ unit, isActiveUnit }) {
       );
       console.log(response?.data);
       if (response.status === 200) {
+        setIsLoading(false);
         window.location.reload();
       }
     } catch (err) {
@@ -73,7 +78,17 @@ export default function EditUnit({ unit, isActiveUnit }) {
             />
           </span>
         </label>
-        <button type="submit">Submit</button>
+        {!isLoading ? (
+          <button type="submit">Submit</button>
+        ) : (
+          <ReactLoading
+            type={"bars"}
+            color={"gray"}
+            height={55}
+            width={55}
+            className="bill-loading-icon"
+          />
+        )}
       </form>
     </section>
   );

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import AccountEdit from "./AccountEdit";
 import Footer from "../Footer";
 import "../../styles/tenants/AccountOverview.css";
@@ -11,6 +12,7 @@ export default function AccountOverview() {
   const [isEdit, setIsEdit] = useState(false);
   const id = localStorage.getItem("id");
   const token = localStorage.getItem("token");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchTenantData = async () => {
@@ -23,13 +25,16 @@ export default function AccountOverview() {
         });
         console.log(response?.data);
         setTenant(response?.data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
+      } catch (err) {
+        if (err.response.status === 401) {
+          navigate("/auth/login");
+        }
+        console.error("Error fetching data:", err);
       }
     };
 
     fetchTenantData();
-  }, [id, token]);
+  }, [id, token, navigate]);
 
   const handleEdit = () => {
     console.log("handleEdit Clicked");

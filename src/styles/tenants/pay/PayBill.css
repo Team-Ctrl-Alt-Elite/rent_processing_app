@@ -7,12 +7,18 @@
   align-items: center;
   color: black;
   height: 50vh;
+  margin-left: 15px;
 }
 
 .bill-header,
 .bill-footer {
   display: flex;
   justify-content: center;
+}
+
+.bill-fieldset {
+  /* background-color: #d2d2d27e; */
+  border-radius: 8px;
 }
 
 .contract-pay-method {

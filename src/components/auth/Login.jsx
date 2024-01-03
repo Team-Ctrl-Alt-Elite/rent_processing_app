@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import axios from "axios";
+import Footer from "../Footer";
 import "../../styles/LoginSignup.css";
 
 export default function Login() {
@@ -75,11 +76,12 @@ export default function Login() {
     <>
       <div className="login-background">
         <section className="login-section">
-          <form onSubmit={handleSubmit(onSubmit)} className="form-wrapper">
+          <form onSubmit={handleSubmit(onSubmit)} className="login-wrapper">
             <label htmlFor="email">
               <span>Username: </span>
               <input
                 type="text"
+                required
                 {...register("username", {
                   required: "Required",
                 })}
@@ -88,13 +90,16 @@ export default function Login() {
             <label htmlFor="password">
               <span> Password: </span>
               <input
+                required
                 type="password"
                 {...register("pw", {
                   required: "Required",
                 })}
               />
             </label>
-            <button type="submit">Submit</button>
+            <button type="submit" className="login-button">
+              Submit
+            </button>
           </form>
           {errMsg && <div className="error">{errMsg}</div>}
           {/* <div className="login-div">
@@ -107,6 +112,7 @@ export default function Login() {
         </div> */}
         </section>
       </div>
+      <Footer />
     </>
   );
 }
