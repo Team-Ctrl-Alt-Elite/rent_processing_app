@@ -72,9 +72,18 @@ export default function CreditDebit({
           withCredentials: true,
         }
       );
+
       console.log("response: ", response);
+
+      if (response?.data.code === 200) {
+        setPaymentSuccessful(true);
+      } else if (response?.data.code === 400) {
+        setPaymentError("Transaction Could Not Be Processed. Declined.");
+      } else {
+        setPaymentError("Error Occurred During Payment");
+      }
+
       setIsLoading(false);
-      setPaymentSuccessful(true);
       // Handle the redirect manually
       // if (response.status === 302) {
       //   const redirectResponse = await axios.get(response.headers.location);

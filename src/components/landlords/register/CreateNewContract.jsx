@@ -70,10 +70,10 @@ export default function CreateNewContract() {
     const leaseStartDate = convertDate(leaseStart);
     const leaseEndDate = convertDate(leaseEnd);
 
-    console.log(leaseStart);
-    console.log(leaseEnd);
-    console.log(leaseStartDate);
-    console.log(leaseEndDate);
+    // console.log(leaseStart);
+    // console.log(leaseEnd);
+    // console.log(leaseStartDate);
+    // console.log(leaseEndDate);
 
     try {
       if (newUser) {

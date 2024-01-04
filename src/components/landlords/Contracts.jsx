@@ -91,13 +91,16 @@ export default function Contracts({ type, color }) {
               >
                 {({ loading }) =>
                   loading ? (
-                    <ReactLoading
-                      type={"bubbles"}
-                      color={"gray"}
-                      height={20}
-                      width={20}
-                    />
+                    <button className="ldash-button" disabled>
+                      Download
+                    </button>
                   ) : (
+                    // <ReactLoading
+                    //   type={"bubbles"}
+                    //   color={"gray"}
+                    //   height={10}
+                    //   width={10}
+                    // />
                     <button className="ldash-button">Download</button>
                   )
                 }

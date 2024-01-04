@@ -26,3 +26,9 @@
 .ao-icon:hover {
   color: #444444;
 }
+
+.ao-container {
+  display: flex;
+  justify-content: space-between;
+  margin-right: 175px;
+}
