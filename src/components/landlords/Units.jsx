@@ -4,8 +4,16 @@ import ColumnFilter from "../tables/ColumnFilter";
 import "../../styles/LDashboard.css";
 import Table from "../tables/Table";
 import axios from "axios";
+import ReactLoading from "react-loading";
 
-export default function Units({ getChildProps, units, setIsEditMode }) {
+export default function Units({
+  getChildProps,
+  units,
+  setIsEditMode,
+  isLoading,
+  type,
+  color,
+}) {
   const [selectedUnit, setSelectedUnit] = useState(null);
   const data = useMemo(() => units, [units]);
   const [isFormVisible, setIsFormVisible] = useState(false);
@@ -106,7 +114,8 @@ export default function Units({ getChildProps, units, setIsEditMode }) {
                   setSelectedUnit(unit);
                 }
               }}
-              className="ldash-button">
+              className="ldash-button"
+            >
               Edit
             </button>
           );
@@ -218,7 +227,8 @@ export default function Units({ getChildProps, units, setIsEditMode }) {
               <select
                 name="is_available"
                 value={newUnitData.is_available}
-                onChange={handleNewUnitChange}>
+                onChange={handleNewUnitChange}
+              >
                 <option value="true">Yes</option>
                 <option value="false">No</option>
               </select>
@@ -232,13 +242,20 @@ export default function Units({ getChildProps, units, setIsEditMode }) {
       {successMessage && (
         <div className="success-message">{successMessage}</div>
       )}
-      <Table
-        getTableProps={getTableProps}
-        getTableBodyProps={getTableBodyProps}
-        headerGroups={headerGroups}
-        rows={rows}
-        prepareRow={prepareRow}
-      />
+      {!isLoading ? (
+        <Table
+          getTableProps={getTableProps}
+          getTableBodyProps={getTableBodyProps}
+          headerGroups={headerGroups}
+          rows={rows}
+          prepareRow={prepareRow}
+        />
+      ) : (
+        <div className="loading">
+          <div className="loading-title">Loading Unit Data</div>
+          <ReactLoading type={"balls"} color={"gray"} height={60} width={60} />
+        </div>
+      )}
     </>
   );
 }

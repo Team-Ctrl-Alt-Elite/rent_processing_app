@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import "../../../styles/LDashboard.css";
 import "../../../styles/EditUnit.css";
@@ -8,15 +8,16 @@ import ReactLoading from "react-loading";
 
 export default function EditUnit({ unit, isActiveUnit, type, color }) {
   const [isLoading, setIsLoading] = useState(false);
+  const [isChecked, setIsChecked] = useState(unit.is_available);
   const token = localStorage.getItem("token");
-  const { register, handleSubmit, control } = useForm({
-    defaultValues: { available: isActiveUnit },
-  });
+  const { register, handleSubmit } = useForm();
   const navigate = useNavigate();
 
   const onSubmit = async (values) => {
     setIsLoading(true);
     const { bed, bath, size, rent, available } = values;
+
+    console.log(available);
     try {
       const response = await axios.put(
         `http://localhost:8080/unit/${unit.id}`,
@@ -25,7 +26,7 @@ export default function EditUnit({ unit, isActiveUnit, type, color }) {
           bath: bath || unit.bath,
           size: size || unit.size,
           rent: rent || unit.rent,
-          is_available: available,
+          is_available: isChecked,
         },
         {
           headers: {
@@ -71,10 +72,10 @@ export default function EditUnit({ unit, isActiveUnit, type, color }) {
         <label htmlFor="available">
           <span>Available: </span>
           <span className="eu-checkbox">
-            <Controller
-              control={control}
-              name="available"
-              render={({ field }) => <input type="checkbox" {...field} />}
+            <input
+              type="checkbox"
+              checked={isChecked}
+              onChange={() => setIsChecked((prev) => !prev)}
             />
           </span>
         </label>
