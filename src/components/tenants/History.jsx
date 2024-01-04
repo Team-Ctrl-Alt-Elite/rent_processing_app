@@ -1,9 +1,9 @@
 import { useMemo, useState, useEffect } from "react";
-import { useSortBy, useTable, useFilters } from "react-table";
+import { useSortBy, useTable, useFilters, usePagination } from "react-table";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import ReactLoading from "react-loading";
-import Table from "../tables/Table";
+import PaginationTable from "../tables/PaginationTable";
 import ColumnFilter from "../tables/ColumnFilter";
 import Footer from "../Footer";
 import "../../styles/tables.css";
@@ -57,7 +57,7 @@ export default function History({ type, color }) {
         Header: "Amount Paid",
         accessor: "amount",
         Cell: ({ value }) => {
-          return <>{`$${value}.00`}</>;
+          return <>{`$${value}`}</>;
         },
       },
       {
@@ -76,17 +76,35 @@ export default function History({ type, color }) {
     []
   );
 
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable({ columns, data, defaultColumn }, useFilters, useSortBy);
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    page,
+    nextPage,
+    previousPage,
+    canNextPage,
+    canPreviousPage,
+    prepareRow,
+  } = useTable(
+    { columns, data, defaultColumn },
+    useFilters,
+    useSortBy,
+    usePagination
+  );
 
   return (
     <>
       {!isLoading ? (
-        <Table
+        <PaginationTable
           getTableProps={getTableProps}
           getTableBodyProps={getTableBodyProps}
           headerGroups={headerGroups}
-          rows={rows}
+          page={page}
+          nextPage={nextPage}
+          previousPage={previousPage}
+          canNextPage={canNextPage}
+          canPreviousPage={canPreviousPage}
           prepareRow={prepareRow}
         />
       ) : (

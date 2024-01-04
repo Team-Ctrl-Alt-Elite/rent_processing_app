@@ -98,7 +98,7 @@ export default function CreateNewUser() {
             <label htmlFor="password">
               <span> Password: </span>
               <input
-                type="text"
+                type="password"
                 required
                 {...register("pw", {
                   required: "Required",

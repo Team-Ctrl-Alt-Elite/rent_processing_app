@@ -1,13 +1,13 @@
 import { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSortBy, useTable, useFilters } from "react-table";
+import { useSortBy, useTable, useFilters, usePagination } from "react-table";
 import ReactLoading from "react-loading";
-import Table from "../tables/Table";
 import ColumnFilter from "../tables/ColumnFilter";
 import Footer from "../Footer";
 import axios from "axios";
 import "../../styles/LDashboard.css";
 import "../../styles/Loading.css";
+import PaginationTable from "../tables/PaginationTable";
 
 export default function RentLogs({ getChildProps, type, color }) {
   const [rentLogs, setRentLogs] = useState([]);
@@ -70,7 +70,7 @@ export default function RentLogs({ getChildProps, type, color }) {
         Header: "Amount Paid",
         accessor: "amount",
         Cell: ({ value }) => {
-          return <>{`$${value.toFixed(2)}`}</>;
+          return <>{`$${value}`}</>;
         },
       },
       {
@@ -89,17 +89,35 @@ export default function RentLogs({ getChildProps, type, color }) {
     []
   );
 
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable({ columns, data, defaultColumn }, useFilters, useSortBy);
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    page,
+    nextPage,
+    previousPage,
+    canNextPage,
+    canPreviousPage,
+    prepareRow,
+  } = useTable(
+    { columns, data, defaultColumn },
+    useFilters,
+    useSortBy,
+    usePagination
+  );
 
   return (
     <>
       {!isLoading ? (
-        <Table
+        <PaginationTable
           getTableProps={getTableProps}
           getTableBodyProps={getTableBodyProps}
           headerGroups={headerGroups}
-          rows={rows}
+          page={page}
+          nextPage={nextPage}
+          previousPage={previousPage}
+          canNextPage={canNextPage}
+          canPreviousPage={canPreviousPage}
           prepareRow={prepareRow}
         />
       ) : (

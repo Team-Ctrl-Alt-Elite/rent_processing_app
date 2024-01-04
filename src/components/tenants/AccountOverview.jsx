@@ -53,23 +53,29 @@ export default function AccountOverview() {
         {!isEdit ? (
           <div>
             {tenant ? (
-              <div>
-                <p>
-                  Name: {tenant.first_name} {tenant.last_name}
-                </p>
-                <p>Username: {tenant.username}</p>
-                <p>
-                  Phone Number:{" "}
-                  {tenant.phone_number
-                    ? `${tenant.phone_number.substring(
-                        0,
-                        3
-                      )}-${tenant.phone_number.substring(
-                        3,
-                        6
-                      )}-${tenant.phone_number.substring(6)}`
-                    : "Please Update Phone Number"}
-                </p>
+              <div className="ao-container">
+                <div className="ao-left">
+                  <p>
+                    Name: {tenant.first_name} {tenant.last_name}
+                  </p>
+                  <p>Username: {tenant.username}</p>
+                  <p>
+                    Phone Number:{" "}
+                    {tenant.phone_number
+                      ? `${tenant.phone_number.substring(
+                          0,
+                          3
+                        )}-${tenant.phone_number.substring(
+                          3,
+                          6
+                        )}-${tenant.phone_number.substring(6)}`
+                      : "Please Update Phone Number"}
+                  </p>
+                </div>
+                <div className="ao-right">
+                  <p>Landlord: Kavish Desai</p>
+                  <p>Phone Number: 123-456-7894</p>
+                </div>
               </div>
             ) : (
               <p>Loading Account Information...</p>
