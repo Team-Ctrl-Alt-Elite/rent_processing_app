@@ -14,11 +14,13 @@ export default function LDashboard() {
   const [isEditMode, setIsEditMode] = useState(false);
   const [activeTab, setActiveTab] = useState("units");
   const [childProps, setChildProps] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const token = localStorage.getItem("token");
   const userName = localStorage.getItem("name");
   const navigate = useNavigate();
 
   useEffect(() => {
+    setIsLoading(true);
     const getAllUnits = async () => {
       try {
         const response = await axios.get("http://localhost:8080/unit/all", {
@@ -29,6 +31,7 @@ export default function LDashboard() {
         });
 
         setUnits(response?.data);
+        setIsLoading(false);
       } catch (err) {
         if (err.response.status === 401) {
           navigate("/auth/login");
@@ -56,25 +59,32 @@ export default function LDashboard() {
           <h2>Welcome Back, {userName}</h2>
           <button
             onClick={() => handleTabClick("units")}
-            className="ldash-button">
+            className="ldash-button"
+          >
             Units
           </button>
           <button
             onClick={() => handleTabClick("contracts")}
-            className="ldash-button">
+            className="ldash-button"
+          >
             Contracts
           </button>
           <button
             onClick={() => handleTabClick("rentLogs")}
-            className="ldash-button">
+            className="ldash-button"
+          >
             Rent Logs
           </button>
-          <button onClick={() => handleTabClick("user")} className="ldash-button">
+          <button
+            onClick={() => handleTabClick("user")}
+            className="ldash-button"
+          >
             User
           </button>
           <button
             onClick={() => navigate("/register/new-user")}
-            className="ldash-button">
+            className="ldash-button"
+          >
             Create Contract
           </button>
 
@@ -85,6 +95,7 @@ export default function LDashboard() {
                   getChildProps={getChildProps}
                   units={units}
                   setIsEditMode={setIsEditMode}
+                  isLoading={isLoading}
                 />
               )}
               {activeTab === "contracts" && (
@@ -93,9 +104,7 @@ export default function LDashboard() {
               {activeTab === "rentLogs" && (
                 <RentLogs getChildProps={getChildProps} />
               )}
-              {activeTab === "user" && (
-                <User getChildProps={getChildProps} />
-              )}
+              {activeTab === "user" && <User getChildProps={getChildProps} />}
             </div>
             <div className="ldash-right">
               <div className="ldash-div > div">
