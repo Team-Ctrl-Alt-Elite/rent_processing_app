@@ -59,18 +59,19 @@ export default function CreateNewUser() {
         localStorage.setItem("New User", JSON.stringify(response.data));
         navigate("/register/new-contract");
       }
-      //} else {
-      //  setErrMsg("User Already Exists");
-      // }
-      //}
     } catch (err) {
+      // if (err.response.status === 409) {
+      //   setErrMsg("User Already Exist");
+      // }
       if (err.response.status === 401) {
         navigate("/auth/login");
       }
-      console.log("CreateNewUser Error: ", err);
-      setErrMsg("Error Creating New Tenant");
+      console.log("CreateNewUser Error: ", err.response.data);
+      setErrMsg("User Already Exist");
     }
   };
+
+  console.log("ErrMsg: ", errMsg);
 
   return (
     <section>
@@ -125,8 +126,8 @@ export default function CreateNewUser() {
               />
             </label>
             <button type="submit">Next</button>
+            {errMsg && <div className="error">{errMsg}</div>}
           </form>
-          {errMsg && <div>{errMsg}</div>}
         </div>
       </div>
     </section>

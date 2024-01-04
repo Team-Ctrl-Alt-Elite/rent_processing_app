@@ -46,7 +46,6 @@ export default function LDashboard() {
   };
 
   const getChildProps = (props) => {
-    // console.log("Props :", props);
     setChildProps(props);
   };
 
@@ -110,41 +109,6 @@ export default function LDashboard() {
                     )}
                   </div>
                 )}
-                {/* {childProps && activeTab === "contracts" && (
-                  <div>
-                    <h2>Contract Details</h2>
-                    <p>Contract ID: {childProps.contract_id}</p>
-                    <p>Unit: {childProps.unit}</p>
-                    <p>Tenant ID: {childProps.tenant_id}</p>
-                    <p>Tenant First Name: {childProps.Tenant_first_name}</p>
-                    <p>Tenant Last Name: {childProps.Tenant_last_name}</p>
-                    <p>Lease Start Date: {childProps.lease_starting_date}</p>
-                    <p>Lease End Date: {childProps.lease_ending_on}</p>
-                    <p>Monthly Rent: {childProps.monthly_rent}</p>
-                    <p>Tenant Email: {childProps.Tenant_username}</p>
-                    <p>Tenant Phone Number: {childProps.phonenumber}</p>
-                  </div>
-                )} */}
-                {/* {childProps && activeTab === "rentLogs" && (
-                  <div>
-                    <h2>Rent Payment Log</h2>
-                    <p>Payment ID: {childProps.id}</p>
-                    <p>Contract ID: {childProps.contract_id}</p>
-                    <p>Amount Paid: {childProps.amount_paid}</p>
-                    <p>Payment Date: {childProps.payment_date}</p>
-                    <p>Payment Medium: {childProps.payment_medium}</p>
-                    <p>
-                      {childProps.check_number
-                        ? `Check Number: ${childProps.check_number}`
-                        : "Check Number: N/A"}
-                    </p>
-                    <p>
-                      {childProps.online_transaction_number
-                        ? `Online Transaction Number: ${childProps.online_transaction_number}`
-                        : "Online Transaction Number: N/A"}
-                    </p>
-                  </div>
-                )} */}
               </div>
             </div>
           </div>

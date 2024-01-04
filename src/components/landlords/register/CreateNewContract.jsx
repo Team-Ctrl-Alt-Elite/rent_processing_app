@@ -57,8 +57,8 @@ export default function CreateNewContract() {
   const convertDate = (inputDate) => {
     const date = new Date(inputDate);
     const year = date.getFullYear();
-    const month = ('0' + (date.getMonth() + 1)).slice(-2);
-    const day = ('0' + date.getDate()).slice(-2);
+    const month = ("0" + (date.getMonth() + 1)).slice(-2);
+    const day = ("0" + (date.getDate() + 1)).slice(-2);
 
     return `${year}-${month}-${day}`;
   };

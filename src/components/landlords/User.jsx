@@ -9,7 +9,7 @@ import axios from "axios";
 import "../../styles/LDashboard.css";
 import "../../styles/Loading.css";
 
-export default function User({ getChildProps, type, color }) {
+export default function User({ type, color }) {
   const [user, setUser] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
@@ -41,7 +41,7 @@ export default function User({ getChildProps, type, color }) {
       }
     };
     getAllUser();
-  }, [navigate]);
+  }, [navigate, token]);
 
   console.log("User: ", user);
 
@@ -67,10 +67,12 @@ export default function User({ getChildProps, type, color }) {
         Header: "Phone Number",
         accessor: "phone_number",
         Cell: ({ value }) => {
-          return `${value.substring(0, 3)}-${value.substring(
-            3,
-            6
-          )}-${value.substring(6)}`;
+          if (value !== null && value !== undefined) {
+            return `${value.substring(0, 3)}-${value.substring(
+              3,
+              6
+            )}-${value.substring(6)}`;
+          }
         },
       },
     ],

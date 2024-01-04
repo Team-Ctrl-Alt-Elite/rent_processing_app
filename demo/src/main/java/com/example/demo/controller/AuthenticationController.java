@@ -25,7 +25,7 @@ public class AuthenticationController {
     private SecureUserRepository secureUserRepository;
 
     @PostMapping("/register")
-    public SecureUser registerUser(@RequestBody RegistrationDTO body) {
+    public ResponseEntity<Object> registerUser(@RequestBody RegistrationDTO body) {
         return authenticationService.registerUser(body.getUsername(), body.getPassword(), body.getFirst_name(),
                 body.getLast_name());
     }
