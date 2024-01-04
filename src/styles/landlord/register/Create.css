@@ -105,7 +105,7 @@ input[type="password"] {
 }
 
 .create-form button {
-  margin: 5px auto;
+  margin: auto;
   background-color: #3f4e4f;
   color: white;
   border: none;
@@ -118,4 +118,11 @@ input[type="password"] {
 .create-form button:hover {
   background-color: #2b3536;
   transition: 0.5s;
+}
+
+.error {
+  margin-bottom: 6px;
+  color: rgb(189, 22, 22);
+  font-weight: 800;
+  font-size: 16px;
 }
