@@ -34,9 +34,9 @@ export default function Table({
                         className="fa-icon"
                       />
                     </div>
-                    <div className="th-filter">
-                      {column.canFilter ? column.render("Filter") : null}
-                    </div>
+                  </div>
+                  <div className="th-filter">
+                    {column.canFilter ? column.render("Filter") : null}
                   </div>
                 </th>
               ))}

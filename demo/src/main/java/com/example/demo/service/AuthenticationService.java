@@ -8,6 +8,8 @@ import com.example.demo.repository.SecureUserRepository;
 import jakarta.transaction.Transactional;
 import org.antlr.v4.runtime.Token;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -37,8 +39,9 @@ public class AuthenticationService {
     @Autowired
     private TokenService tokenService;
 
-    public SecureUser registerUser(String username, String password, String first_name, String last_name){
-        if(secureUserRepository.findByUsername(username).isPresent()) return null;
+    public ResponseEntity<Object> registerUser(String username, String password, String first_name, String last_name) {
+        if (secureUserRepository.findByUsername(username).isPresent())
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("User already exists");
 
         String encodedPassword = passwordEncoder.encode(password);
         Role userRole = roleRepository.findByAuthority("TENANT").get();
@@ -46,25 +49,27 @@ public class AuthenticationService {
         Set<Role> authorities = new HashSet<>();
 
         authorities.add(userRole);
+        SecureUser newUser = new SecureUser(username, encodedPassword, first_name, last_name, null, authorities);
+        secureUserRepository.save(newUser);
 
-        return secureUserRepository.save(new SecureUser(username,encodedPassword,first_name,last_name,null,authorities));
+        return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
     }
 
-    //Takes in authentication manager and look for username and password, generate auth token, ask token service to make token
-    public LoginResponseDTO loginUser(String username, String password){
-        //sends username & password to authenticationManager, use UserDetailsService, grab user, create token
-        try{
+    // Takes in authentication manager and look for username and password, generate
+    // auth token, ask token service to make token
+    public LoginResponseDTO loginUser(String username, String password) {
+        // sends username & password to authenticationManager, use UserDetailsService,
+        // grab user, create token
+        try {
 
             Authentication auth = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(username, password)
-            );
+                    new UsernamePasswordAuthenticationToken(username, password));
 
             String token = tokenService.generateJwt(auth);
 
-
             return new LoginResponseDTO(secureUserRepository.findByUsername(username).get(), token);
 
-        } catch(Exception e){
+        } catch (Exception e) {
             System.out.println(e);
             return new LoginResponseDTO(null, "");
         }

@@ -5,11 +5,12 @@ import Table from "../tables/Table";
 import ColumnFilter from "../tables/ColumnFilter";
 import axios from "axios";
 import "../../styles/LDashboard.css";
+import { PDFDownloadLink } from "@react-pdf/renderer";
+import PDFFile from "./PDFFile";
+import ReactLoading from "react-loading";
 
-export default function Contracts({ getChildProps }) {
+export default function Contracts({ type, color }) {
   const [contracts, setContracts] = useState([]);
-  const [selectedContract, setSelectedContract] = useState(null);
-  // const [tenantDetails, setTenantDetails] = useState(null);
   const data = useMemo(() => contracts, [contracts]);
   const defaultColumn = useMemo(() => {
     return {
@@ -43,60 +44,6 @@ export default function Contracts({ getChildProps }) {
     getAllTenantContracts();
   }, [navigate, token]);
 
-  console.log("Contracts: ", contracts);
-
-  // useEffect(() => {
-  //   const getTenantData = async () => {
-  //     console.log("selected contract: ", selectedContract);
-
-  //     try {
-  //       if (selectedContract !== null && selectedContract !== undefined) {
-  //         const response = await axios.get(
-  //           `http://localhost:8080/tenant/tenantContracts/${selectedContract.tenant_id}`,
-  //           {
-  //             headers: {
-  //               Authorization: `Bearer ${token}`,
-  //             },
-  //             withCredentials: "include",
-  //           }
-  //         );
-  //         console.log("Tenant Details: ", response?.data);
-  //         setTenantDetails(response?.data);
-  //       }
-  //     } catch (err) {
-  //       if (err.response.status === 401) {
-  //         navigate("/auth/login");
-  //       }
-  //       console.log("Contracts getTenantData Error: ", err);
-  //     }
-  //   };
-  //   getTenantData();
-  // }, [selectedContract, token, navigate]);
-
-  // useEffect(() => {
-  //   if (tenantDetails !== null && tenantDetails !== undefined)
-  //     getChildProps(tenantDetails);
-  // }, [getChildProps, tenantDetails]);
-
-  useEffect(() => {
-    if (selectedContract !== null && selectedContract !== undefined)
-      getChildProps(selectedContract);
-  }, [getChildProps, selectedContract]);
-
-  const handleContractClick = (contract) => {
-    if (contract !== null && contract !== undefined)
-      setSelectedContract(contract);
-  };
-
-  // const findTenantName = (tenantId) => {
-  //   if (tenantId !== null && tenantId !== undefined) {
-  //     const tenant = contracts.find((tenant) => tenant.id === tenantId);
-  //     return tenant
-  //       ? `${tenant.first_name} ${tenant.last_name}`
-  //       : "Unknown Tenant";
-  //   }
-  // };
-
   const columns = useMemo(
     () => [
       {
@@ -104,14 +51,10 @@ export default function Contracts({ getChildProps }) {
         accessor: "contract_id",
       },
       {
+        id: "tenant_id",
         Header: "Tenant ID",
         accessor: "tenant_id",
       },
-      // {
-      //   Header: "Tenant Name",
-      //   accessor: "tenant_id",
-      //   Cell: ({ value }) => findTenantName(value),
-      // },
       {
         Header: "Unit",
         accessor: "unit",
@@ -135,19 +78,36 @@ export default function Contracts({ getChildProps }) {
         },
       },
       {
-        Header: "More Information",
+        id: "contract_download",
+        Header: "Hard Copy",
+        accessor: "tenant_id",
         disableFilters: true,
-        Cell: ({ row }) => (
-          <button
-            onClick={() => handleContractClick(row.original)}
-            className="ldash-button"
-          >
-            Download
-          </button>
-        ),
+        Cell: ({ value }) => {
+          if (value !== null && value !== undefined) {
+            return (
+              <PDFDownloadLink
+                document={<PDFFile tenantId={value} contracts={contracts} />}
+                fileName="Download"
+              >
+                {({ loading }) =>
+                  loading ? (
+                    <ReactLoading
+                      type={"bubbles"}
+                      color={"gray"}
+                      height={20}
+                      width={20}
+                    />
+                  ) : (
+                    <button className="ldash-button">Download</button>
+                  )
+                }
+              </PDFDownloadLink>
+            );
+          }
+        },
       },
     ],
-    []
+    [contracts]
   );
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
