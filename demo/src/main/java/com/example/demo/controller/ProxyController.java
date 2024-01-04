@@ -140,7 +140,7 @@ public class ProxyController {
     }
     @GetMapping("/api/v3/transaction/all")
     public ResponseEntity<String> getAllTransactions() {
-        String apiUrl = "https://tenant-tracker.chargeover.com/api/v3/transaction";
+        String apiUrl = "https://tenant-tracker.chargeover.com/api/v3/transaction?limit=30&order=transaction_id:DESC";
 
         try {
             SSLContextBuilder builder = new SSLContextBuilder();
@@ -191,7 +191,7 @@ public class ProxyController {
 
     @GetMapping("/api/v3/transaction/{customerId}")
     public ResponseEntity<String> getTransactionData(@PathVariable String customerId) {
-        String apiUrl = "https://tenant-tracker.chargeover.com/api/v3/transaction?where=customer_id:EQUALS:" + customerId;
+        String apiUrl = "https://tenant-tracker.chargeover.com/api/v3/transaction?where=customer_id:EQUALS:" + customerId +"&limit=100&order=transaction_id:DESC";
 
 
         try {
