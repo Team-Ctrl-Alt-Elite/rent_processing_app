@@ -104,3 +104,20 @@
   outline: none;
   box-shadow: 0 0 3px #2c3639;
 }
+
+.success-message {
+  position: fixed; 
+  top: 20%; 
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #dff0d8; 
+  color: #3c763d; 
+  padding: 15px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.2);
+  z-index: 1000; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 300px; 
+}
